@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ES2016",
+        "strictNullChecks": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "moduleResolution": "Node", 
+        "allowJs": false,
+        "noEmitOnError": true,
+        // "emitDecoratorMetadata": true,
+        // "declaration": true, 
+        // "strict": true,
+        // "forceConsistentCasingInFileNames": true,
+        // "noFallthroughCasesInSwitch": true,
+    },
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node"
+    }
+}
