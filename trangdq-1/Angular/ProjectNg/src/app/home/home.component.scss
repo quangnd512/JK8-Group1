@@ -24,9 +24,9 @@ h2 {
 
 .card-img-top {
     width: 90%;
-    height: 300px;
+    height: 250px;
     margin: auto;
-    margin-top: 10px; 
+    margin-top: 10px;
     object-fit: cover;
 }
 
@@ -41,7 +41,7 @@ h2 {
 }
 
 .badge {
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
     background-color: #337ab7;
 }
 
@@ -71,13 +71,20 @@ h2 {
 }
 
 .animated-badge {
-    animation: color-change 1s infinite alternate; /* Define animation */
-  }
-  
-  @keyframes color-change {
-    0% { background-color: #ff5959; }
-    50% { background-color: #337ab7; }
-    100% { background-color: #ff5959; } /* Ensure seamless transition */
-  }
-  
-  
+    animation: color-change 1s infinite alternate;
+    /* Define animation */
+}
+
+@keyframes color-change {
+    0% {
+        background-color: #ff5959;
+    }
+
+    50% {
+        background-color: #337ab7;
+    }
+
+    100% {
+        background-color: #ff5959;
+    } 
+}

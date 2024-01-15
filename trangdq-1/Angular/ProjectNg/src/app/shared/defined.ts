@@ -1,7 +1,10 @@
-export type User = {
-    username: string;
-    role: "ROLE_ADMIN" | "ROLE_USER" | undefined
-}
+export const SERVER_URL = "http://localhost:8080"
+
+export type LoginDTO = {
+    username: string,
+    password: string
+} 
+
 export type ErrorMessage = {
     message?: string;
 }
@@ -16,10 +19,4 @@ export type Book = {
     category: string,
     discount: number
 }
-
-export type Response = {
-    content: Array<Book>
-}
-
-export const SERVER_URL = "http://localhost:8080"
 

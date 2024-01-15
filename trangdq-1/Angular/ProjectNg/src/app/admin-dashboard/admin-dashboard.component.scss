@@ -1,0 +1,125 @@
+.admin-aside {
+    height: 100%;
+    padding-top: 10px;
+    padding-left: 30px;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(51, 204, 102, 0.5832457983193278) 100%);
+}
+
+.col-3,
+.col-9 {
+    padding: 0;
+}
+
+.container {
+    padding: 0;
+
+}
+
+.admin-logo {
+    margin: 10px 5px 10px 0;
+}
+
+.admin-header {
+    background: linear-gradient(0deg, rgba(255, 255, 255, 1) 0%, rgba(51, 204, 102, 0.5832457983193278) 100%);
+    margin-bottom: 15px;
+    padding-top: 10px;
+    text-align: right;
+    height: 40px;
+}
+
+.admin-navigation {
+    display: block;
+    font-weight: bold;
+}
+
+article table h1 {
+    display: inline-block;
+}
+
+.btn-add {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    color: #ffffff;
+}
+
+.web-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.table-list {
+    position: relative;
+    width: 95%;
+    margin: 0 auto;
+}
+
+tr {
+    border-bottom: solid 2px #ddd;
+}
+
+tbody tr:hover {
+    background: #ecfff1;
+}
+
+th,
+td {
+    padding: 10px;
+}
+
+.book-available {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.click {
+    background: #1eff78;
+    padding: 5px 12px;
+    margin: 5px;
+}
+
+.clicked {
+    background: #33cc66;
+    padding: 5px 12px;
+    margin: 5px;
+}
+
+th {
+    color: #00ad33;
+}
+
+tfoot {
+    position: relative;
+    height: 75px;
+}
+
+.current-pos {
+    color: #8b4513;
+}
+
+.arr {
+    position: absolute;
+    right: 0;
+}
+
+.admin-body {
+    padding: 10px;
+}
+
+.dropdown_icon {
+    font-size: 10px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 3;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.white-background {
+    background-color: white !important;
+}

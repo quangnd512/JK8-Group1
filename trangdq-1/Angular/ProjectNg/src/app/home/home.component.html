@@ -10,13 +10,14 @@
 </div>
 
 <div class="container">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col" *ngFor="let book of books$ | async as books">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        <!-- <div class="col" *ngFor="let book of books$ | async as books"> -->
+        <div class="col" *ngFor="let book of books">
             <div class="card h-100">
                 <img [src]="book.images[0]" class="card-img-top" alt="Book cover">
                 <div class="card-body">
                     <h5 class="card-title">{{ book.name }}</h5>
-                    <p class="card-text">{{ book.category }}</p>
+                    <p class="card-text mb-1 text-sky fw-bold">{{ book.category }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <ng-container *ngIf="book.discount">
                             <span class="text-muted original-price">{{ book.price |currency : 'USD' : 'symbol' : '1.2-2'
@@ -30,8 +31,8 @@
                     <span class="text-danger discounted-price">{{ book.price * (1 - book.discount / 100) |
                         currency : 'USD' : 'symbol' : '1.2-2' }}</span>
 
-                    <p *ngIf="book.inStock" class="text-success">In Stock</p>
-                    <p *ngIf="!book.inStock" class="text-muted">Out of Stock</p>
+                    <p *ngIf="book.inStock" class="text-success mb-0">In Stock</p>
+                    <p *ngIf="!book.inStock" class="text-muted mb-0">Out of Stock</p>
                 </div>
             </div>
         </div>

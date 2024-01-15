@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
+import { withFetch } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { Page404Component } from './page404/page404.component';
-import { FooterComponent } from './footer/footer.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { FooterComponent } from './footer/footer.component';
     HttpClientModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    { provide: HttpClient, useFactory: withFetch, deps: [HttpBackend] }
   ],
   bootstrap: [AppComponent]
 })

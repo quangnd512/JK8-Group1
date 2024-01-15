@@ -1,2 +1,75 @@
-<p>admin-dashboard works!</p>
+<ng-template #display>
+    <!-- THIS IS DRAFT, FOR DISPLAYING PURPOSES -->
+    <div class="container white-background">
+        <div class="row">
+            <div class="col-3">
+                <aside class="admin-aside">
+                    <div class="web-name">
+                        <a href=""><img class="admin-logo" width="30" height="30" src="/assets/logo.png"
+                                alt="logo" /><span>Bookstore</span></a>
+                    </div>
+                    <a class="admin-navigation current-pos" href="">Manage
+                        books</a>
+                    <a class="admin-navigation" href="">Manage vouchers</a>
+                </aside>
+            </div>
 
+            <div class="col-9">
+                <article class="admin-header">
+                    <span class="welcome">Welcome ADMIN!</span>&nbsp;&nbsp;
+                    <span class="bi bi-box-arrow-right"></span>>
+                </article>
+
+                <article class="admin-body">
+                    <table class="table-list">
+                        <thead class="product-detail">
+                            <h1 class="manager">Books</h1>
+                            <a class="btn btn-success btn-add" href="">Add
+                                new</a>
+                            <tr>
+                                <th class="table_header">Book Name</th>
+                                <th class="table_header">Price</th>
+                                <th class="table_header">In stock</th>
+                                <th class="table_header">Image</th>
+                                <th class="table_header">Category</th>
+                                <th class="table_header">Discount</th>
+                                <th class="table_header">Update</th>
+                                <th class="table_header">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let product in books">
+                                <tr>
+                                    <td>{{product.name}}</td>
+                                    <td>{{product.price}}</td>
+                                    <td>{{product.inStock}}</td>
+                                    <td><img src={{product.images[0]}} alt={{product.name}} /></td>
+                                    <td>{{product.category}}</td>
+                                    <td>{{product.discount}}%</td>
+                                    <td>
+                                        <a href=""><i class="bi bi-pen"></i></a>
+                                    </td>
+                                    <td>
+                                        <i class="bi bi-trash"></i>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                        <tfoot>
+                            <p class="book-available">{{0}} books
+                                available</p>
+                            <div class="arr">{{0}}</div>
+                        </tfoot>
+
+                    </table>
+                </article>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #notfound>
+    <app-page404></app-page404>
+</ng-template>
+
+<ng-container *ngIf="(isAdmin$ | async) as isAdmin, then display, else notfound">
+</ng-container>
