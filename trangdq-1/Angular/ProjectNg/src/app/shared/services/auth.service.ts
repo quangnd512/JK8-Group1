@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ErrorMessage, User } from '../../app.component';
+import { BehaviorSubject, Observable } from 'rxjs'; 
+import { ErrorMessage, User } from '../defined';
 
 const pattern = /^[A-Z][a-zA-Z0-9]{7}$/;
 

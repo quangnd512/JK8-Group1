@@ -1,23 +1,7 @@
-import { Component } from '@angular/core';
-import { SERVER_URL } from '../app.component';
+import { Component } from '@angular/core'; 
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of, take } from 'rxjs';
-import { log } from 'console';
-
-type Book = {
-  id: number,
-  name: string,
-  price: number,
-  description: string,
-  inStock: number,
-  images: Array<string>
-  category: string,
-  discount: number
-}
-
-type Response = {
-  content: Array<Book>
-}
+import { Book, Response, SERVER_URL } from '../shared/defined';
 
 @Component({
   selector: 'app-home',

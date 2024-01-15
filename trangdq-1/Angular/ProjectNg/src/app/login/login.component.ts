@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../shared/services/auth.service';
-import { ErrorMessage } from '../app.component';
+import { ErrorMessage } from '../shared/defined';
 
 @Component({
   selector: 'app-login',
