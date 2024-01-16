@@ -31,7 +31,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
   ],
   providers: [
     provideClientHydration(),
-    { provide: HttpClient, useFactory: withFetch, deps: [HttpBackend] }
+    // { provide: HttpClient, useFactory: withFetch, deps: [HttpBackend] }
   ],
   bootstrap: [AppComponent]
 })

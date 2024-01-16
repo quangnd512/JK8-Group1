@@ -25,7 +25,7 @@ export class AuthService {
   private admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   private errors: Array<ErrorMessage> = []
 
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: InjectionToken<Object>) { }
+  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: InjectionToken<Object>, private http: HttpClient) { }
 
   public logout(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -95,52 +95,63 @@ export class AuthService {
         username: username,
         password: password
       };
-      const data: ResponseObject = await fetch(`${SERVER_URL}/login`, {
-        method: 'POST',
-        body: JSON.stringify(loginDTO),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).then(response => {
-        console.log(response);
 
-        if (!response.ok) throw new Error("HTTP error: " + response.status);
-        else return response.json();
-      }).catch(error => {
-        console.error('Login error: ', error);
-      });
+      this.http.post<ResponseObject>(`${SERVER_URL}/login`, loginDTO)
+        .subscribe({
+          next: (response) => { 
+              localStorage.setItem('token', response.accessToken);
+              localStorage.setItem('role', response.role)
+              localStorage.setItem('userId', response.userId)
+              if (localStorage.getItem('role') === "ROLE_ADMIN") this.admin.next(true)
+              else this.admin.next(false)
+              this.loggedIn.next(true)
+              this.router.navigate(['/'])
+              if (this.isLoggedIn()) {
+                this.loggedIn.next(true)
+                this.router.navigate(['/'])
+              } 
+          },
+          error: (error) => { 
+            if (error.error.message) {
+            alert(error.error.message)
+            } else {
+              alert(error.statusText+ "!")
+            }
+          },
+        });
 
-      if (data) {
-        localStorage.setItem('token', data.accessToken);
-        localStorage.setItem('role', data.role)
-        localStorage.setItem('userId', data.userId)
-        if (this.isLoggedIn()) {
-          this.loggedIn.next(true)
-          this.router.navigate(['/'])
-        }
-      } else {
-        alert('User not found!')
-      }
+      // NG02801: Angular detected that `HttpClient` is not configured to use `fetch` APIs. 
+      // It's strongly recommended to enable `fetch` for applications that use Server-Side 
+      // Rendering for better performance and compatibility. To enable `fetch`, add the `withFetch()` 
+      // to the `provideHttpClient()` call at the root of the application.
+
+      // const data: ResponseObject = await fetch(`${SERVER_URL}/login`, {
+      //   method: 'POST',
+      //   body: JSON.stringify(loginDTO),
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // }).then(response => {
+      //   console.log(response);
+
+      //   if (!response.ok) throw new Error("HTTP error: " + response.status);
+      //   else return response.json();
+      // }).catch(error => {
+      //   console.error('Login error: ', error);
+      // });
+
+      // if (data) {
+      //   localStorage.setItem('token', data.accessToken);
+      //   localStorage.setItem('role', data.role)
+      //   localStorage.setItem('userId', data.userId)
+      //   if (this.isLoggedIn()) {
+      //     this.loggedIn.next(true)
+      //     this.router.navigate(['/'])
+      //   }
+      // } else {
+      //   alert('User not found!')
+      // }
     }
-
-
-    // this.http.post<LoginResponse>(`${SERVER_URL}/login`, loginDTO)
-    //   .subscribe({
-    //     next: (response) => {
-    //       localStorage.setItem('token', response.token);
-    //       console.log(response.token);
-    //       localStorage.setItem('token', response.accessToken);
-    //       localStorage.setItem('role', response.role)
-    //       localStorage.setItem('userId', response.userId)
-    //       if (localStorage.getItem('role') === "ROLE_ADMIN") this.admin.next(true)
-    //       else this.admin.next(false)
-    //       this.loggedIn.next(true)
-    //       this.router.navigate(['/'])
-    //     },
-    //     error: (error) => {
-    //       console.error(error);
-    //     },
-    //   });
   }
 
 }
