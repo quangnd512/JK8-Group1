@@ -9,6 +9,7 @@ import { AdminBookListComponent } from './admin/crud-book-ui/admin-book-list/adm
 import { AdminUpdateBookComponent } from './admin/crud-book-ui/admin-update-book/admin-update-book.component';
 import { adminAuthGardGuard } from './admin-auth-gard.guard';
 import { BookDetailComponent } from './home/book-detail/book-detail.component';
+import { AdminAdminAddUserComponent } from './admin/user-management/admin-admin-add-user/admin-admin-add-user.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +52,11 @@ export const routes: Routes = [
                 path: 'update-book',
                 title: 'update-book',
                 component: AdminUpdateBookComponent,
+            }, 
+            {
+                path: 'add-user',
+                title: 'add-user',
+                component: AdminAdminAddUserComponent
             }
         ]
     }

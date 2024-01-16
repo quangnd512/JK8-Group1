@@ -73,11 +73,13 @@ export class LoginComponent implements OnInit {
     if (user) {
       if (user?.role === "ADMIN") {
         localStorage.setItem('token', 'ADMIN');
+        localStorage.setItem('userId', user.id)
         alert("Hello " + this.username);
         this.router.navigateByUrl("/admin");
         return;
       } else if (user?.role === "USER") {
         localStorage.setItem('token', 'USER');
+        localStorage.setItem('userId', user.id)
         this.router.navigateByUrl("/home");
         return;
       }

@@ -23,7 +23,7 @@
             </div>
             <div class="box-tocart d-flex">
                 <div class="addtocart__actions">
-                    <button id="them-vao-gio-hang" class="tocart"
+                    <button (click)="addBookToCart(book.id)" id="them-vao-gio-hang" class="tocart"
                         title="Add to Cart">Thêm vào giỏ hàng </button>
                 </div>
                 <div class="product-addto-links clearfix">
@@ -62,7 +62,7 @@
                 <p class="text--italic">Tác giả: {{ book.author }} </p>
                 <p class="text--italic">Ngày xuất bản: {{ book.publishedDate }}</p>
                 <p class="text--italic">Nhà xuất bản: {{ book.publisher }} </p>
-                <p class="text--italic">Thể Loại:  {{ book.bookType }} </p>
+                <p class="text--italic">Thể Loại: {{ book.bookType }} </p>
                 <p class="text--italic">Số lượng sách còn: {{ book.quantity }} </p>
             </div>
         </div>

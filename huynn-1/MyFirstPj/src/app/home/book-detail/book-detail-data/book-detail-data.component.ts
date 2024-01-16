@@ -1,26 +1,34 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, ROUTER_CONFIGURATION } from '@angular/router';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BookServices } from '../../../services/bookServices';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Book } from '../../../services/interfaces/book';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {  } from '@fortawesome/fontawesome-svg-core'
+import { } from '@fortawesome/fontawesome-svg-core'
+import { CartServces } from '../../../services/cartServces';
+import { Cart } from '../../../services/interfaces/cart';
+import { UserService } from '../../../services/userServices';
 
 @Component({
   selector: 'app-book-detail-data',
   standalone: true,
   imports: [CommonModule, HttpClientModule, FontAwesomeModule],
-  providers: [BookServices],
+  providers: [BookServices, CartServces, UserService],
   templateUrl: './book-detail-data.component.html',
-  // styleUrl: './book-detail-data.component.scss'
-  styleUrl: '../../home.component.scss'
+  styleUrls: ['../../home.component.scss', './book-detail-data.component.scss']
 })
 export class BookDetailDataComponent {
 
   private route = inject(ActivatedRoute);
 
   private bookServices = inject(BookServices);
+
+  private userServces = inject(UserService);
+
+  private cartServices = inject(CartServces);
+
+  @Output() successAlertVisible = new EventEmitter<boolean>();
 
   public book: Book = {
     id: '',
@@ -55,4 +63,23 @@ export class BookDetailDataComponent {
     }
   }
 
+  public addBookToCart(bookId: string) {
+    const userId = localStorage.getItem('userId')?.toString();
+    if (userId) {
+      const cartData: Cart = {
+        id: '',
+        bookId: bookId,
+        userId: userId
+      }
+      this.cartServices.createCart(cartData).subscribe({
+        next: (value) => {
+          alert("Thêm vào giỏ hàng thành công");
+        },
+        error: (err) => {
+          alert("Đã xảy ra lỗi khi thêm vào giỏ hàng");
+        }
+      });
+    }
+
+  }
 }
