@@ -3,13 +3,13 @@ export const SERVER_URL = "http://localhost:8080"
 export type LoginDTO = {
     username: string,
     password: string
-} 
+}
 
 export type ErrorMessage = {
     message?: string;
 }
 
-export type Book = {
+export type Product = {
     id: number,
     name: string,
     price: number,

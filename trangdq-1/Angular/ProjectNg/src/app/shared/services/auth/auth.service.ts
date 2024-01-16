@@ -1,7 +1,7 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ErrorMessage, LoginDTO, SERVER_URL } from '../defined';
+import { ErrorMessage, LoginDTO, SERVER_URL } from '../../defined';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
@@ -25,7 +25,11 @@ export class AuthService {
   private admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false)
   private errors: Array<ErrorMessage> = []
 
-  constructor(private router: Router, @Inject(PLATFORM_ID) private platformId: InjectionToken<Object>, private http: HttpClient) { }
+  constructor(
+    private router: Router, 
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: InjectionToken<Object>
+    ) { }
 
   public logout(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -52,8 +56,8 @@ export class AuthService {
     return this.loggedIn.asObservable()
   }
 
-  private isTokenExpired(token: string) {
-    const payload = JSON.parse(atob(token.split('.')[1])); // decode
+  private isTokenExpired(token: string) : boolean {
+    const payload = JSON.parse(atob(token.split('.')[1])); // decrypt
     return Math.floor(Date.now() / 1000) >= payload.exp;
   }
 
@@ -119,6 +123,8 @@ export class AuthService {
             }
           },
         });
+
+      // unsubscribe -- angular function 
 
       // NG02801: Angular detected that `HttpClient` is not configured to use `fetch` APIs. 
       // It's strongly recommended to enable `fetch` for applications that use Server-Side 

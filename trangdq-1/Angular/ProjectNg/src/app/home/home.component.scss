@@ -10,10 +10,10 @@
     color: #895a41;
 }
 
-h1,
-h2 {
+.white-text {
     font-weight: bold;
     text-align: center;
+    color: #fff
 }
 
 .card {
@@ -47,14 +47,19 @@ h2 {
 
 .pagination {
     margin-top: 2rem;
+} 
+
+.pagination .page-link.active { 
+    border-color: #337ab7;
 }
 
 .pagination .page-link {
-    color: #143c5e;
+    background-color: #ffffff;  
+    border-color: #d5e5ea;
 }
 
-.pagination .page-link.active {
-    background-color: #b2dbff;
+.pagination .page-item.active .page-link {
+    background-color: #337ab7;  
     border-color: #337ab7;
 }
 

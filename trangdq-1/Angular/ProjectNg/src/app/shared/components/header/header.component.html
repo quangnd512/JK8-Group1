@@ -11,20 +11,20 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li *ngIf="isLoggedIn$ | async as isLoggedIn" class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink='/' routerLinkActive="active">Home</a>
+          <li class="nav-item" *ngIf="isLoggedIn$ | async as isLoggedIn" >
+            <a class="nav-link" routerLink='/' routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink='/books' routerLinkActive="active">Books</a>
           </li>
-          <li *ngIf="isAdmin$ | async as isAdmin"  class="nav-item">
+          <li class="nav-item" *ngIf="isAdmin$ | async as isAdmin">
             <a class="nav-link" routerLink='/admin-dashboard' routerLinkActive="active">Dashboard</a>
           </li>
           <li class="nav-item" *ngIf="!(isLoggedIn$ | async) as isLoggedIn">
             <a class="nav-link" routerLink='/login' routerLinkActive="active">Login</a>
           </li>
-          <li class="nav-item" *ngIf="isLoggedIn$ | async as isLoggedIn" >
-            <a class="nav-link"  routerLink='/login' routerLinkActive="active" (click)="logout()">Logout</a>
+          <li class="nav-item" *ngIf="isLoggedIn$ | async as isLoggedIn">
+            <a class="nav-link" routerLink='/login' (click)="logout()">Logout</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
