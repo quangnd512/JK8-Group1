@@ -4,8 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorMessage, LoginDTO, SERVER_URL } from '../../defined';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, Inject } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { PLATFORM_ID, Inject } from '@angular/core'; 
 
 const pattern = /^[A-Z][a-zA-Z0-9]{7}$/;
 // const pattern = /^[0-9]{6}$/;
