@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookServices } from '../../../services/bookServices';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,7 @@ import { UserService } from '../../../services/userServices';
   templateUrl: './book-detail-data.component.html',
   styleUrls: ['../../home.component.scss', './book-detail-data.component.scss']
 })
-export class BookDetailDataComponent {
+export class BookDetailDataComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
 
@@ -27,6 +27,8 @@ export class BookDetailDataComponent {
   private userServces = inject(UserService);
 
   private cartServices = inject(CartServces);
+
+  public bookList: Book[] = [];
 
   @Output() successAlertVisible = new EventEmitter<boolean>();
 
@@ -45,6 +47,10 @@ export class BookDetailDataComponent {
 
   constructor() {
     this.getBookData();
+  }
+
+  ngOnInit(): void {
+      
   }
 
   public getBookData() {

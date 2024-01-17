@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 
-//Limited the length of the string < 18 char
+//Limited the length of the string
 @Pipe({
     standalone: true,
     name: 'truncate'

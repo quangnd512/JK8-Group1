@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnDestroy, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartServces } from '../../services/cartServces';
 import { Book } from '../../services/interfaces/book';
@@ -16,7 +16,7 @@ import { TruncatePipe } from '../../pipes/TruncatePipe';
   styleUrl: '../home.component.scss'
 
 })
-export class HomeHeaderComponent implements OnInit  {
+export class HomeHeaderComponent implements OnInit {
 
   private cartServices = inject(CartServces);
 
@@ -24,10 +24,11 @@ export class HomeHeaderComponent implements OnInit  {
 
   public bookList: Book[] = [];
 
+
+
   public totalAmount = 0;
 
   constructor() {
-
   }
 
   ngOnInit(): void {
@@ -49,8 +50,17 @@ export class HomeHeaderComponent implements OnInit  {
 
   //calculate total price of book inside the cart
   calculateTotalAmount() {
-    this.totalAmount = this.bookList.reduce((total, book) => total + book.price, 0);
+    if (this.bookList && Array.isArray(this.bookList)) {
+      this.totalAmount = this.bookList.reduce((total, book) => {
+        const bookPrice = parseFloat(book.price.toString()); // Chuyển đổi giá sách thành số
+        return isNaN(bookPrice) ? total : total + bookPrice;
+      }, 0);
+    } else {
+      console.error("Invalid or missing bookList");
+      this.totalAmount = 0; // hoặc giá trị mặc định khác tùy thuộc vào yêu cầu của bạn
+    }
   }
+  
 
   //binding data to cart view
   public displayCartContent() {

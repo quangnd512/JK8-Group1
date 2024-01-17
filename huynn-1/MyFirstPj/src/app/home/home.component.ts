@@ -12,12 +12,13 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
 import { HomeFooterComponent } from './home-footer/home-footer.component';
 import { TruncatePipe } from '../pipes/TruncatePipe';
 import { ListAllBooksComponent } from './list-all-books/list-all-books.component';
+import { ShoppingCartComponent } from '../shopping-cart/shopping-cart.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, ListOfBookComponent, BsDropdownModule, FontAwesomeModule, RouterLink, CarouselComponent, BookDetailComponent, RouterModule,
-  HomeFooterComponent, HomeFooterComponent, ListAllBooksComponent],
+  HomeFooterComponent, HomeFooterComponent, ListAllBooksComponent, ShoppingCartComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
