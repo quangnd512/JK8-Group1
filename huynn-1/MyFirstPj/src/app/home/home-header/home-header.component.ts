@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, Component, DoCheck, OnDestroy, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartServces } from '../../services/cartServces';
-import { Book } from '../../services/interfaces/book';
 import { BookServices } from '../../services/bookServices';
 import { TruncatePipe } from '../../pipes/TruncatePipe';
+import { ListBookResponse } from '../../services/interfaces/book/listBookResponse.interface';
+import { BookResponse } from '../../services/interfaces/book/bookResponse.interface';
 
 @Component({
   selector: 'app-home-header',
@@ -22,9 +23,7 @@ export class HomeHeaderComponent implements OnInit {
 
   private bookServices = inject(BookServices);
 
-  public bookList: Book[] = [];
-
-
+  public bookList: BookResponse[] = [];
 
   public totalAmount = 0;
 
@@ -43,8 +42,10 @@ export class HomeHeaderComponent implements OnInit {
 
     if (isVisible) {
       element?.classList.remove('is-visible');
+      this.removeCartContent();
     } else {
       element?.classList.add('is-visible');
+      this.displayCartContent();
     }
   }
 
@@ -52,52 +53,41 @@ export class HomeHeaderComponent implements OnInit {
   calculateTotalAmount() {
     if (this.bookList && Array.isArray(this.bookList)) {
       this.totalAmount = this.bookList.reduce((total, book) => {
-        const bookPrice = parseFloat(book.price.toString()); // Chuyển đổi giá sách thành số
+        const bookPrice = parseFloat(book.giaTien.toString());
         return isNaN(bookPrice) ? total : total + bookPrice;
       }, 0);
     } else {
       console.error("Invalid or missing bookList");
-      this.totalAmount = 0; // hoặc giá trị mặc định khác tùy thuộc vào yêu cầu của bạn
+      this.totalAmount = 0;
     }
   }
   
 
   //binding data to cart view
   public displayCartContent() {
-    const userId = localStorage.getItem('userId')?.toString();
-    if (userId) {
-      this.cartServices.getCarts().subscribe({
-        next: (carts) => {
-          // Filter carts based on userId
-          const userCarts = carts.filter(cart => cart.userId === userId);
-
-          userCarts.forEach(cart => {
-            // Assuming there is a bookId property in your Cart model
-            const bookId = cart.bookId;
-
-            // Fetch book details using bookId
-            this.bookServices.getBook(bookId).subscribe({
-              next: (book) => {
-                if (book.image === '') {
-                  book.image = "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.webp";
-                }
-                // Push the book into bookList
-                this.bookList.push(book);
-              },
-              error: (bookError) => {
-                console.error('Error retrieving book:', bookError);
-              },
-              complete: () => {
-                // Calculate total amount after fetching all books
-                this.calculateTotalAmount();
-              }
-            });
-          });
-        },
-        error: (error) => {
-          console.error('Error retrieving carts:', error);
-        }
-      });
+    const userIdParam = localStorage.getItem('userId');
+  
+    if (!userIdParam) {
+      return;
     }
+  
+    const userId = parseFloat(userIdParam);
+  
+    this.cartServices.getCart(userId).subscribe({
+      next: (cart) => {
+        this.bookList = [...cart.sachList];
+      },
+      error: (error) => {
+        console.error('Error retrieving carts:', error);
+      },
+      complete: () => {
+        this.calculateTotalAmount();
+      }
+    });
   }
+
+  public removeCartContent() {
+    this.bookList = [];
+  }
+  
 }

@@ -4,11 +4,17 @@ import { AuthenticationServices } from '../services/loginServices';
 import { UserService } from '../services/userServices';
 import { UserInfos } from '../services/interfaces/userInfo';
 import {
-  FormsModule,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule, NgForm, Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginResponse } from '../services/responses/authenticationResponse';
+import { LoginInterface } from '../services/interfaces/login/login.interface';
+import { LoginResponseInterface } from '../services/interfaces/login/loginResponse.interface';
+import { response } from 'express';
+import { ROLE_ADMIN, ROLE_USER } from '../services/common/constant';
 
 @Component({
   selector: 'app-login',
@@ -20,17 +26,14 @@ import { LoginResponse } from '../services/responses/authenticationResponse';
 })
 export class LoginComponent implements OnInit {
 
-  private authenticationServices = inject(AuthenticationServices);
 
-  private userServices = inject(UserService);
+  private authenticationServices = inject(AuthenticationServices);
 
   private router = inject(Router);
 
   public username: string = "";
 
   public password: string = "";
-
-  private listOfUser: UserInfos[] = [];
 
   public passworrdErr: string = '';
 
@@ -40,55 +43,54 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userServices.getUsers().subscribe({
-      next: (value) => {
-        this.listOfUser = value;
-        localStorage.removeItem('token');
-      },
-      error: err => {
-        localStorage.removeItem('token');
-        console.log(err)
-      }
-    });
+    localStorage.removeItem('token')
+    localStorage.removeItem('username')
+    localStorage.removeItem('userId')
+    
   }
 
-  public login() {
+  //handling response
+  public login(loginForm: NgForm) {
 
-    if (this.username == '') {
+    const loginData: LoginInterface = loginForm.value;
+
+    if (loginData.username == '') {
       this.usernameErr = 'Vui lòng nhập trường này';
       return;
     }
 
     this.usernameErr = '';
 
-    if (this.validatePassword(this.password) !== '') {
+    if (this.validatePassword(loginData.password) !== '') {
       this.passworrdErr = this.validatePassword(this.password);
       return;
     }
 
     this.passworrdErr = '';
 
-    let user = this.listOfUser.find((user) => user.userName === this.username && this.password === this.password);
+    this.authenticationServices.login(loginData).subscribe((response) => {
+      if (response != null) {
+        if (response.role === ROLE_USER) {
+          localStorage.setItem('token', ROLE_USER);
+          localStorage.setItem('username', response.tenTk);
+          localStorage.setItem('userId', response.maTk);
+          this.router.navigateByUrl("/home")
+          return;
+        } else if (response.role === ROLE_ADMIN) {
+          localStorage.setItem('token', ROLE_ADMIN);
+          localStorage.setItem('username', response.tenTk);
+          localStorage.setItem('userId', response.maTk);
+          this.router.navigateByUrl("/admin");
+          return;
+        }
 
-    if (user) {
-      if (user?.role === "ADMIN") {
-        localStorage.setItem('token', 'ADMIN');
-        localStorage.setItem('userId', user.id)
-        alert("Hello " + this.username);
-        this.router.navigateByUrl("/admin");
-        return;
-      } else if (user?.role === "USER") {
-        localStorage.setItem('token', 'USER');
-        localStorage.setItem('userId', user.id)
-        this.router.navigateByUrl("/home");
+      } else {
+        alert("Người dùng không tồn tại");
         return;
       }
-    } else {
-      this.username = '';
-      this.password = '';
-      alert("Người dùng không tồn tại");
-      return;
     }
+    );
+    return;
   }
 
   public validatePassword(password: string): string {

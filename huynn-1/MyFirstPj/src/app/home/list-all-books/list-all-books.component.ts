@@ -5,12 +5,15 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterLink, RouterModule, Router } from '@angular/router';
 import { TruncatePipe } from '../../pipes/TruncatePipe';
+import { BookServices } from '../../services/bookServices';
+import { ListBookResponse } from '../../services/interfaces/book/listBookResponse.interface';
 
 @Component({
   selector: 'app-list-all-books',
   standalone: true,
   imports: [CommonModule, HttpClientModule, RouterModule, RouterLink, TruncatePipe],
-  providers: [HomeServices],
+  providers: [HomeServices,
+    BookServices],
   templateUrl: './list-all-books.component.html',
   styleUrl: './list-all-books.component.scss'
 })
@@ -18,29 +21,17 @@ export class ListAllBooksComponent implements OnInit {
 
   private router = inject(Router);
 
-  private homeServices = inject(HomeServices);
+  public listAllBooks: ListBookResponse[] = [];
 
-  public bookList: Book[] = [];
-
-  public listOfAllBookLimitedLength: Book[] = [];
-
-  constructor() {
+  constructor(private homeServices: HomeServices,
+    private bookServices: BookServices) {
 
   }
 
   ngOnInit(): void {
-    this.homeServices.getBooks().subscribe(
-      {
-        next: (value) => {
-          this.bookList = value;
-          if (value.length > 8) {
-            this.listOfAllBookLimitedLength = value.slice(0, 8);
-          }
-        }, error(err) {
-          console.log(err);
-        }
-      }
-    )
+    this.bookServices.getAllBooks().subscribe((response) => {
+      this.listAllBooks = response;
+    })
   }
 
   public navigateToBookDetail(bookId: any) {

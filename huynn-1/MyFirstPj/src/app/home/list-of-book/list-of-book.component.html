@@ -1,5 +1,5 @@
-<div class="" *ngIf="listOfNewBooksLimited" class="row">
-    <div class="product product__style--3 col-3" *ngFor="let item of listOfNewBooksLimited">
+<div class="" *ngIf="listOfNewBooks" class="row">
+    <div class="product product__style--3 col-3" *ngFor="let item of listOfNewBooks.slice(0, 8)">
         <div class="product__thumb ">
             <a class="first__img">
                 <img class="image-thumbnail"
@@ -9,9 +9,9 @@
         </div>
         <div class="product__content content--center">
             <h4 class="book-name"><a style="cursor: pointer; color: black" class="book-name"
-                    (click)="navigateToBookDetail(item.id)">{{ item.name |truncate: 18}}</a></h4>
+                    (click)="navigateToBookDetail(item.maSach)">{{ item.tenSach |truncate: 18}}</a></h4>
             <ul class="price d-flex">
-                <li>{{ item.price | currency:'VND':'symbol':'1.0-0'}}</li>
+                <li>{{ item.giaTien | currency:'VND':'symbol':'1.0-0'}}</li>
             </ul>
         </div>
     </div>

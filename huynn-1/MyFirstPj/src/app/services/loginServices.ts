@@ -1,11 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import axios from 'axios';
-import { BOOKS_URI, USERS_URI } from './api';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { LoginResponse } from './responses/authenticationResponse';
-import { Observable, catchError, retry } from 'rxjs';
-import { UserInfos } from './interfaces/userInfo';
-import { UserInfo } from 'os';
+import { BASE__URL, LOGIN__URI } from './api';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, map } from 'rxjs';
+import { LoginInterface } from './interfaces/login/login.interface';
+import { LoginResponseInterface } from './interfaces/login/loginResponse.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -18,14 +16,24 @@ export class AuthenticationServices {
 
     }
 
-    // login(username: string, password: string, role: string) {
-    //     const data = {
-    //         username: username,
-    //         password: password,
-    //         role: role
-    //     };
+    public login(userData: LoginInterface): Observable<LoginResponseInterface | null> {
+        const user = {
+            tenTk: userData.username,
+            matKhau: userData.password
+        }
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:4200', // Add your client origin
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE', // Add allowed methods
+            'Access-Control-Allow-Headers': 'Content-Type' // Add allowed headers
+        });
 
-    //     return axios.post(BOOKS_URI, data);
-    // }
-
+        return this.httpClient.post<LoginResponseInterface>(BASE__URL.concat(LOGIN__URI), user, { headers }).
+            pipe(
+                catchError((error: HttpErrorResponse) => {
+                    console.error('Login request failed:', error);
+                    throw error;
+                })
+            );;
+    }
 }

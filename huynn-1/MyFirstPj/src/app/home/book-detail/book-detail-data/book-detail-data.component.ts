@@ -9,6 +9,7 @@ import { } from '@fortawesome/fontawesome-svg-core'
 import { CartServces } from '../../../services/cartServces';
 import { Cart } from '../../../services/interfaces/cart';
 import { UserService } from '../../../services/userServices';
+import { BookResponse } from '../../../services/interfaces/book/bookResponse.interface';
 
 @Component({
   selector: 'app-book-detail-data',
@@ -24,60 +25,62 @@ export class BookDetailDataComponent implements OnInit {
 
   private bookServices = inject(BookServices);
 
-  private userServces = inject(UserService);
-
   private cartServices = inject(CartServces);
 
   public bookList: Book[] = [];
 
   @Output() successAlertVisible = new EventEmitter<boolean>();
 
-  public book: Book = {
-    id: '',
-    name: '',
+  public book: BookResponse = {
+    maSach: 0,
+    tenSach: '',
+    soLuong: 0,
+    ngayXuatBan: '',
+    giaTien: 0,
+    theLoai: '',
+    nhaXuatBan: '',
     image: '',
-    price: 0,
-    detail: '',
-    author: '',
-    quantity: 0,
-    publishedDate: '',
-    bookType: '',
-    publisher: ''
+    tacGia: ''
   };
 
+
   constructor() {
-    this.getBookData();
+
   }
 
   ngOnInit(): void {
-      
+    this.getBookData();
   }
 
+  // get book to display on book detail page
   public getBookData() {
-    const bookId: string | null = this.route.snapshot.paramMap.get('bookId');
-    if (bookId) {
-      this.bookServices.getBook(bookId).subscribe(
-        (data) => {
-          if (data.image == '') {
-            data.image = "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.webp";
-            this.book = data;
-            return;
-          }
-          return;
-        }
-      )
+    const bookIdParam = this.route.snapshot.paramMap.get('bookId');
+  
+    if (!bookIdParam) {
+      return;
     }
-  }
-
-  public addBookToCart(bookId: string) {
-    const userId = localStorage.getItem('userId')?.toString();
-    if (userId) {
-      const cartData: Cart = {
-        id: '',
-        bookId: bookId,
-        userId: userId
+  
+    const bookId = parseFloat(bookIdParam);
+  
+    this.bookServices.getBookById(bookId).subscribe(
+      (data) => {
+        if (data) {
+          this.book = data;
+          if (data.image === '') {
+            this.book.image = "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.webp";
+          }
+          console.log(this.book);
+        }
       }
-      this.cartServices.createCart(cartData).subscribe({
+    );
+  }
+  
+
+  public addBookToCart(bookId: any) {
+    const userIdParam = localStorage.getItem('userId')?.toString();
+    if (userIdParam) {
+      const userId = parseFloat(userIdParam);
+      this.cartServices.addBookToCart(bookId, userId).subscribe({
         next: (value) => {
           alert("Thêm vào giỏ hàng thành công");
         },
