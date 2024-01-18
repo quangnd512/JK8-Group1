@@ -1,13 +1,10 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ErrorMessage, LoginDTO, SERVER_URL } from '../../defined';
 import { HttpClient } from '@angular/common/http';
-import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, Inject } from '@angular/core'; 
 
 const pattern = /^[A-Z][a-zA-Z0-9]{7}$/;
-// const pattern = /^[0-9]{6}$/;
 
 type ResponseObject = {
   accessToken: string,
@@ -25,62 +22,58 @@ export class AuthService {
   private errors: Array<ErrorMessage> = []
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: InjectionToken<Object>
-    ) { }
+  ) { }
 
-  public logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loggedIn.next(false)
-      this.admin.next(false)
-      localStorage.setItem('role', '')
-      localStorage.setItem('userId', '')
-      localStorage.setItem('token', '')
-      this.router.navigate(['/login'])
-    }
+  public async logout(): Promise<void> {
+    this.http.post<void>(`${SERVER_URL}/logout`,{})
+      .subscribe({
+        next: () => {
+          this.loggedIn.next(false)
+          this.admin.next(false)
+          localStorage.removeItem('role')
+          localStorage.removeItem('userId')
+          localStorage.removeItem('token')
+          this.router.navigate(['/login'])
+        },
+        error: () => {
+          alert('Failed to logout...')
+        },
+      });
   }
 
   public isLoggedIn(): Observable<boolean> {
-    if (isPlatformBrowser(this.platformId)) {
-      const jwt = localStorage.getItem('token');
-      if (!jwt || this.isTokenExpired(jwt)) {
-        this.logout();
-      } else {
-        this.loggedIn.next(true)
-      }
+    const jwt = localStorage.getItem('token');
+    if (!jwt || this.isTokenExpired(jwt)) {
+      this.logout();
     } else {
-      this.logout()
+      this.loggedIn.next(true)
     }
     return this.loggedIn.asObservable()
   }
 
-  private isTokenExpired(token: string) : boolean {
+  private isTokenExpired(token: string): boolean {
     const payload = JSON.parse(atob(token.split('.')[1])); // decrypt
     return Math.floor(Date.now() / 1000) >= payload.exp;
   }
 
   public isAdmin(): Observable<boolean> {
-    if (isPlatformBrowser(this.platformId)) {
-      this.isLoggedIn().subscribe(state => {
-        if (state && localStorage.getItem("role") === "ROLE_ADMIN") {
-          this.admin.next(true)
-        } else {
-          this.admin.next(false)
-        }
-      })
-      return this.admin.asObservable()
-    } else {
-      this.logout()
-      return this.admin.asObservable()
-    }
+    this.isLoggedIn().subscribe(state => {
+      if (state && localStorage.getItem("role") === "ROLE_ADMIN") {
+        this.admin.next(true)
+      } else {
+        this.admin.next(false)
+      }
+    })
+    return this.admin.asObservable()
   }
 
   public getErrors(): Array<ErrorMessage> {
     return this.errors
   }
 
-  public async login(username: string, password: string): Promise<any> {
+  private validateData(username: string, password: string): boolean {
     this.errors = [{}, {}]
     let should = true
     username = username.trim()
@@ -92,8 +85,11 @@ export class AuthService {
       this.errors[1].message = "*Invalid password."
       should = false
     }
+    return should
+  }
 
-    if (should) {
+  public async login(username: string, password: string): Promise<void> {
+    if (this.validateData(username, password)) {
       const loginDTO: LoginDTO = {
         username: username,
         password: password
@@ -101,62 +97,20 @@ export class AuthService {
 
       this.http.post<ResponseObject>(`${SERVER_URL}/login`, loginDTO)
         .subscribe({
-          next: (response) => { 
-              localStorage.setItem('token', response.accessToken);
-              localStorage.setItem('role', response.role)
-              localStorage.setItem('userId', response.userId)
-              if (localStorage.getItem('role') === "ROLE_ADMIN") this.admin.next(true)
-              else this.admin.next(false)
-              this.loggedIn.next(true)
-              this.router.navigate(['/'])
-              if (this.isLoggedIn()) {
-                this.loggedIn.next(true)
-                this.router.navigate(['/'])
-              } 
+          next: (response) => {
+            localStorage.setItem('token', response.accessToken);
+            localStorage.setItem('role', response.role)
+            localStorage.setItem('userId', response.userId)
+            this.router.navigate(['/'])
           },
-          error: (error) => { 
+          error: (error) => {
             if (error.error.message) {
-            alert(error.error.message)
+              alert(error.error.message)
             } else {
-              alert(error.statusText+ "!")
+              alert(error.statusText)
             }
           },
         });
-
-      // unsubscribe -- angular function 
-
-      // NG02801: Angular detected that `HttpClient` is not configured to use `fetch` APIs. 
-      // It's strongly recommended to enable `fetch` for applications that use Server-Side 
-      // Rendering for better performance and compatibility. To enable `fetch`, add the `withFetch()` 
-      // to the `provideHttpClient()` call at the root of the application.
-
-      // const data: ResponseObject = await fetch(`${SERVER_URL}/login`, {
-      //   method: 'POST',
-      //   body: JSON.stringify(loginDTO),
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // }).then(response => {
-      //   console.log(response);
-
-      //   if (!response.ok) throw new Error("HTTP error: " + response.status);
-      //   else return response.json();
-      // }).catch(error => {
-      //   console.error('Login error: ', error);
-      // });
-
-      // if (data) {
-      //   localStorage.setItem('token', data.accessToken);
-      //   localStorage.setItem('role', data.role)
-      //   localStorage.setItem('userId', data.userId)
-      //   if (this.isLoggedIn()) {
-      //     this.loggedIn.next(true)
-      //     this.router.navigate(['/'])
-      //   }
-      // } else {
-      //   alert('User not found!')
-      // }
     }
   }
-
 }

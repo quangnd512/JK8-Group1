@@ -1,72 +1,150 @@
 <ng-template #display>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 bg-light sidebar">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/admin-dashboard">Products Manager</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Vouchers Manager</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Users Manager</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-10 p-4 mainbody">
-                <h1 class="text-center mb-4 fw-bolder text-white">Products Manager</h1>
-                <div class="d-flex justify-content-between">
-                    <a href="#" class="btn btn-primary">Add New Product</a>
-                    <p class="fw-bold text-white">{{0}} products available</p>
-                </div>
-                <table class="table table-hover mt-4 text-center">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Instock</th>
-                            <th>Image</th>
-                            <th>Category</th>
-                            <th>Discount</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let product of products$ | async as getProducts, let i = index">
-                            <td>{{i+1}}</td>
-                            <td class="text-start">{{product.name}}</td>
-                            <td>{{product.price | currency:'USD':'symbol':'1.2-2'}}</td>
-                            <td>{{product.inStock}}</td>
-                            <td><img [src]="product.images[0]" alt="Product Image" width="50"></td>
-                            <td>{{product.category}}</td>
-                            <td>{{product.discount}}%</td>
-                            <td><a href="#" class="btn btn-sm btn-success m-1">UPDATE</a>
-                                <a href="#" class="btn btn-sm btn-danger m-1">DELETE</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <nav>
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 bg-light sidebar">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="/admin-dashboard">Products Manager</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Vouchers Manager</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Users Manager</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-10 p-4 main-body">
+        <h1 class="text-center mb-4 fw-bolder text-white">Products Management System</h1>
+        <div class="d-flex justify-content-between">
+          <button (click)="addProductPopUp()" class="btn btn-primary">Add New Product</button>
+          <p class="fw-bold text-white">{{ total_products$ | async }} products available</p>
         </div>
+        <table class="table table-hover mt-4 text-center">
+          <thead>
+          <tr>
+            <th>Order</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>In-stock</th>
+            <th>Image</th>
+            <th>Category</th>
+            <th>Discount</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let product of products$ | async as getProducts, let i = index">
+            <td>{{ i + 1 }}</td>
+            <td class="text-start fw-bold"><a href="/product/{{product.id}}">{{ product.name }}</a></td>
+            <td>{{ product.price | currency:'USD':'symbol':'1.2-2' }}</td>
+            <td>{{ product.inStock }}</td>
+            <td><img [src]="product.images[0]" alt="Product Image" width="50"></td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.discount }}%</td>
+            <td>
+              <button (click)="updateProductPopUp(product.id)" class="btn btn-sm btn-success m-1">UPDATE</button>
+              <button (click)="deleteProduct(product.id)" class="btn btn-sm btn-danger m-1">DELETE</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+          <p class="fw-bold text-white">{{ total_products$ | async }} products available</p>
+          <nav>
+            <ul class="pagination justify-content-end">
+              <li class="page-item disabled">
+                <a aria-disabled="true" class="page-link" href="#" tabindex="-1">Previous</a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
+  </div>
 
+
+  <div *ngIf="current === 'add' || current === 'update'" class="modal display">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="current === 'add'" class="modal-title">Add New Product</h5>
+          <h5 *ngIf="current === 'update'" class="modal-title">Update Product</h5>
+          <button (click)="returnToDashboard()" class="btn-close" type="button"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Product Name:</label>
+              <input [(ngModel)]="productInput.name" class="form-control" name="productName" placeholder="Input product's name"
+                     required type="text">
+              <p *ngIf="errors[0]" class="form-error">{{ errors[0].message }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Product Description:</label>
+              <textarea [(ngModel)]="productInput.description" rows="6" class="form-control" name="productDescription" placeholder="Input product's description"
+                        required type="text"></textarea>
+              <p *ngIf="errors[1]" class="form-error">{{ errors[1].message }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Price ($):</label>
+              <input [(ngModel)]="productInput.price" class="form-control" name="productPrice" required step="0.01"
+                     type="number">
+              <p *ngIf="errors[2]" class="form-error">{{ errors[2].message }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">In Stock:</label>
+              <input [(ngModel)]="productInput.inStock" class="form-control" name="productInstock" required
+                     step="1" type="number">
+              <p *ngIf="errors[3]" class="form-error">{{ errors[3].message }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Image URLs:</label>
+              <input [(ngModel)]="images" class="form-control" name="productImages" placeholder="url1 url2 url3 ..."
+                     required type="text">
+              <p *ngIf="errors[4]" class="form-error">{{ errors[4].message }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Category:</label>
+              <select [(ngModel)]="productInput.category" class="form-select" name="productCategory" required>
+                <option value="Comic">Comic</option>
+                <option value="Detective">Detective</option>
+                <option value="Literature">Literature</option>
+                <option value="Adventure">Adventure</option>
+                <option value="Classics">Classics</option>
+                <option value="Fiction">Fiction</option>
+                <option value="Horror">Horror</option>
+              </select>
+              <p *ngIf="errors[5]" class="form-error">{{ errors[5].message }}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Discount (%):</label>
+              <input [(ngModel)]="productInput.discount" class="form-control" name="productDiscount" required
+                     step="1" type="number">
+              <p *ngIf="errors[6]" class="form-error">{{ errors[6].message }}</p>
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button (click)="returnToDashboard()" class="btn btn-secondary" type="button">Close</button>
+          <button (click)="addProduct()" *ngIf="current === 'add'" class="btn btn-primary" type="submit">Add Product
+          </button>
+          <button (click)="updateProduct()" *ngIf="current === 'update'" class="btn btn-primary" type="submit">Update
+            Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-template>
 <ng-template #notfound>
-    <app-page404></app-page404>
+  <app-page404></app-page404>
 </ng-template>
 
 <ng-container *ngIf="(isAdmin$ | async) as isAdmin, then display, else notfound">

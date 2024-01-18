@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { Page404Component } from './page404.component';
+import {Page404Component} from './page404.component';
 
 describe('Page404Component', () => {
   let component: Page404Component;
@@ -11,7 +11,7 @@ describe('Page404Component', () => {
       declarations: [Page404Component]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(Page404Component);
     component = fixture.componentInstance;
     fixture.detectChanges();

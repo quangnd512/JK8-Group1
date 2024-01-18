@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../shared/services/auth/auth.service';
-import { ErrorMessage } from '../shared/defined';
+import {Component} from '@angular/core';
+import {AuthService} from '../shared/services/auth/auth.service';
+import {ErrorMessage} from '../shared/defined';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent { 
-  public errors$: Array<ErrorMessage> = [{},{}]
+export class LoginComponent {
+  public errors: Array<ErrorMessage> = []
   public username: string = ""
   public password: string = ""
-  
+
   constructor(private authService: AuthService) { }
 
   public login(): void {
     this.authService.login(this.username, this.password)
-    this.errors$ = this.authService.getErrors() 
-  } 
+    this.errors = this.authService.getErrors()
+  }
 }

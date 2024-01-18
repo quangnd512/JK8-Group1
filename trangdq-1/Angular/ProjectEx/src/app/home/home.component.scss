@@ -1,95 +1,102 @@
 .text-sky {
-    color: #337ab7;
+  color: #337ab7;
 }
 
 .text-green {
-    color: #638a58;
+  color: #638a58;
 }
 
 .text-brown {
-    color: #895a41;
+  color: #895a41;
+}
+
+.text-violet {
+  color: #862fc4;
 }
 
 .white-text {
-    font-weight: bold;
-    text-align: center;
-    color: #fff
+  font-weight: bold;
+  text-align: center;
+  color: #fff
 }
 
 .card {
-    border: 1px solid #ffffff;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  border: 1px solid #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
 .card-img-top {
-    width: 90%;
-    height: 250px;
-    margin: auto;
-    margin-top: 10px;
-    object-fit: cover;
+  width: 90%;
+  height: 250px;
+  margin: 10px auto auto;
+  object-fit: cover;
 }
 
 .card-title {
-    font-weight: bold;
-    text-align: center;
-    max-lines: 2;
-    height: 45px;
-    margin-bottom: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-weight: bold;
+  text-align: center;
+  height: 48px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-title a {
+  color: black;
+  text-decoration: none;
 }
 
 .badge {
-    font-size: 0.8rem;
-    background-color: #337ab7;
+  font-size: 0.8rem;
+  background-color: #337ab7;
 }
 
 .pagination {
-    margin-top: 2rem;
-} 
+  margin-top: 2rem;
+}
 
-.pagination .page-link.active { 
-    border-color: #337ab7;
+.pagination .page-link.active {
+  border-color: #337ab7;
 }
 
 .pagination .page-link {
-    background-color: #ffffff;  
-    border-color: #d5e5ea;
+  background-color: #ffffff;
+  border-color: #d5e5ea;
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #337ab7;  
-    border-color: #337ab7;
+  background-color: #337ab7;
+  border-color: #337ab7;
 }
 
 .footer {
-    padding-top: 1rem;
+  padding-top: 1rem;
 }
 
 .original-price {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .discounted-price {
-    color: red;
+  color: red;
 }
 
 .animated-badge {
-    animation: color-change 1s infinite alternate;
-    /* Define animation */
+  animation: color-change 1s infinite alternate;
+  /* Define animation */
 }
 
 @keyframes color-change {
-    0% {
-        background-color: #ff5959;
-    }
+  0% {
+    background-color: #ff5959;
+  }
 
-    50% {
-        background-color: #337ab7;
-    }
+  50% {
+    background-color: #337ab7;
+  }
 
-    100% {
-        background-color: #ff5959;
-    } 
-} 
+  100% {
+    background-color: #ff5959;
+  }
+}
