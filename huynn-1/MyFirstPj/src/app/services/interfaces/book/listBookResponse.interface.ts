@@ -1,11 +1,11 @@
 export interface ListBookResponse {
-    maSach: string;
+    maSach: number;
     tenSach: string;
     image: string;
     giaTien: number;
     tacGia: any;
     soLuong: number,
     nhaXuatBan: any,
-    theLoai: string,
+    theLoai: any,
     ngayXuatBan: any
 }

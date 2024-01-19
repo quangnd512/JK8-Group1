@@ -13,38 +13,38 @@
       <div class="form-group">
         <label for="tenSach">Tên sách:</label>
         <input [(ngModel)]="name" type="text" class="form-control" required>
-        <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+        <div class="error-message" *ngIf="addBookErr.nameErr !== ''" >{{ addBookErr.nameErr }}</div>
       </div>
       <div class=" form-group">
         <label for="theLoai">Tác Giả:</label>
         <input [(ngModel)]="author" type="text" class="form-control" required>
-        <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+        <div class="error-message" *ngIf="addBookErr.authorErr !== '' ">{{ addBookErr.authorErr }}</div>
       </div>
       <div class=" form-group">
         <label for="giaSach">Giá:</label>
         <input [(ngModel)]="price" type="number" class="form-control" min="0" step="0.01" required>
-        <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+        <div class="error-message" *ngIf=" addBookErr.priceErr !== '' ">{{ addBookErr.priceErr }}</div>
       </div>
       <div class="form-group">
         <label for="soLuong">Số lượng:</label>
         <input [(ngModel)]="quantity" type="number" class="form-control" required>
-        <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+        <div class="error-message" *ngIf=" addBookErr.quantityErr !== '' ">{{ addBookErr.quantityErr }}</div>
       </div>
       <div class="form-group">
         <label for="ngayXuatBan">Ngày xuất bản:</label>
         <input [(ngModel)]="publishedDate" type="date" pattern="\d{1,2}/\d{1,2}/\d{4}" placeholder="dd/mm/yyyy"
           class="form-control" id="ngayXuatBan" name="ngayXuatBan" required>
-          <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+          <div class="error-message" *ngIf="addBookErr.publishedDateErr !== '' ">{{ addBookErr.publishedDateErr }}</div>
       </div>
       <div class="form-group">
         <label for="nhaXuatBan">Nhà xuất bản:</label>
         <input [(ngModel)]="publisher" type="text" class="form-control" id="nhaXuatBan" required>
-        <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+        <div class="error-message" *ngIf=" addBookErr.publisherErr !== ''  ">{{ addBookErr.publisherErr }}</div>
       </div>
       <div class="form-group">
         <label for="theloai">Thể loại:</label>
         <input [(ngModel)]="bookType" type="text" class="form-control" id="theloai" required>
-        <div class="error-message" *ngIf="validationError">{{ validationError }}</div>
+        <div class="error-message" *ngIf=" addBookErr.bookTypeErr !== '' ">{{ addBookErr.bookTypeErr }}</div>
       </div>
       <button class="btn btn-primary" (click)="addBook()">Thêm sách</button>
     </div>
