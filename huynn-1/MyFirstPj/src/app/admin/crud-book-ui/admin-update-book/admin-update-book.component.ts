@@ -119,24 +119,24 @@ export class AdminUpdateBookComponent implements OnInit {
     }
   }
 
-  public deletBook(bookId: number | undefined) {
-    // const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa sách này không?');
-    // if (isConfirmed) {
-    //   this.bookServices.deleteBook(bookId).subscribe(
-    //     {
-    //       next: (value) => {
-    //         if (value) {
-    //           alert("Xóa thành công");
-    //           return;
-    //         }
-    //       },
-    //       error: (err) => {
-    //         alert("Đã xảy ra lỗi");
-    //         console.log(err);
-    //         return;
-    //       }
-    //     }
-    //   )
-    // }
+  public deletBook(bookId: number) {
+    const isConfirmed = window.confirm('Bạn có chắc chắn muốn xóa sách này không?');
+    if (isConfirmed) {
+      this.bookServices.deleteBook(bookId).subscribe(
+        {
+          next: (value) => {
+            if (value) {
+              alert("Xóa thành công");
+              return;
+            }
+          },
+          error: (err) => {
+            alert("Đã xảy ra lỗi");
+            console.log(err);
+            return;
+          }
+        }
+      )
+    }
   }
 }

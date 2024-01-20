@@ -9,7 +9,8 @@ export const CART_URI = BASE_URL.concat('/carts')
 export const BASE__URL = "http://localhost:9000/api/v1"
 
 // authentication URI
-export const LOGIN__URI = "/dang-nhap"
+export const LOGIN__URI = "/dang-nhap";
+export const ADD_ACCOUNT_URI = "/them-tai-khoan";
 
 // get books
 export const GET_NEW_BOOK_URI = "/sach-moi";
@@ -23,6 +24,9 @@ export const ADD_BOOK_URI = "/them-sach"
 
 // update book
 export const UPDATE_BOOK_URI = '/cap-nhat-sach'
+ 
+// delete book
+export const DELETE_BOOK_URI = "/xoa-sach";
 
 // carts
 export const ADD_BOOK_TO_CART_URI = "/them-vao-gio-hang";

@@ -2,33 +2,20 @@
     <h2>Add Member</h2>
 
     <form #addUserForm="ngForm" (ngSubmit)="submitData(addUserForm)" novalidate>
-        <!-- <div class="form-group">
-            <label for="name">Tên:</label>
-            <input type="text" class="form-control" id="ten" name="ten" />
-        </div>
-        <div class="form-group">
-            <label for="ngay_sinh">Ngày sinh:</label>
-            <input type="date" class="form-control" id="ngay_sinh" name="ngay_sinh" />
-        </div>
-        <div class="form-group">
-            <label for="sdt">Số điện thoại:</label>
-            <input type="text" class="form-control" id="sdt" name="sdt" />
-        </div>
-        <div class="form-group">
-            <label for="diachi">Địa chỉ:</label>
-            <input type="text" class="form-control" id="diachi" name="diachi" />
-        </div> -->
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="text" class="form-control" id="email" name="email" ngModel />
-        </div>
         <div class="form-group">
             <label for="username">Tên đăng nhập:</label>
-            <input type="text" class="form-control" id="email" name="userName" ngModel />
+            <input type="text" class="form-control" id="username" name="tenTk" ngModel />
+            <div *ngIf="inputErr.usernameErr" class="text-danger"> {{ inputErr.usernameErr }} </div>
         </div>
         <div class="form-group">
             <label for="password">Mật khẩu</label>
-            <input type="password" class="form-control" id="password" name="password" ngModel />
+            <input type="password" class="form-control" id="password" name="matKhau" ngModel />
+            <div *ngIf="inputErr.passwordErr" class="text-danger"> {{ inputErr.passwordErr }} </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Xác nhận mật khẩu</label>
+            <input type="password" class="form-control" id="comfirmPassword" name="nhapLaiMk" ngModel />
+            <div *ngIf="inputErr.comfirmPasswordErr" class="text-danger"> {{ inputErr.comfirmPasswordErr }} </div>
         </div>
         <div class="form-group mt-2">
             <mat-form-field>
@@ -39,6 +26,7 @@
                     }
                 </mat-select>
             </mat-form-field>
+            <div *ngIf="inputErr.roleErr" class="text-danger"> {{ inputErr.roleErr }} </div>
         </div>
 
         <button class="btn btn-primary mt-2">Submit</button>

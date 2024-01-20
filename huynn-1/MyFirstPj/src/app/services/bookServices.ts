@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, OnInit, inject } from "@angular/core";
 import { Book } from "./interfaces/book";
 import { Observable, catchError, throwError } from "rxjs";
-import { ADD_BOOK_URI, BASE__URL, BOOKS_URI, GET_ALL_BOOK_URI, GET_BOOK_DETAIL_URI, GET_NEW_BOOK_URI, UPDATE_BOOK_URI } from "./api";
+import { ADD_BOOK_URI, BASE__URL, BOOKS_URI, DELETE_BOOK_URI, GET_ALL_BOOK_URI, GET_BOOK_DETAIL_URI, GET_NEW_BOOK_URI, UPDATE_BOOK_URI } from "./api";
 import { ListBookResponse } from "./interfaces/book/listBookResponse.interface";
 import { BookResponse } from "./interfaces/book/bookResponse.interface";
 import { addBookDto } from "./dto/addBookDto";
@@ -25,9 +25,9 @@ export class BookServices implements OnInit {
 
     public addNewBook(bookData: addBookDto): Observable<addBookDto | null> {
         return this.httpClient.post<addBookDto>(BASE__URL.concat(ADD_BOOK_URI), bookData).
-        pipe(catchError((err) => {
-            return throwError(() => err);
-        }));
+            pipe(catchError((err) => {
+                return throwError(() => err);
+            }));
     }
 
     public getNewBooks(): Observable<ListBookResponse[]> {
@@ -45,7 +45,7 @@ export class BookServices implements OnInit {
 
     public updateBook(bookId: number, bookData: addBookDto): Observable<addBookDto> {
         const url = `${BASE__URL}${UPDATE_BOOK_URI}?id=${bookId}`;
-        console.log("bookdata   ",bookData)
+        console.log("bookdata   ", bookData)
         return this.httpClient.put<addBookDto>(url, bookData);
     }
 
@@ -62,7 +62,7 @@ export class BookServices implements OnInit {
     }
     // decripted
 
-    public deleteBook(id: string): Observable<Book> {
-        return this.httpClient.delete<Book>(BOOKS_URI.concat("/" + id));
+    public deleteBook(id: number): Observable<BookResponse> {
+        return this.httpClient.delete<BookResponse>(BASE__URL.concat(DELETE_BOOK_URI + "?id=" + id));
     }
 }

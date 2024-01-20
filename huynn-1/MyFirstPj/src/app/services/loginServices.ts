@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { BASE__URL, LOGIN__URI } from './api';
+import { ADD_ACCOUNT_URI, BASE__URL, LOGIN__URI } from './api';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map } from 'rxjs';
 import { LoginInterface } from './interfaces/login/login.interface';
 import { LoginResponseInterface } from './interfaces/login/loginResponse.interface';
+import { AddAccountDto } from './dto/addAccountDto';
 
 @Injectable({
     providedIn: 'root'
@@ -35,5 +36,9 @@ export class AuthenticationServices {
                     throw error;
                 })
             );;
+    }
+
+    public addAccount(userData: AddAccountDto): Observable<AddAccountDto | null> {
+        return this.httpClient.post<AddAccountDto | null>(BASE__URL.concat(ADD_ACCOUNT_URI), userData);
     }
 }
