@@ -32,6 +32,9 @@ export const DELETE_BOOK_URI = "/xoa-sach";
 export const ADD_BOOK_TO_CART_URI = "/them-vao-gio-hang";
 export const GET_CART_URI = "/lay-gio-hang";
 
+// user
+export const GET_ALL_USERS_URI = '/admin/find-all-doc-gia';
+export const GET_USER_URI = '/lay-thong-tin';
 
 
 

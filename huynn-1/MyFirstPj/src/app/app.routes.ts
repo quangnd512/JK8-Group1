@@ -11,6 +11,8 @@ import { adminAuthGardGuard } from './admin-auth-gard.guard';
 import { BookDetailComponent } from './home/book-detail/book-detail.component';
 import { AdminAdminAddUserComponent } from './admin/user-management/admin-admin-add-user/admin-admin-add-user.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { AdminUserListComponent } from './admin/user-management/admin-user-list/admin-user-list.component';
+import { AdminUpdateUserComponent } from './admin/user-management/admin-update-user/admin-update-user.component';
 
 export const routes: Routes = [
     {
@@ -63,6 +65,16 @@ export const routes: Routes = [
                 path: 'add-user',
                 title: 'add-user',
                 component: AdminAdminAddUserComponent
+            },
+            {
+                path: 'user-list',
+                title: 'user-list',
+                component: AdminUserListComponent
+            },
+            {
+                path: 'update-user',
+                title: 'update-user',
+                component: AdminUpdateUserComponent
             }
         ]
     }
