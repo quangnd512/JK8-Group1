@@ -46,26 +46,33 @@
                         <div class="table-content wnro__table table-responsive">
                             <table>
                                 <thead>
-                                <tr class="title-top">
-                                    <th class="product-name">Sản phẩm</th>
-                                    <th class="product-price">Giá đặt cọc</th>
-                                    <th class="product-remove">xóa</th>
-                                </tr>
+                                    <tr class="title-top">
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-price">Giá đặt cọc</th>
+                                        <th class="product-remove">xóa</th>
+                                    </tr>
                                 </thead>
-                                <tbody class="table-cart-body">
-
-
-
-
-                                </tbody>
+                                <tbody class="table-cart-body" *ngIf="bookList">
+                                    <tr *ngFor="let book of bookList">
+                                      <td class="product-name">
+                                        <a>
+                                          {{ book.tenSach }}
+                                        </a>
+                                      </td>
+                                      <td class="product-price"><span class="amount">{{ book.giaTien | currency:'VND':true }}</span></td>
+                                      <td class="product-remove">
+                                        <fa-icon (click)="removeBookFromCart(book.maSach)" [icon]="faXmark" style="cursor: pointer; padding: 5px;"></fa-icon>
+                                      </td>
+                                    </tr>
+                                  </tbody>
                             </table>
                         </div>
                     </form>
                     <div class="cartbox__btn">
-                        <ul class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
-<!--                            <li><a href="#">Cập nhật trạng thái giỏ hàng</a></li>-->
+                        <ul
+                            class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
                             <li></li>
-                            <li><a href="" class="thanhToanBtn">Yêu cầu mượn</a></li>
+                            <li><a (click)="checkout()" style="cursor: pointer;" class="thanhToanBtn">Yêu cầu mượn</a></li>
                         </ul>
                     </div>
                 </div>
@@ -74,7 +81,12 @@
                 <div class="col-lg-6 offset-lg-6">
                     <div class="cartbox__total__area">
                         <div class="cartbox-total d-flex justify-content-between tong-tien">
-
+                            <ul class="cart__total__list">
+                                <li>Tổng tiền</li>
+                            </ul>
+                            <ul class="cart__total__tk">
+                                <li> {{ totalAmount | currency:'VND':true }} </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -86,5 +98,3 @@
     <!-- //Footer Area -->
 
 </div>
-<!-- //Main wrapper -->
-

@@ -11,16 +11,16 @@
                     </div>
                 </div>
 
-                <div class="content-panel">
+                <div  class="content-panel">
                     <h2 class="title">Profile<span class="pro-label label label-warning"></span></h2>
-                    <form class="form-horizontal">
+                    <form #formUpdateUser="ngForm" (ngSubmit)="updateUserInfo(formUpdateUser)" class="form-horizontal">
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">cập nhật thông tin cá nhân</h3>
 
                             <div class="form-group">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">Họ và tên</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input [(ngModel)]="user.ten" type="text" class="form-control" id="hoVaTen" name="username"
+                                    <input [(ngModel)]="user.ten" type="text" class="form-control" id="hoVaTen" name="ten"
                                         required>
                                 </div>
                             </div>
@@ -28,14 +28,14 @@
                             <div class="form-group">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">Địa chỉ</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input [(ngModel)]="user.diaCHi" type="text" class="form-control" id="diaChi" name="address"
+                                    <input [(ngModel)]="user.diaCHi" type="text" class="form-control" id="diaChi" name="diaChi"
                                         required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2 col-sm-3 col-xs-12 control-label">Ngày sinh</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input [(ngModel)]="user.ngaySinh" type="date"  class="form-control" id="ngaySinh" name="dateOfBirth"  required>
+                                    <input [(ngModel)]="user.ngaySinh" type="date"  class="form-control" id="ngaySinh" name="dateOfBirth" name="ngaySinh"  required>
                                 </div>
                             </div>
                         </fieldset>
@@ -44,14 +44,14 @@
                             <div class="form-group">
                                 <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="email" class="form-control" placeholder="huynn@gmail.com" id="email" name="email"
+                                    <input [(ngModel)]="user.email"  type="email" class="form-control" placeholder="huynn@gmail.com" id="email" name="email"
                                         required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-md-2  col-sm-3 col-xs-12 control-label">Số điện thoai</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="text" class="form-control" id="soDienThoai" name="phoneNumber" required>
+                                    <input [(ngModel)]="user.sdt" type="text" class="form-control" id="soDienThoai" name="sdt" required>
                                 </div>
                             </div>
                         </fieldset>

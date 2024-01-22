@@ -35,7 +35,7 @@
                                         <span>{{ totalAmount | currency:'VND':'symbol':'1.0' }}</span>
                                     </div>
                                     <div class="mini_action checkout">
-                                        <a class="checkout__btn" href="/api/v1/cart?maSach=${maSach}&maTk=${maTk}">Yêu
+                                        <a class="checkout__btn" (click)="checkout()" style="cursor: pointer; padding: 8px;">Yêu
                                             cầu mượn</a>
                                     </div>
                                     <div class="single__items">
@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                     <div class="mini_action cart">
-                                        <a class="cart__btn" href="/api/v1/cart?maSach=${maSach}&maTk=${maTk}">Xem
+                                        <a class="cart__btn" (click)="navigateToCart()" style="cursor: pointer;" >Xem
                                             và chỉnh sửa</a>
                                     </div>
                                 </div>

@@ -55,13 +55,13 @@ export class BookDetailDataComponent implements OnInit {
   // get book to display on book detail page
   public getBookData() {
     const bookIdParam = this.route.snapshot.paramMap.get('bookId');
-  
+
     if (!bookIdParam) {
       return;
     }
-  
+
     const bookId = parseFloat(bookIdParam);
-  
+
     this.bookServices.getBookById(bookId).subscribe(
       (data) => {
         if (data) {
@@ -74,15 +74,20 @@ export class BookDetailDataComponent implements OnInit {
       }
     );
   }
-  
 
+  // click add book to cart handling
   public addBookToCart(bookId: any) {
     const userIdParam = localStorage.getItem('userId')?.toString();
     if (userIdParam) {
       const userId = parseFloat(userIdParam);
       this.cartServices.addBookToCart(bookId, userId).subscribe({
         next: (value) => {
-          alert("Thêm vào giỏ hàng thành công");
+          if (value != null) {
+            alert("Thêm vào giỏ hàng thành công");
+            return;
+          }
+          alert("Đã hết sách");
+          return;
         },
         error: (err) => {
           alert("Đã xảy ra lỗi khi thêm vào giỏ hàng");

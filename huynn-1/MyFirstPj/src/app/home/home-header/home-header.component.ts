@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewChecked, AfterViewInit, Component, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CartServces } from '../../services/cartServces';
 import { BookServices } from '../../services/bookServices';
 import { TruncatePipe } from '../../pipes/TruncatePipe';
@@ -18,6 +18,8 @@ import { BookResponse } from '../../services/interfaces/book/bookResponse.interf
 
 })
 export class HomeHeaderComponent implements OnInit {
+
+  private router = inject(Router)
 
   private cartServices = inject(CartServces);
 
@@ -88,6 +90,38 @@ export class HomeHeaderComponent implements OnInit {
 
   public removeCartContent() {
     this.bookList = [];
+  }
+
+  public navigateToCart() {
+    this.router.navigate(["/home/cart"]);
+  }
+
+  // handle checkout
+  public checkout() {
+    if (this.bookList.length == 0) {
+      alert("Vui lòng thêm sách vào giỏ hàng");
+      return;
+    }
+    let accId: any = localStorage.getItem("userId");
+    accId = parseFloat(accId);
+    this.cartServices.checkout(accId).subscribe({
+      next: value => {
+        if (value) {
+          alert("Đã gửi yêu cầu thành công");
+          this.removeCartContent();
+          this.displayCartContent()
+          this.totalAmount = 0;
+          return;
+        }
+        alert("Yêu cầu mượn thất bại");
+        return;
+      },
+      error: err => {
+        alert("Yêu cầu mượn thất bại");
+        console.log(err);
+        return;
+      }
+    }) 
   }
   
 }

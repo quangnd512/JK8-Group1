@@ -4,7 +4,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { UserService } from '../../../services/userServices';
 import { ActivatedRoute } from '@angular/router';
 import { GetUserDto } from '../../../services/dto/getUserDto';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { UpdateUserDto } from '../../../services/dto/updateUserDto';
+import { response } from 'express';
 
 @Component({
   selector: 'app-admin-update-user',
@@ -55,4 +57,29 @@ export class AdminUpdateUserComponent implements OnInit {
     }
     return;
   }
+
+  public updateUserInfo(updateUserData: NgForm) {
+    if (this.userIdParam) {
+      const userId = parseFloat(this.userIdParam);
+      const userData: UpdateUserDto = updateUserData.value;
+
+      const isConfirmed = window.confirm("Bạn có chắc chắn muốn cập nhật thông tin không?");
+
+      if (isConfirmed) {
+        this.userServices.updateUser(userData, userId).subscribe(
+          {
+            next: value => {
+              alert("Cập nhật thành công");
+            },
+            error: err => {
+              alert("Cập nhật thất bại");
+            }
+          }
+        );
+      } else {
+        alert("Bạn đã hủy cập nhật thông tin");
+      }
+    }
+  }
+
 }
