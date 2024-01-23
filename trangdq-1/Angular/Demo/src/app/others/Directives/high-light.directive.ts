@@ -4,12 +4,12 @@ import { Directive, ElementRef, Input } from '@angular/core';
   selector: '[appHighLight]'
 })
 export class HighLightDirective {
-  @Input('appHighLight') appHightLight = ''
+  @Input('appHighLight') highLight = ''
   constructor(private el: ElementRef) { // cannot receive updated input
-    // el.nativeElement.style.backgroundColor = this.appHightLight
+    // el.nativeElement.style.backgroundColor = this.highLight
   }
 
   ngOnInit() : void {
-    this.el.nativeElement.style.backgroundColor = this.appHightLight
+    this.el.nativeElement.style.backgroundColor = this.highLight
   }
 }

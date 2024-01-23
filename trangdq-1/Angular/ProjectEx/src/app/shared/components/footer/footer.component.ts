@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Observable} from 'rxjs';
-import {AuthService} from '../../services/auth/auth.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-footer',
@@ -10,7 +10,8 @@ import {AuthService} from '../../services/auth/auth.service';
 export class FooterComponent {
   public isAdmin$: Observable<boolean> = new Observable<boolean>()
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
+  }
 
   public ngOnInit(): void {
     this.isAdmin$ = this.authService.isAdmin()

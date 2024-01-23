@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {Product} from '../shared/defined';
+import {Product} from '../shared/resources';
 import {Observable} from 'rxjs';
-import {ProductService} from '../shared/services/product/product.service';
+import {ProductService} from '../shared/services/product.service';
 
 @Component({
   selector: 'app-home',
@@ -12,9 +12,10 @@ export class HomeComponent {
   public page: number = 0
   public products$: Observable<Array<Product>> = new Observable<Array<Product>>()
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {
+  }
 
   public ngOnInit(): void {
-    this.products$ = this.productService.getProducts(this.page)
+    this.products$ = this.productService.getProducts(this.page) // async
   }
 }

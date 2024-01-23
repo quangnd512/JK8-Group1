@@ -1,19 +1,19 @@
 import {Component} from '@angular/core';
-import {AuthService} from '../shared/services/auth/auth.service';
-import {Observable} from 'rxjs';
-import {ProductService} from '../shared/services/product/product.service';
-import {ErrorMessage, Product, ProductDTO} from '../shared/defined';
+import {ErrorMessage, Product, ProductDTO, TakeUntilDestroy} from "../../shared/resources";
+import {Observable, takeUntil} from "rxjs";
+import {AuthService} from "../../shared/services/auth.service";
+import {ProductService} from "../../shared/services/product.service";
 
 @Component({
-  selector: 'app-admin-dashboard',
-  templateUrl: './admin-dashboard.component.html',
-  styleUrl: './admin-dashboard.component.scss'
+  selector: 'app-product-manager',
+  templateUrl: './product-manager.component.html',
+  styleUrl: './product-manager.component.scss'
 })
-
-export class AdminDashboardComponent {
+export class ProductManagerComponent extends TakeUntilDestroy {
   public page: number = 0
-  public isAdmin$: Observable<boolean> = new Observable<boolean>()
   public products$: Observable<Array<Product>> = new Observable<Array<Product>>()
+  public total_products$: Observable<number> = new Observable<number>()
+  public images: string = ''
   public productInput: ProductDTO = {
     name: '',
     price: 0,
@@ -23,43 +23,50 @@ export class AdminDashboardComponent {
     category: 'Comic',
     discount: 0
   }
-  public images: string = ''
   public current: "dashboard" | "add" | "update" = "dashboard"
   public errors: Array<ErrorMessage> = []
-  public total_products$: Observable<number> = new Observable<number>()
-
   private id: number = 0;
 
   constructor(private authService: AuthService, private productService: ProductService) {
+    super()
   }
 
   public ngOnInit(): void {
-    this.isAdmin$ = this.authService.isAdmin()
-    this.products$ = this.productService.getProducts()
+    this.products$ = this.productService.getProducts(this.page)
     this.total_products$ = this.productService.getTotalProducts()
     this.current = "dashboard"
   }
 
   public addProductPopUp(): void {
+    this.productInput = {
+      name: '',
+      price: 0,
+      description: '',
+      inStock: 0,
+      images: [],
+      category: 'Comic',
+      discount: 0
+    }
     this.current = "add"
   }
 
-  public async updateProductPopUp(id: number): Promise<void> {
-    this.productService.getProductById(id).subscribe({
-      next: (product) => {
-        this.id = product.id
-        this.productInput.name = product.name
-        this.productInput.description = product.description
-        this.productInput.price = product.price
-        this.productInput.category = product.category
-        this.productInput.discount = product.discount
-        this.productInput.inStock = product.inStock
-        this.images = product.images.join(' ')
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
+  public updateProductPopUp(id: number) {
+    this.productService.getProductById(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (product) => {
+          console.log(product)
+          this.id = product.id
+          this.productInput.name = product.name
+          this.productInput.description = product.description
+          this.productInput.price = product.price
+          this.productInput.category = product.category
+          this.productInput.discount = product.discount
+          this.productInput.inStock = product.inStock
+          this.images = product.images.join(' ')
+        },
+        error: (error) => console.error(error)
+      })
     this.current = "update"
   }
 
@@ -67,22 +74,23 @@ export class AdminDashboardComponent {
     this.current = "dashboard"
   }
 
-  public async addProduct() {
+  public addProduct() {
     if (this.validateData()) {
-      this.productService.addProduct(this.productInput).subscribe({
-        next: () => {
-          this.returnToDashboard()
-          this.products$ = this.productService.getProducts(this.page);
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      })
+      this.productService.addProduct(this.productInput)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.returnToDashboard()
+            this.updateState()
+          },
+          error: (error) => {
+            console.error(error);
+          }
+        })
     }
   }
 
-  public async updateProduct() {
-
+  public updateProduct() {
     if (this.validateData()) {
       let product = {
         id: this.id,
@@ -95,35 +103,43 @@ export class AdminDashboardComponent {
         images: this.images.split(' ')
       }
       this.productService.updateProduct(product)
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
             this.returnToDashboard()
-            this.products$ = this.productService.getProducts(this.page);
+            this.updateState()
           },
-          error: (err) => {
-            console.error(err);
+          error: (error) => {
+            console.error(error);
           }
         })
     }
   }
 
-  public async deleteProduct(id: number) {
+  public deleteProduct(id: number) {
     let choice: boolean = confirm("Delete this product?")
     if (choice) {
-      this.productService.deleteProduct(id).subscribe({
-        next: () => {
-          this.products$ = this.productService.getProducts(this.page);
-        },
-        error: (error) => {
-          console.error(error);
-        }
-      });
+      this.productService.deleteProduct(id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.updateState()
+          },
+          error: (error) => {
+            console.error(error);
+          }
+        });
     }
+  }
+
+  private updateState() {
+    this.products$ = this.productService.getProducts(this.page);
+    this.total_products$ = this.productService.getTotalProducts()
   }
 
   private validateData(): boolean {
     let should: boolean = true
-    this.errors = [{}, {}, {}, {}, {}, {}, {}]
+    this.errors = [{}, {}, {}, {}, {}, {}]
     if (this.images.trim()) {
       this.productInput.images = this.images.trim().split(' ') as Array<string>
     } else {
@@ -151,12 +167,8 @@ export class AdminDashboardComponent {
         this.errors[4].message = "*Images is required.";
         should = false;
       }
-      if (!this.productInput.category.trim()) {
-        this.errors[5].message = "*Category is required.";
-        should = false;
-      }
       if (this.productInput.discount < 0) {
-        this.errors[6].message = "*Discount should not less than 0%.";
+        this.errors[5].message = "*Discount should not less than 0%.";
         should = false;
       }
     }

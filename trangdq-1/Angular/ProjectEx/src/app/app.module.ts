@@ -8,11 +8,13 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
-import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
+import {AdminDashboardComponent} from './admin-dashboard/template/admin-dashboard.component';
 import {HeaderComponent} from './shared/components/header/header.component';
 import {Page404Component} from './shared/components/page404/page404.component';
 import {FooterComponent} from './shared/components/footer/footer.component';
 import {ProductDetailsComponent} from './product-details/product-details.component';
+import {ProductManagerComponent} from './admin-dashboard/product-manager/product-manager.component';
+import {UserManagerComponent} from './admin-dashboard/user-manager/user-manager.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import {ProductDetailsComponent} from './product-details/product-details.compone
     HeaderComponent,
     Page404Component,
     FooterComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    ProductManagerComponent,
+    UserManagerComponent
   ],
   imports: [
     BrowserModule,
@@ -37,4 +41,5 @@ import {ProductDetailsComponent} from './product-details/product-details.compone
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

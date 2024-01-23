@@ -10,7 +10,7 @@ describe('Page404Component', () => {
     await TestBed.configureTestingModule({
       declarations: [Page404Component]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(Page404Component);
     component = fixture.componentInstance;

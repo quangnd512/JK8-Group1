@@ -1,32 +1,32 @@
-<div class="container" *ngIf="product$ | async as p">
+<div *ngIf="product$ | async as p" class="container">
   <div class="details-container">
     <div class="row">
       <div class="col-md-4">
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel slide" data-bs-ride="carousel" id="carouselExampleIndicators">
           <div class="carousel-indicators">
             <button *ngFor="let image of p.images; let i = index"
-                    type="button"
-                    [attr.data-bs-target]="'#carouselExampleIndicators'"
                     [attr.data-bs-slide-to]="i"
+                    [attr.data-bs-target]="'#carouselExampleIndicators'"
                     [class.active]="i === 0"
-                    aria-current="true">
+                    aria-current="true"
+                    type="button">
             </button>
           </div>
           <div class="carousel-inner">
             <div *ngFor="let image of p.images; let i = index"
-                 class="carousel-item"
-                 [class.active]="i === 0">
-              <img [src]="image" class="d-block w-100" alt="Slide {{ i + 1 }}">
+                 [class.active]="i === 0"
+                 class="carousel-item">
+              <img [src]="image" alt="Slide {{ i + 1 }}" class="d-block w-100">
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators"
+                  type="button">
+            <span aria-hidden="true" class="carousel-control-prev-icon"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleIndicators"
+                  type="button">
+            <span aria-hidden="true" class="carousel-control-next-icon"></span>
             <span class="visually-hidden">Next</span>
           </button>
         </div>
@@ -36,7 +36,7 @@
         <pre><p class="product-description">{{ p.description }}</p></pre>
         <div class="price-info">
           <h3>{{ p.price | currency }}</h3>
-          <span class="discount" *ngIf="p.discount > 0">({{ p.discount }}% off)</span>
+          <span *ngIf="p.discount > 0" class="discount">({{ p.discount }}% off)</span>
         </div>
         <p class="in-stock">In Stock: {{ p.inStock }}</p>
         <div class="btn-group">
