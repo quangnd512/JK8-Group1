@@ -13,6 +13,7 @@ import { AdminAdminAddUserComponent } from './admin/user-management/admin-admin-
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { AdminUserListComponent } from './admin/user-management/admin-user-list/admin-user-list.component';
 import { AdminUpdateUserComponent } from './admin/user-management/admin-update-user/admin-update-user.component';
+import { AdminListIssueComponent } from './admin/admin-list-issue/admin-list-issue.component';
 
 export const routes: Routes = [
     {
@@ -75,6 +76,11 @@ export const routes: Routes = [
                 path: 'update-user',
                 title: 'update-user',
                 component: AdminUpdateUserComponent
+            },
+            {
+                path: 'list-issue',
+                title: 'list-issue',
+                component: AdminListIssueComponent
             }
         ]
     }

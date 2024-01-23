@@ -41,3 +41,11 @@ export const UPDATE_USER_URI = '/cap-nhat-thong-tin';
 //check out
 export const CHECK_OUT_URL = '/tao-phieu-muon-tra';
 
+//book reciept
+export const GET_BORROW_BOOK_RECIEPT_URI = '/admin/get-all-phieu-muon';
+export const GET_RETURN_BOOK_RECIEPT_URI = '/admin/get-all-phieu-tra';
+export const GET_BORROW_BOOK_BY_ID_URL = '/admin/get-phieu-muon';
+export const CREATE_BOOK_RETURN_RECIPT_URI = '/admin/tra-sach'
+
+
+
