@@ -1,5 +1,5 @@
 export interface GetBorrowBookReciptsDto {
-    maPhieuMuon: number;
+    maPhieuMuon: any;
     ngayMuon: string;
     hinhThucThanhToan: any;
     hinhThucMuonTra: string;

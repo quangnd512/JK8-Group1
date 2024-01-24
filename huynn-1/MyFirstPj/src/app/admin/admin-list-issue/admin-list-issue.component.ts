@@ -42,6 +42,8 @@ export class AdminListIssueComponent implements OnInit {
 
   public selectAll = false;
 
+  public bookListToReturn: number[] = [];
+
   constructor() {
 
   }
@@ -78,7 +80,10 @@ export class AdminListIssueComponent implements OnInit {
   }
 
   // click to display model
-  public getBorrowBookReciept(id: number) {
+  public getBorrowBookReciept(id: any) {
+
+    this.bookListToReturn = [];
+
     let modalBody = document.querySelector(".modal-content");
     var isVisible = modalBody?.classList.contains('isHide');
 
@@ -90,11 +95,14 @@ export class AdminListIssueComponent implements OnInit {
 
     this.bookReciptServices.getBookBorrowRecipt(id).subscribe(data => {
       this.bookBorrowReciept = data;
+      console.log(this.bookBorrowReciept);
     })
   }
 
   // click to display model
   public openModal() {
+
+    this.bookListToReturn = [];
 
     this.selectAll = false;
 
@@ -127,21 +135,32 @@ export class AdminListIssueComponent implements OnInit {
     if (this.bookBorrowReciept.sachs == null) {
       return;
     }
-    this.bookBorrowReciept.sachs.forEach(t => (t.completed = completed));
+
+    if (completed) {
+      this.bookListToReturn = this.bookBorrowReciept.sachs.map(book => book.maSach);
+    } else {
+      this.bookListToReturn = [];
+    }
   }
+
+  //get value of book selected
+  public handleBookSelection(bookId: number) {
+    const selectedBook = this.bookBorrowReciept.sachs.find(book => book.maSach === bookId).maSach;
+
+    this.bookListToReturn.push(selectedBook);
+  }
+
 
   //handle return book that was choosen
   public returnBookConfirm() {
 
-    this.bookBorrowReciept.sachs = [];
-
-    let bookIds: number[] = this.bookBorrowReciept.sachs.map(item => item.maSach);
-
     let data = {
       maPhieuTra: this.bookBorrowReciept.maPhieuMuon,
       maPhieuMuon: this.bookBorrowReciept.maPhieuMuon,
-      idSachs: bookIds
+      idSachs: this.bookListToReturn
     }
+
+    console.log(data);
 
     if (data.idSachs.length == 0) {
       alert("Vui lòng chọn sách");
@@ -151,6 +170,8 @@ export class AdminListIssueComponent implements OnInit {
       next: value => {
         if (value) {
           alert("Đã xác nhận trả sách");
+          this.getReturnReciepts();
+          this.getBorrowRecipts();
         }
       },
       error: err => {

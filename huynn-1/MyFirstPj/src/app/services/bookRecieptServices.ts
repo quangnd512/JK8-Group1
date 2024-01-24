@@ -25,7 +25,7 @@ export class BookRecieptServices implements OnInit {
         return this.httpClient.get<GetBorrowBookReciptsDto[]>(BASE__URL.concat(GET_BORROW_BOOK_RECIEPT_URI));
     }
 
-    public getBookBorrowRecipt(id: number): Observable<GetBorrowBookReciptsDto> {
+    public getBookBorrowRecipt(id: any): Observable<GetBorrowBookReciptsDto> {
         return this.httpClient.get<GetBorrowBookReciptsDto>(BASE__URL.concat(GET_BORROW_BOOK_BY_ID_URL + "?id=" + id));
     }
 
@@ -33,7 +33,7 @@ export class BookRecieptServices implements OnInit {
         return this.httpClient.get<GetReturnBookReciptsDto[]>(BASE__URL.concat(GET_RETURN_BOOK_RECIEPT_URI));
     }
 
-    public getBookReturnRecipt(id: number): Observable<GetReturnBookReciptsDto> {
+    public getBookReturnRecipt(id: any): Observable<GetReturnBookReciptsDto> {
         return this.httpClient.get<GetReturnBookReciptsDto>(BASE__URL.concat(GET_RETURN_BOOK_RECIEPT_URI + "?id=" + id));
     }
 

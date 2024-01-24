@@ -17,22 +17,22 @@
                 <tbody *ngIf="bookBorrowReciepts.length > 0;">
                     <tr *ngFor="let item of bookBorrowReciepts; let currentIndex = index;">
                         <th scope="row">{{ (currentIndex + 1).toString() }}</th>
-                        <td>{{ item.docGia.ten }}</td>
+                        <td [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}">{{ item.docGia.ten }}</td>
                         <td>
                             <ul>
-                                <li *ngFor="let ib of item.sachs">{{ ib.tenSach }}</li>
+                                <li [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}" *ngFor="let ib of item.sachs">{{ ib.tenSach }}</li>
                             </ul>
                         </td>
-                        <td>{{ item.ngayMuon | date:'dd/MM/yyyy' }}</td>
-                        <td>
+                        <td [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}">{{ item.ngayMuon | date:'dd/MM/yyyy' }}</td>
+                        <td [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}">
                             {{ bookReturnReciepts[currentIndex].ngayTra | date:'dd/MM/yyyy' }}
                         </td>
-
                         <td (click)="getBorrowBookReciept(item.maPhieuMuon)" style="cursor: pointer;"> <fa-icon
                                 [icon]="faRotateRight"></fa-icon>
                         </td>
                     </tr>
                 </tbody>
+
 
             </table>
         </div>
@@ -52,29 +52,27 @@
                 <thead>
                 </thead>
                 <tbody class="container" *ngIf="bookBorrowReciept">
-        
+
                     <section class="example-section">
                         <span class="example-list-section">
-                          <mat-checkbox class="example-margin"
-                                        [checked]="selectAll"
-                                        [indeterminate]="someComplete()"
-                                        (change)="setAll($event.checked)">
-                            Chọn tất cả
-                          </mat-checkbox>
+                            <mat-checkbox class="example-margin" [checked]="selectAll" [indeterminate]="someComplete()"
+                                (change)="setAll($event.checked)">
+                                Chọn tất cả
+                            </mat-checkbox>
                         </span>
                         <span class="example-list-section">
-                          <ul>
-                            @for (book of bookBorrowReciept.sachs; track book) {
-                              <li>
-                                <mat-checkbox (ngModelChange)="updateAllComplete()"
-                                [ngModel]="selectAll">
-                                  <div style="width: 100px;">{{book.tenSach}}</div>
-                                </mat-checkbox>
-                              </li>
-                            }
-                          </ul>
+                            <ul>
+                                @for (book of bookBorrowReciept.sachs; track book) {
+                                <li>
+                                    <mat-checkbox (ngModelChange)="updateAllComplete()"
+                                        (click)="handleBookSelection(book.maSach)" [ngModel]="selectAll">
+                                        <div style="width: 100px;">{{book.tenSach}}</div>
+                                    </mat-checkbox>
+                                </li>
+                                }
+                            </ul>
                         </span>
-                      </section>
+                    </section>
                 </tbody>
 
             </table>

@@ -1,5 +1,5 @@
 export interface GetReturnBookReciptsDto {
-    maPhieuTra: number;
+    maPhieuTra: any;
     ngayTra: string;
     hinhThucThanhToan: any;
     hinhThucTra: any;

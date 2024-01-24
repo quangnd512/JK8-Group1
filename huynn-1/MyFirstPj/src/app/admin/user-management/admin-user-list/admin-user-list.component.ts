@@ -4,6 +4,7 @@ import { UserService } from '../../../services/userServices';
 import { HttpClientModule } from '@angular/common/http';
 import { GetUserDto } from '../../../services/dto/getUserDto';
 import { Router, RouterLink } from '@angular/router';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'app-admin-user-list',
@@ -26,6 +27,10 @@ export class AdminUserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllUsers();
+  }
+
+  public getAllUsers() {
     this.userServices.getAllUsers().subscribe((data) => {
       this.userList = data;
     })
@@ -33,6 +38,26 @@ export class AdminUserListComponent implements OnInit {
 
   public navigateUpdateUser(userId: number) {
     this.router.navigate(["/admin/update-user", { userId: userId }])
+  }
+
+  // handle delete btn
+  public deleteUserBtn(maTk: any) {
+    if (maTk) {
+      // Hiển thị hộp thoại xác nhận
+      const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa?");
+
+      if (isConfirmed) {
+        this.userServices.deleteUser(maTk).subscribe({
+          next: value => {
+            alert("Đã xóa thành công");
+            this.getAllUsers();
+          },
+          error: err => {
+            alert("Đã xảy ra lỗi");
+          }
+        });
+      }
+    }
   }
 
 }

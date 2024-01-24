@@ -37,6 +37,7 @@ export const REMOVE_BOOK_FROM_CART_URI = "/xoa-sach-khoi-gio-hang";
 export const GET_ALL_USERS_URI = '/admin/find-all-doc-gia';
 export const GET_USER_URI = '/lay-thong-tin';
 export const UPDATE_USER_URI = '/cap-nhat-thong-tin';
+export const DELETE_USER = '/admin/xoa-doc-gia';
 
 //check out
 export const CHECK_OUT_URL = '/tao-phieu-muon-tra';
