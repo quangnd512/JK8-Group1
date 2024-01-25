@@ -24,7 +24,7 @@ export const ADD_BOOK_URI = "/them-sach"
 
 // update book
 export const UPDATE_BOOK_URI = '/cap-nhat-sach'
- 
+
 // delete book
 export const DELETE_BOOK_URI = "/xoa-sach";
 
@@ -47,6 +47,9 @@ export const GET_BORROW_BOOK_RECIEPT_URI = '/admin/get-all-phieu-muon';
 export const GET_RETURN_BOOK_RECIEPT_URI = '/admin/get-all-phieu-tra';
 export const GET_BORROW_BOOK_BY_ID_URL = '/admin/get-phieu-muon';
 export const CREATE_BOOK_RETURN_RECIPT_URI = '/admin/tra-sach'
+
+//user-page
+export const GET_ALL_CHECKOUTS_URI = "/lay-phieu-muon-tra";
 
 
 

@@ -34,7 +34,7 @@ export class UserService {
         )
     }
 
-    public updateUser(userData: UpdateUserDto, accId: number): Observable<UpdateUserDto> {
+    public updateUser(userData: UpdateUserDto, accId: any): Observable<UpdateUserDto> {
         return this.httpClient.put<UpdateUserDto>(BASE__URL.concat(UPDATE_USER_URI + "?maTk=" + accId), userData).
             pipe(
                 catchError(err => {
