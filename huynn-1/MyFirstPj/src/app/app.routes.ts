@@ -15,6 +15,7 @@ import {AdminUserListComponent} from './admin/user-management/admin-user-list/ad
 import {AdminUpdateUserComponent} from './admin/user-management/admin-update-user/admin-update-user.component';
 import {AdminListIssueComponent} from './admin/admin-list-issue/admin-list-issue.component';
 import {UserPageHeaderComponent} from "./user/user-page-header/user-page-header.component";
+import {ShopContainerComponent} from "./home/shop/shop-container/shop-container.component";
 
 export const routes: Routes = [
   {
@@ -46,6 +47,11 @@ export const routes: Routes = [
     path: 'home/user-page',
     title: 'user-page',
     component: UserPageHeaderComponent
+  },
+  {
+    path: 'home/library',
+    title: 'library',
+    component: ShopContainerComponent
   },
   {
     path: 'admin',

@@ -17,7 +17,11 @@ export const GET_NEW_BOOK_URI = "/sach-moi";
 
 export const GET_ALL_BOOK_URI = "/tat-ca";
 
+export const GET_BOOK_PAGINAION_URI = "/lay-sach-phantrang";
+
 export const GET_BOOK_DETAIL_URI = "/chi-tiet-sach";
+
+export const GET_BOOK_BY_TYPE_URI = "/sach-theo-the-loai";
 
 // add book
 export const ADD_BOOK_URI = "/them-sach"

@@ -11,22 +11,22 @@
         <input [(ngModel)]="image" type="file" class="form-control-file" id="image" accept="image/*" required>
       </div>
       <div class="form-group">
-        <label for="tenSach">Tên sách:</label>
+        <label >Tên sách:</label>
         <input [(ngModel)]="name" type="text" class="form-control" required>
         <div class="error-message" *ngIf="addBookErr.nameErr !== ''" >{{ addBookErr.nameErr }}</div>
       </div>
       <div class=" form-group">
-        <label for="theLoai">Tác Giả:</label>
+        <label >Tác Giả:</label>
         <input [(ngModel)]="author" type="text" class="form-control" required>
         <div class="error-message" *ngIf="addBookErr.authorErr !== '' ">{{ addBookErr.authorErr }}</div>
       </div>
       <div class=" form-group">
-        <label for="giaSach">Giá:</label>
+        <label >Giá:</label>
         <input [(ngModel)]="price" type="number" class="form-control" min="0" step="0.01" required>
         <div class="error-message" *ngIf=" addBookErr.priceErr !== '' ">{{ addBookErr.priceErr }}</div>
       </div>
       <div class="form-group">
-        <label for="soLuong">Số lượng:</label>
+        <label >Số lượng:</label>
         <input [(ngModel)]="quantity" type="number" class="form-control" required>
         <div class="error-message" *ngIf=" addBookErr.quantityErr !== '' ">{{ addBookErr.quantityErr }}</div>
       </div>
@@ -41,10 +41,17 @@
         <input [(ngModel)]="publisher" type="text" class="form-control" id="nhaXuatBan" required>
         <div class="error-message" *ngIf=" addBookErr.publisherErr !== ''  ">{{ addBookErr.publisherErr }}</div>
       </div>
-      <div class="form-group">
-        <label for="theloai">Thể loại:</label>
-        <input [(ngModel)]="bookType" type="text" class="form-control" id="theloai" required>
-        <div class="error-message" *ngIf=" addBookErr.bookTypeErr !== '' ">{{ addBookErr.bookTypeErr }}</div>
+      <div class="form-group mt-2">
+        <mat-form-field>
+          <mat-label>Thể loại</mat-label>
+          <mat-select [(ngModel)]="bookType" name="food">
+            @for ( bookType of bookTypes; track bookType) {
+              <mat-option [value]="bookType.value">{{bookType.viewValue}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+                <div class="error-message" *ngIf=" addBookErr.bookTypeErr !== '' ">{{ addBookErr.bookTypeErr }}</div>
+
       </div>
       <button class="btn btn-primary" (click)="addBook()">Thêm sách</button>
     </div>

@@ -1,16 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { AdminHeaderComponent } from '../../admin-header/admin-header.component';
-import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Book } from '../../../services/interfaces/book';
-import { BookServices } from '../../../services/bookServices';
-import { HttpClientModule } from '@angular/common/http';
-import { addBookDto } from '../../../services/dto/addBookDto';
+import {Component, inject, OnInit} from '@angular/core';
+import {AdminHeaderComponent} from '../../admin-header/admin-header.component';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {BookServices} from '../../../services/bookServices';
+import {HttpClientModule} from '@angular/common/http';
+import {addBookDto} from '../../../services/dto/addBookDto';
+import {BookType} from "../../../services/constants/book-type";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [AdminHeaderComponent, CommonModule, FormsModule, HttpClientModule],
+  imports: [AdminHeaderComponent, CommonModule, FormsModule, HttpClientModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './add-book.component.html',
   providers: [BookServices],
   styleUrl: './add-book.component.scss'
@@ -45,7 +47,12 @@ export class AddBookComponent implements OnInit {
     publishedDateErr: '',
     publisherErr: '',
     bookTypeErr: ''
-  }
+  };
+
+  bookTypes: any[] = [
+    { value: BookType.THO, viewValue: BookType.THO },
+    { value: BookType.TRUYEN_NGAN, viewValue: BookType.TRUYEN_NGAN }
+  ];
 
   constructor() {
 
@@ -102,16 +109,15 @@ export class AddBookComponent implements OnInit {
   }
 
 
-
   public addBook() {
     let bookData: addBookDto = {
       tenSach: this.name,
-      tacGia: { ten: this.author },
-      theLoai: { tenTheLoai: this.bookType, daXoa: false, maTheLoai: "" },
+      tacGia: {ten: this.author},
+      theLoai: {tenTheLoai: this.bookType, daXoa: false, maTheLoai: ""},
       image: this.image,
       giaTien: this.price,
       ngayXuatBan: this.publishedDate,
-      nhaXuatBan: { tenNhaXuatBan: this.publisher },
+      nhaXuatBan: {tenNhaXuatBan: this.publisher},
       soLuong: this.quantity
     }
 
