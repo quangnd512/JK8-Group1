@@ -8,18 +8,23 @@ import {addBookDto} from '../../../services/dto/addBookDto';
 import {BookType} from "../../../services/constants/book-type";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
+import {CloudinaryService} from "../../../services/cloudinary.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-add-book',
   standalone: true,
-  imports: [AdminHeaderComponent, CommonModule, FormsModule, HttpClientModule, MatFormFieldModule, MatSelectModule],
+  imports: [AdminHeaderComponent, CommonModule, FormsModule, HttpClientModule, MatFormFieldModule, MatSelectModule, MatProgressSpinnerModule],
   templateUrl: './add-book.component.html',
-  providers: [BookServices],
+  providers: [BookServices,
+    CloudinaryService],
   styleUrl: './add-book.component.scss'
 })
 export class AddBookComponent implements OnInit {
 
   private bookServices = inject(BookServices);
+
+  private coudinaryService = inject(CloudinaryService);
 
   public name: string = "";
 
@@ -37,7 +42,9 @@ export class AddBookComponent implements OnInit {
 
   public bookType: string = '';
 
-  public validationError: string = '';
+  public fileSelected: File | undefined;
+
+  public loading: boolean = false;
 
   public addBookErr = {
     nameErr: '',
@@ -50,8 +57,8 @@ export class AddBookComponent implements OnInit {
   };
 
   bookTypes: any[] = [
-    { value: BookType.THO, viewValue: BookType.THO },
-    { value: BookType.TRUYEN_NGAN, viewValue: BookType.TRUYEN_NGAN }
+    {value: BookType.THO, viewValue: BookType.THO},
+    {value: BookType.TRUYEN_NGAN, viewValue: BookType.TRUYEN_NGAN}
   ];
 
   constructor() {
@@ -108,35 +115,57 @@ export class AddBookComponent implements OnInit {
     return true;
   }
 
-
-  public addBook() {
-    let bookData: addBookDto = {
-      tenSach: this.name,
-      tacGia: {ten: this.author},
-      theLoai: {tenTheLoai: this.bookType, daXoa: false, maTheLoai: ""},
-      image: this.image,
-      giaTien: this.price,
-      ngayXuatBan: this.publishedDate,
-      nhaXuatBan: {tenNhaXuatBan: this.publisher},
-      soLuong: this.quantity
-    }
-
-    if (this.validateInput(bookData)) {
-      this.bookServices.addNewBook(bookData).subscribe(
-        {
-          next: (value) => {
-            if (value != undefined) {
-              alert("Thêm phẩm thành công");
-              return;
-            }
-          },
-          error: err => {
-            alert("Thêm thất bại");
-            return;
-          }
-        }
-      );
-    }
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    this.fileSelected = file;
   }
 
+
+  public addBook() {
+    if (this.fileSelected) {
+      this.coudinaryService.uploadImage(this.fileSelected).subscribe((data) => {
+        let bookData: addBookDto = {
+          tenSach: this.name,
+          tacGia: {ten: this.author},
+          theLoai: {tenTheLoai: this.bookType, daXoa: false, maTheLoai: ""},
+          image: data.url,
+          giaTien: this.price,
+          ngayXuatBan: this.publishedDate,
+          nhaXuatBan: {tenNhaXuatBan: this.publisher},
+          soLuong: this.quantity
+        }
+
+        if (this.validateInput(bookData)) {
+          this.loading = true;
+          this.bookServices.addNewBook(bookData).subscribe(
+            {
+              next: (value) => {
+                if (value != undefined) {
+                  alert("Thêm phẩm thành công");
+                  this.loading = false;
+                  this.name = "";
+                  this.image = "";
+                  this.author = "";
+                  this.price = 0;
+                  this.quantity = 0;
+                  this.publishedDate = "";
+                  this.publisher = "";
+                  this.bookType = "";
+                  this.fileSelected = undefined;
+                  return;
+                }
+              },
+              error: err => {
+                alert("Thêm thất bại");
+                this.loading = false;
+                return;
+              }
+            }
+          );
+        }
+      })
+    } else {
+      alert("Vui lòng chọn ảnh");
+    }
+  }
 }

@@ -19,6 +19,8 @@ export const GET_ALL_BOOK_URI = "/tat-ca";
 
 export const GET_BOOK_PAGINAION_URI = "/lay-sach-phantrang";
 
+export const GET_BOOK_PAGINAION_BY_TYPE_URI = "/lay-sach-phantrang-theo-theloai";
+
 export const GET_BOOK_DETAIL_URI = "/chi-tiet-sach";
 
 export const GET_BOOK_BY_TYPE_URI = "/sach-theo-the-loai";
@@ -54,6 +56,9 @@ export const CREATE_BOOK_RETURN_RECIPT_URI = '/admin/tra-sach'
 
 //user-page
 export const GET_ALL_CHECKOUTS_URI = "/lay-phieu-muon-tra";
+
+// upload image
+export  const UPLOAD_IMAGE_URI = "/cloudinary/upload";
 
 
 

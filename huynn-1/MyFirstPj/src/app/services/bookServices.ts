@@ -8,7 +8,7 @@ import {
   BOOKS_URI,
   DELETE_BOOK_URI,
   GET_ALL_BOOK_URI, GET_BOOK_BY_TYPE_URI,
-  GET_BOOK_DETAIL_URI, GET_BOOK_PAGINAION_URI,
+  GET_BOOK_DETAIL_URI, GET_BOOK_PAGINAION_BY_TYPE_URI, GET_BOOK_PAGINAION_URI,
   GET_NEW_BOOK_URI,
   UPDATE_BOOK_URI
 } from "./api";
@@ -57,6 +57,12 @@ export class BookServices implements OnInit {
 
   public GetBookPagination(pageNumber: number, orderBy: string, pageSize: number): Observable<any> {
     return this.httpClient.get<any>(BASE__URL.concat(GET_BOOK_PAGINAION_URI + "?pageNumber=" + pageNumber + "&orderBy=" + orderBy + "&pageSize=" + pageSize));
+  }
+
+  public GetBookPaginationByType(pageNumber: number, orderBy: string, pageSize: number, bookType: string): Observable<any> {
+    const encodedBookType = encodeURIComponent(bookType);
+    console.log(encodedBookType)
+    return this.httpClient.get<any>(BASE__URL.concat(GET_BOOK_PAGINAION_BY_TYPE_URI + "?pageNumber=" + pageNumber + "&orderBy=" + orderBy + "&pageSize=" + pageSize + "&theLoai=" + bookType));
   }
 
   public updateBook(bookId: number, bookData: addBookDto): Observable<addBookDto> {
