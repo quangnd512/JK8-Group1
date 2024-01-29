@@ -1,8 +1,15 @@
+<!--LOADER-->
+<ng-container *ngIf="loading">
+  <app-loader></app-loader>
+</ng-container>
+<!--HEADER-->
 <h1 class="text-center mb-4 fw-bolder text-white">Products Management System</h1>
+<!--TOP INFO-->
 <div class="d-flex justify-content-between">
   <button (click)="addProductPopUp()" class="btn btn-primary">Add New Product</button>
   <p class="fw-bold text-white">{{ total_products$ | async }} products available</p>
 </div>
+<!--BODY-->
 <table class="table table-hover mt-4 text-center">
   <thead>
   <tr>
@@ -32,7 +39,8 @@
   </tr>
   </tbody>
 </table>
-<div *ngIf="current === 'add' || current === 'update'" class="modal display">
+<!--MODAL-->
+<div [ngClass]="{'display':current === 'add' || current === 'update'}" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -44,42 +52,35 @@
         <form>
           <div class="mb-3">
             <label class="form-label">Product Name:</label>
-            <input [(ngModel)]="productInput.name" class="form-control" name="productName"
-                   placeholder="Input product's name"
-                   required type="text">
+            <input [(ngModel)]="productInput.name" class="form-control" name="name"
+                   placeholder="Input product's name" type="text">
             <p *ngIf="errors[0]" class="form-error">{{ errors[0].message }}</p>
           </div>
           <div class="mb-3">
             <label class="form-label">Product Description:</label>
-            <textarea [(ngModel)]="productInput.description" class="form-control" name="productDescription"
+            <textarea [(ngModel)]="productInput.description" class="form-control" name="description"
                       placeholder="Input product's description"
-                      required
                       rows="6" type="text"></textarea>
             <p *ngIf="errors[1]" class="form-error">{{ errors[1].message }}</p>
           </div>
           <div class="mb-3">
             <label class="form-label">Price ($):</label>
-            <input [(ngModel)]="productInput.price" class="form-control" name="productPrice" required
-                   step="0.01"
-                   type="number">
+            <input [(ngModel)]="productInput.price" class="form-control" name="price" step="0.01" type="number">
             <p *ngIf="errors[2]" class="form-error">{{ errors[2].message }}</p>
           </div>
           <div class="mb-3">
             <label class="form-label">In Stock:</label>
-            <input [(ngModel)]="productInput.inStock" class="form-control" name="productInstock" required
-                   step="1" type="number">
+            <input [(ngModel)]="productInput.inStock" class="form-control" name="inStock" step="1" type="number">
             <p *ngIf="errors[3]" class="form-error">{{ errors[3].message }}</p>
           </div>
           <div class="mb-3">
-            <label class="form-label">Image URLs:</label>
-            <input [(ngModel)]="images" class="form-control" name="productImages"
-                   placeholder="url1 url2 url3 ..."
-                   required type="text">
+            <label class="form-label">Discount (%):</label>
+            <input [(ngModel)]="productInput.discount" class="form-control" name="discount" step="1" type="number">
             <p *ngIf="errors[4]" class="form-error">{{ errors[4].message }}</p>
           </div>
           <div class="mb-3">
             <label class="form-label">Category:</label>
-            <select [(ngModel)]="productInput.category" class="form-select" name="productCategory" required>
+            <select [(ngModel)]="productInput.category" class="form-select" name="category">
               <option value="Comic">Comic</option>
               <option value="Detective">Detective</option>
               <option value="Literature">Literature</option>
@@ -90,40 +91,38 @@
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label">Discount (%):</label>
-            <input [(ngModel)]="productInput.discount" class="form-control" name="productDiscount" required
-                   step="1" type="number">
+            <label class="form-label">Images:</label>
+            <div class="image-container">
+              <div *ngFor="let image of this.productInput.images; let i = index" class="image-row">
+                <img [src]="image" alt="Original">
+                <mat-icon (click)="deleteImageFromModal(i)" class="delete-button">delete_forever</mat-icon>
+              </div>
+              <div *ngFor="let image of this.imagesPreview; let i = index" class="image-row">
+                <img [src]="image" alt="Selected">
+                <mat-icon (click)="deleteImageFromInput(i)" class="delete-button">delete_forever</mat-icon>
+              </div>
+            </div>
+            <input #imageInput (change)="onBrowseImages()" class="form-control" multiple name="productImages"
+                   type="file">
             <p *ngIf="errors[5]" class="form-error">{{ errors[5].message }}</p>
           </div>
         </form>
-
       </div>
       <div class="modal-footer">
         <button (click)="returnToDashboard()" class="btn btn-secondary" type="button">Close</button>
-        <button (click)="addProduct()" *ngIf="current === 'add'" class="btn btn-primary" type="submit">Add
-          Product
+        <button (click)="addProduct()" *ngIf="current === 'add'" class="btn btn-primary" type="submit">Add Product
         </button>
-        <button (click)="updateProduct()" *ngIf="current === 'update'" class="btn btn-primary" type="submit">
-          Update
+        <button (click)="updateProduct()" *ngIf="current === 'update'" class="btn btn-primary" type="submit">Update
           Product
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<!--PAGINATION-->
 <div class="d-flex justify-content-between">
   <p class="fw-bold text-white">{{ total_products$ | async }} products available</p>
-  <nav>
-    <ul class="pagination justify-content-end">
-      <li class="page-item disabled">
-        <a aria-disabled="true" class="page-link" href="#" tabindex="-1">Previous</a>
-      </li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
+  <app-pagination [board]="'products-manager'" [position]="'admin-dashboard'"></app-pagination>
 </div>
 

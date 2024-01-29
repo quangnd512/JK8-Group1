@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProductService} from '../shared/services/product.service';
-import {Observable} from 'rxjs';
-import {Product} from '../shared/resources';
+import {Observable, takeUntil} from 'rxjs';
+import {CartItem, Product, TakeUntilDestroy} from '../shared/resources';
+import {ShoppingCartService} from "../shared/services/shopping-cart.service";
 
 @Component({
   selector: 'app-product-details',
@@ -10,14 +11,47 @@ import {Product} from '../shared/resources';
   styleUrl: './product-details.component.scss'
 })
 
-export class ProductDetailsComponent {
+export class ProductDetailsComponent extends TakeUntilDestroy {
   public product$: Observable<Product> = new Observable<Product>()
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) {
+  constructor(private productService: ProductService, private cartService: ShoppingCartService, private route: ActivatedRoute, private router: Router) {
+    super()
   }
 
   public ngOnInit(): void {
     let id: number = Number.parseInt(<string>this.route.snapshot.paramMap.get('id')) // cast
     this.product$ = this.productService.getProductById(id) // async
+  }
+
+  public addToCart(product: Product): void {
+    if (product.id) {
+      if (product.inStock) {
+        this.cartService.addToCart(product.id).pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: () => this.router.navigate(['/my-shopping-cart']),
+            error: (error) => console.error(error)
+          })
+      } else {
+        alert("Product is out-of-stock! Please come back later!")
+      }
+    }
+  }
+
+  public buyNow = (product: Product) => {
+    const item: CartItem = {
+      quantity: 1,
+      productId: product.id ? product.id : 0,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      images: product.images,
+      inStock: product.inStock,
+      category: product.category,
+      discount: product.discount
+    };
+    localStorage.setItem("totalPrice", String((product.price - product.price * product.discount / 100) * item.quantity))
+    localStorage.setItem("cartItems", JSON.stringify([item]))
+    let userId = localStorage.getItem('userId')
+    this.router.navigate([`/checkout`])
   }
 }

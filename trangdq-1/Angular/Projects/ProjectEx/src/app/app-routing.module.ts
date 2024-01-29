@@ -6,12 +6,27 @@ import {LoginComponent} from './login/login.component';
 import {AdminDashboardComponent} from './admin-dashboard/template/admin-dashboard.component';
 import {AuthGuard} from './shared/guard/auth.guard';
 import {ProductDetailsComponent} from './product-details/product-details.component';
+import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
+import {CheckOutComponent} from "./check-out/check-out.component";
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'product/:id', component: ProductDetailsComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard]},
+  {path: 'product/:id', component: ProductDetailsComponent, canActivate: [AuthGuard]},
+  {path: 'my-shopping-cart', component: ShoppingCartComponent, canActivate: [AuthGuard]},
+  {path: 'checkout', component: CheckOutComponent, canActivate: [AuthGuard]},
+
+
+  {path: 'admin-dashboard', redirectTo: 'admin-dashboard/products-manager/1', pathMatch: 'full'},
+  {
+    path: 'admin-dashboard/:board/:page',
+    component: AdminDashboardComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {path: '', redirectTo: 'home/1', pathMatch: 'full'},
+  {path: 'home', redirectTo: 'home/1', pathMatch: 'full'},
+  {path: 'home/:page', component: HomeComponent, canActivate: [AuthGuard]},
+
   {path: '**', component: Page404Component},
 ]
 

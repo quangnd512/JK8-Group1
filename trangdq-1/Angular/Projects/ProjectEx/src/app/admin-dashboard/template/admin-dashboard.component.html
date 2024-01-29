@@ -4,26 +4,26 @@
       <div class="col-md-2 bg-light sidebar">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a (click)="productsManager()" class="nav-link">Products Manager</a>
+            <a (click)="productsManager()" [ngClass]="{'active': board==='products-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/products-manager/1" routerLinkActive="active">Products Manager</a>
           </li>
           <li class="nav-item">
-            <a (click)="usersManager()" class="nav-link">Users Manager</a>
+            <a (click)="usersManager()" [ngClass]="{'active': board==='users-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/users-manager/1" routerLinkActive="active">Users Manager</a>
           </li>
         </ul>
       </div>
-      <div *ngIf="current==='products-manager'" class="col-md-10 p-4 main-body">
+      <div *ngIf="board==='products-manager'" class="col-md-10 p-4 main-body">
         <app-product-manager></app-product-manager>
       </div>
-      <div *ngIf="current==='users-manager'" class="col-md-10 p-4 main-body">
+      <div *ngIf="board==='users-manager'" class="col-md-10 p-4 main-body">
         <app-user-manager></app-user-manager>
       </div>
     </div>
   </div>
 </ng-template>
-
 <ng-template #notfound>
   <app-page404></app-page404>
 </ng-template>
-
-<ng-container *ngIf="(isAdmin$ | async) as isAdmin, then display, else notfound">
+<ng-container *ngIf="(isAdmin$ | async), then display, else notfound">
 </ng-container>

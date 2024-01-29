@@ -9,8 +9,8 @@ import {
   User
 } from "../../shared/resources";
 import {Observable, takeUntil} from "rxjs";
-import {AuthService} from "../../shared/services/auth.service";
 import {UserService} from "../../shared/services/user.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-user-manager',
@@ -18,9 +18,10 @@ import {UserService} from "../../shared/services/user.service";
   styleUrl: './user-manager.component.scss'
 })
 export class UserManagerComponent extends TakeUntilDestroy {
-  public page: number = 0
+  public page: number = 1
   public users$: Observable<Array<User>> = new Observable<Array<User>>()
   public total_users$: Observable<number> = new Observable<number>()
+  public loading: boolean = false
   public userInput: User = {
     id: 0,
     username: '',
@@ -36,14 +37,17 @@ export class UserManagerComponent extends TakeUntilDestroy {
   public current: "dashboard" | "add" | "update" = "dashboard"
   public errors: Array<ErrorMessage> = []
 
-  constructor(private authService: AuthService, private userService: UserService) {
+  constructor(private userService: UserService, private route: ActivatedRoute) {
     super()
   }
 
   public ngOnInit(): void {
-    this.users$ = this.userService.getUsers(this.page)
-    this.total_users$ = this.userService.getTotalUsers()
+    let pageNo = this.route.snapshot.paramMap.get('page')
+    if (pageNo) {
+      this.page = Number.parseInt(pageNo)
+    }
     this.current = "dashboard"
+    this.updateState()
   }
 
   public addUserPopUp(): void {
@@ -63,8 +67,7 @@ export class UserManagerComponent extends TakeUntilDestroy {
   }
 
   public updateUserPopUp(id: number) {
-    this.userService.getUserById(id)
-      .pipe(takeUntil(this.destroy$))
+    this.userService.getUserById(id).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (user) => {
           this.userInput.id = user.id
@@ -78,7 +81,7 @@ export class UserManagerComponent extends TakeUntilDestroy {
           this.userInput.phone = user.phone
           this.userInput.role = user.role
         },
-        error: (error) => console.error(error)
+        error: (error) => alert(error.message)
       })
     this.current = "update"
   }
@@ -89,6 +92,7 @@ export class UserManagerComponent extends TakeUntilDestroy {
 
   public addUser() {
     if (this.validateData()) {
+      this.loading = true
       let inputDTO: NewUserDTO = {
         username: this.userInput.username,
         password: this.userInput.password,
@@ -98,28 +102,38 @@ export class UserManagerComponent extends TakeUntilDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
+            this.loading = false
+            alert("User added successfully!")
             this.returnToDashboard()
             this.updateState()
           },
           error: (error) => {
-            console.error(error);
+            this.loading = false
+            alert(error.message)
+            this.returnToDashboard()
+            this.updateState()
           }
         })
     }
   }
 
   public updateUser() {
-    console.log(this.userInput)
     if (this.validateData()) {
+      this.loading = true
       this.userService.updateUser(this.userInput)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
+            this.loading = false
+            alert("User updated successfully!")
             this.returnToDashboard()
             this.updateState()
           },
           error: (error) => {
-            console.error(error);
+            this.loading = false
+            alert(error.message)
+            this.returnToDashboard()
+            this.updateState()
           }
         })
     }
@@ -128,21 +142,26 @@ export class UserManagerComponent extends TakeUntilDestroy {
   public deleteUser(id: number) {
     let choice: boolean = confirm("Delete this user?")
     if (choice) {
+      this.loading = true
       this.userService.deleteUser(id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: () => {
+            this.loading = false
+            alert("User deleted successfully!")
             this.updateState()
           },
           error: (error) => {
-            console.error(error);
+            this.loading = false
+            alert(error.message)
+            this.updateState()
           }
         });
     }
   }
 
-  private updateState() {
-    this.users$ = this.userService.getUsers(this.page);
+  public updateState() {
+    this.users$ = this.userService.getUsers(this.page - 1);
     this.total_users$ = this.userService.getTotalUsers()
   }
 

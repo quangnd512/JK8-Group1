@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable, of} from 'rxjs';
-import {headers, Product, ProductDTO, ResponseObject, SERVER_URL} from '../resources';
+import {headers, Product, Response, ResponseObject, SERVER_URL} from '../resources';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -22,6 +22,17 @@ export class ProductService {
       );
   }
 
+  public searchProducts(page: number = 0, keywords: string): Observable<Array<Product>> {
+    return this.http.get<ResponseObject>(`${SERVER_URL}/search/${page}?name=${keywords}`)
+      .pipe(
+        map(response => response.data.content as Array<Product>),
+        catchError(error => {
+          console.error(error);
+          return of([]);
+        })
+      );
+  }
+
   public getTotalProducts(sort?: string, direction = 'asc'): Observable<number> {
     let url = this.accumulateUrl(0, sort, direction)
     return this.http.get<ResponseObject>(url)
@@ -34,12 +45,39 @@ export class ProductService {
       );
   }
 
-  public addProduct(product: ProductDTO): Observable<Response> {
+  public getTotalSearchedPages(keywords: string): Observable<number> {
+    return this.http.get<ResponseObject>(`${SERVER_URL}/search/0?name=${keywords}`)
+      .pipe(
+        map(response => response.data.totalPages as number),
+        catchError(error => {
+          console.error(error);
+          return of(0);
+        })
+      )
+  }
+
+  public getTotalPages(sort?: string, direction = 'asc'): Observable<number> {
+    let url = this.accumulateUrl(0, sort, direction)
+    return this.http.get<ResponseObject>(url)
+      .pipe(
+        map(response => response.data.totalPages as number),
+        catchError(error => {
+          console.error(error);
+          return of(0);
+        })
+      );
+  }
+
+  public addProduct(product: Product): Observable<Response> {
     return this.http.post<Response>(`${SERVER_URL}/admin/product`, product, {headers})
   }
 
-  public updateProduct(product: Product): Observable<Response> {
-    return this.http.put<Response>(`${SERVER_URL}/admin/product/${product.id}`, product, {headers})
+  public updateProduct(id: number, product: Product): Observable<Response> {
+    return this.http.put<Response>(`${SERVER_URL}/admin/product/${id}`, product, {headers})
+  }
+
+  public uploadImages(id: number, images: FormData): Observable<Response> {
+    return this.http.put<Response>(`${SERVER_URL}/admin/product/image-upload/${id}`, images, {headers})
   }
 
   public deleteProduct(id: number): Observable<Response> {
@@ -47,20 +85,18 @@ export class ProductService {
   }
 
   public getProductById(id: number): Observable<Product> {
-    return this.http.get<ResponseObject>(`${SERVER_URL}/product/${id}`)
+    return this.http.get<Response>(`${SERVER_URL}/product/${id}`)
       .pipe(
-        map(response => response.data as Product),
-        catchError(error => {
-          console.error(error);
-          return of()
-        })
+        map(response => response.data as Product)
       );
   }
 
-  private accumulateUrl(page: number = 0, sort?: string, direction = 'asc'): string {
+  private accumulateUrl(page: number = 0, sort?: string, direction?: string): string {
     let url = `${SERVER_URL}/${page}`;
-    if (sort) {
+    if (direction) {
       url += `?direction=${direction}`;
+    }
+    if (sort) {
       if (sort === 'price') {
         url += '&price=true';
       } else if (sort === 'name') {

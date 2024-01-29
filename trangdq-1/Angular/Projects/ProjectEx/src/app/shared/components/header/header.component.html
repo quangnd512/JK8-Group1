@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="/home">
         <img alt="Bookstore" class="d-inline-block align-top" height="30" src="assets/logo.png" width="30">
         Bookstore
       </a>
@@ -12,26 +12,30 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li *ngIf="isLoggedIn$ | async" class="nav-item">
-            <a [routerLinkActiveOptions]="{ exact: true }" class="nav-link" routerLink='/' routerLinkActive="active">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink='/books' routerLinkActive="active">Books</a>
+            <a class="nav-link" routerLink='/home' routerLinkActive="active">Home</a>
           </li>
           <li *ngIf="isAdmin$ | async" class="nav-item">
             <a class="nav-link" routerLink='/admin-dashboard' routerLinkActive="active">Dashboard</a>
+          </li>
+          <li *ngIf="isLoggedIn$ | async" class="nav-item">
+            <a class="nav-link" routerLink='/my-shopping-cart' routerLinkActive="active">My Cart</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink='/profile' routerLinkActive="active">My Profile</a>
           </li>
           <li *ngIf="!(isLoggedIn$ | async)" class="nav-item">
             <a class="nav-link" routerLink='/login' routerLinkActive="active">Login</a>
           </li>
           <li *ngIf="isLoggedIn$ | async" class="nav-item">
-            <a (click)="logout()" class="nav-link" href="#">Logout</a>
+            <a (click)="logout()" class="nav-link">Logout</a>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <form class="d-flex"><input aria-label="Search" class="form-control me-2" placeholder="Search"
-                                        type="search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex">
+              <input [(ngModel)]="keywords" aria-label="Search" class="form-control me-2"
+                     name="Search" placeholder="Search product's name" type="search">
+              <a class="btn btn-outline-success" href="/home/1?search={{keywords}}">Search</a>
             </form>
           </li>
           <li class="nav-item">

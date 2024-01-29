@@ -6,5 +6,4 @@ import {Component} from '@angular/core';
   styleUrl: './page404.component.scss'
 })
 export class Page404Component {
-
 }

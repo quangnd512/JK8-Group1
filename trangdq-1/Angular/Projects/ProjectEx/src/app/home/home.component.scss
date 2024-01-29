@@ -1,20 +1,4 @@
-.text-sky {
-  color: #337ab7;
-}
-
-.text-green {
-  color: #638a58;
-}
-
-.text-brown {
-  color: #895a41;
-}
-
-.text-violet {
-  color: #862fc4;
-}
-
-.white-text {
+.text-white {
   font-weight: bold;
   text-align: center;
   color: #fff
@@ -35,8 +19,8 @@
 
 .card-title {
   font-weight: bold;
-  text-align: center;
-  height: 48px;
+  line-height: 1.4rem;
+  height: 2.8rem;
   margin-bottom: 0.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -52,24 +36,6 @@
   background-color: #337ab7;
 }
 
-.pagination {
-  margin-top: 2rem;
-}
-
-.pagination .page-link.active {
-  border-color: #337ab7;
-}
-
-.pagination .page-link {
-  background-color: #ffffff;
-  border-color: #d5e5ea;
-}
-
-.pagination .page-item.active .page-link {
-  background-color: #337ab7;
-  border-color: #337ab7;
-}
-
 .footer {
   padding-top: 1rem;
 }
@@ -78,13 +44,10 @@
   text-decoration: line-through;
 }
 
-.discounted-price {
-  color: red;
-}
+// ANIMATION
 
 .animated-badge {
   animation: color-change 1s infinite alternate;
-  /* Define animation */
 }
 
 @keyframes color-change {

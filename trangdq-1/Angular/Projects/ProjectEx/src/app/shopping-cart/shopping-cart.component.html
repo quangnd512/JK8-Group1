@@ -1,0 +1,44 @@
+<ng-template #display>
+  <h1 class="mb-5 fw-bolder text-center text-white">My Shopping Cart</h1>
+  <div class="container bg-white cart-container p-4">
+    <div class="row p-1">
+      <div *ngFor="let item of cartItems" class="cart-item mb-4">
+        <div class="row">
+          <div class="col-md-2">
+            <img [src]="item.images[0]" class="img-fluid rounded-lg shadow-sm img-cart"></div>
+          <div class="col-md-10">
+            <h4 class="mb-1 mt-2"><a href="/product/{{item.productId}}">{{ item.name }}</a></h4>
+            <p class="text-truncate">{{ item.description }}</p>
+            <div class="row">
+              <p class="col-md-8 text-green pt-2">In stock: {{ item.inStock }}</p>
+              <div class="col-md-4">
+                <div class="input-group">
+                <span class="input-group-btn">
+                  <button (click)="handleDecrement(item)" class="btn btn-primary">–</button>
+                </span>
+                  <input [value]="item.quantity" class="form-control text-center" type="text">
+                  <span class="input-group-btn">
+                  <button (click)="handleIncrement(item)" class="btn btn-primary">+</button>
+                </span>
+                </div>
+                <p class="text-center text-muted"><strong>{{ item.price - item.price * item.discount / 100 | currency }}
+                  x {{ item.quantity }}
+                  = {{ (item.price - item.price * item.discount / 100) * item.quantity | currency }}</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row px-2">
+      <p class="col-md-8 all-total text-sea"><span class="fw-bolder">Total:</span> {{ totalPrice | currency }}</p>
+      <button (click)="toCheckout()" class="col-md-4 btn btn-success btn-lg">Checkout</button>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #notfound>
+  <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="(isLoggedIn$ | async), then display, else notfound">
+</ng-container>

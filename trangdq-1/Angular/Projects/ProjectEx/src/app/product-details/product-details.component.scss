@@ -1,19 +1,28 @@
-img.img-fluid {
+img {
+  height: 80vh;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .carousel-indicators {
-  bottom: -20px;
+  bottom: -10px;
 }
 
 .carousel-inner {
   border-radius: 10px;
 }
 
-/* Product Information */
+.carousel {
+  height: 100%;
+}
+
 .product-description {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
+  white-space: pre-wrap;
+  overflow: auto;
+  height: 150px;
 }
 
 .price-info {
@@ -49,7 +58,7 @@ img.img-fluid {
 
 .btn-primary:hover,
 .btn-success:hover {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px #999999;
 }
 
 .detail-part {
@@ -58,10 +67,13 @@ img.img-fluid {
 }
 
 .details-container {
-  width: 80%;
+  width: 85%;
   margin: auto;
 }
 
-pre {
-  font-family: 'Open Sans', sans-serif;
+@media (max-width: 768px) {
+  .img-part {
+    padding: 0 0 10px 0;
+  }
 }
+

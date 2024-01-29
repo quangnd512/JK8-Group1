@@ -34,7 +34,7 @@
   </tr>
   </tbody>
 </table>
-<div *ngIf="current === 'add' || current === 'update'" class="modal display">
+<div [ngClass]="{'display':current === 'add' || current === 'update'}" class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -92,7 +92,7 @@
             <div class="mb-3">
               <label class="form-label">Avatar URL:</label>
               <input [(ngModel)]="userInput.avatar" class="form-control" name="avatar"
-                     placeholder="Input avatar url" required type="text">
+                     placeholder="Change avatar (leave empty if not change)" required type="text">
             </div>
             <div class="mb-3">
               <label class="form-label">Role:</label>
@@ -117,17 +117,6 @@
 </div>
 <div class="d-flex justify-content-between">
   <p class="fw-bold text-white">{{ total_users$ | async }} users available</p>
-  <nav>
-    <ul class="pagination justify-content-end">
-      <li class="page-item disabled">
-        <a aria-disabled="true" class="page-link" href="#" tabindex="-1">Previous</a>
-      </li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
+  <app-pagination [board]="'users-manager'" [position]="'admin-dashboard'"></app-pagination>
 </div>
 

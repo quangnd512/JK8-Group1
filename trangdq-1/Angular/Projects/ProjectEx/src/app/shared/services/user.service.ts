@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
-import {headers, NewUserDTO, ResponseObject, SERVER_URL, User} from "../resources";
+import {headers, NewUserDTO, Response, ResponseObject, SERVER_URL, User} from "../resources";
 
 @Injectable({
   providedIn: 'root'
@@ -45,13 +45,20 @@ export class UserService {
     return this.http.delete<Response>(`${SERVER_URL}/admin/user/${id}`, {headers});
   }
 
-  public getUserById(id: number): Observable<any> {
-    return this.http.get<ResponseObject>(`${SERVER_URL}/admin/user/${id}`, {headers})
+  public getUserById(id: number): Observable<User> {
+    return this.http.get<Response>(`${SERVER_URL}/admin/user/${id}`, {headers})
       .pipe(
         map(response => response.data as User),
+      );
+  }
+
+  public getTotalPages() {
+    return this.http.get<ResponseObject>(`${SERVER_URL}/admin/users/0`, {headers})
+      .pipe(
+        map(response => response.data.totalPages as number),
         catchError(error => {
           console.error(error);
-          return of({})
+          return of(0);
         })
       );
   }

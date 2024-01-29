@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable, takeUntil} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {TakeUntilDestroy} from "../../resources";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,9 @@ import {TakeUntilDestroy} from "../../resources";
 export class HeaderComponent extends TakeUntilDestroy implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>()
   public isAdmin$: Observable<boolean> = new Observable<boolean>()
+  public keywords: string | null = ''
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private route: ActivatedRoute) {
     super();
   }
 
