@@ -1,0 +1,22 @@
+<div class="row" >
+  <div *ngFor="let item of listAllBooks" class="product product__style--3 col-lg-3 col-md-4 col-sm-6 col-12">
+    <div class="product__thumb">
+      <a class="first__img" style="cursor: pointer" (click)="navigateToBookDetail(item.maSach)">
+        <img
+          [src]="item.image"
+          alt="product image" style="width: 249px; height: 313.55px">
+      </a>
+      <div class="hot__box">
+        <span class="hot-label">BEST SELLER</span>
+      </div>
+    </div>
+    <div class="product__content content--center">
+      <h4><a >{{ item.tenSach }}</a></h4>
+      <ul class="price d-flex">
+        <li>{{ item.giaTien | currency:'VND': 'symbol':'1.0-0' }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<mat-paginator (page)="onPageChange($event)" [pageSize]="pageSize" [pageIndex]="currentPage" [length]="200" [pageSizeOptions]="[10, 50, 100]" aria-label="Select page">
+</mat-paginator>
