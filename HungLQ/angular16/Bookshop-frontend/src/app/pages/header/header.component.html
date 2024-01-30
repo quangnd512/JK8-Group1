@@ -53,22 +53,25 @@
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="header__navbar-user-item header__navbar-user-item--separate">
                     <a href="/logout">Đăng xuất</a>
                 </li> -->
+                <li *ngIf="role === 'ROLE_ADMIN'" class="header__navbar-user-item header__navbar-user-item--separate">
+                    <a routerLink="/admin">Trang Admin</a>
+                </li> 
                 <ng-template #noUser>
                     <a #noUserSignUp style="text-decoration: none" routerLink="/sign-up"><li class="header__navbar-item header__navbar-item-strong header__navbar-item--separate header__navbar-register">Đăng ký</li></a>
                     <a #noUserSignIn style="text-decoration: none" routerLink="/sign-in"><li class="header__navbar-item header__navbar-item-strong header__navbar-login">Đăng nhập</li></a>
                 </ng-template>
-                <li *ngIf="user != null; else noUser" class="header__navbar-item header__navbar-user">
-                    <img src="" alt="" class="header__navbar-user-avatar" style="width: 22px;height: 22px;border-radius: 50%;border: 1px solid rgba(0, 0, 0, 0.1);">
-                    <span class="header__navbar-user-name" text="${user.name}"></span>
+                <li *ngIf="username !== null; else noUser" class="header__navbar-item header__navbar-user">
+                    <img [src]="avatar" alt="" class="header__navbar-user-avatar" style="width: 22px;height: 22px;border-radius: 50%;border: 1px solid rgba(0, 0, 0, 0.1);">
+                    <span class="header__navbar-user-name">{{username}}</span>
                     <ul class="header__navbar-user-menu">
                         <li class="header__navbar-user-item">
                             <a routerLink="/user">Tài khoản của tôi</a>
                         </li>
                         <li class="header__navbar-user-item">
-                            <a routerLink="/cart">Giỏ Hàng</a>
+                            <a routerLink="/order">Giỏ Hàng</a>
                         </li>
                         <li class="header__navbar-user-item">
-                            <a routerLink="/order">Lịch Sử Mua Hàng</a>
+                            <a routerLink="/user/order">Lịch Sử Mua Hàng</a>
                         </li>
                         <li class="header__navbar-user-item header__navbar-user-item--separate">
                             <a routerLink="/logout">Đăng xuất</a>
@@ -119,7 +122,7 @@
                         <a href="/" class="notpc__menu-link">hi user</a>
                     </li>
                     <li sec:authorize="isAuthenticated()" class="notpc__menu-item">
-                        <a href="/logout" class="notpc__menu-link">Đăng xuất</a>
+                        <a routerLink="/logout" class="notpc__menu-link">Đăng xuất</a>
                     </li>
                 </ul>
             </nav>

@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="app__container">
     <div class="grid wide">
       <div class="row sm-gutter app_content">
@@ -18,12 +19,12 @@
               <i class="select-input__icon fa-solid fa-chevron-down"></i>
               <ul class="select-input__list">
                 <li class="select-input__item">
-                  <a th:href="@{'?sort_by=price&type_sort=ASC'}" class="select-input__link">
+                  <a [routerLink]="route" [queryParams]="{sort_by: 'price', type_sort: 'ASC'}" queryParamsHandling="merge" class="select-input__link">
                     Giá: Thấp đến cao
                   </a>
                 </li>
                 <li class="select-input__item">
-                  <a th:href="@{'?sort_by=price&type_sort=DESC'}" class="select-input__link">
+                  <a [routerLink]="route" [queryParams]="{sort_by: 'price', type_sort: 'DESC'}" queryParamsHandling="merge" class="select-input__link">
                     Giá: Cao đến thấp
                   </a>
                 </li>
@@ -57,7 +58,7 @@
           <div class="home-product">
             <div class="row sm-gutter">
               <div *ngFor="let book of books" class="col l-2-4 m-4 c-6">
-                <a class="home-product-item" routerLink="/books" [queryParams]="book.id.toString">
+                <a class="home-product-item" [routerLink]="'/books/'+book.id">
                 <div class="home-product-item__img" [ngStyle]="{'background-image': 'url(http://localhost:2369' + book.imgCover + ')'}"></div>
 
                   <br>
@@ -72,16 +73,17 @@
               </div>
             </div>
           </div>
-          <nav aria-label="Page navigation example">
+          <nav *ngIf="route == '/'" aria-label="Page navigation example">
             <ul class="pagination home-product__pagination">
-              <li *ngIf="currentPage != 0" class="pagination-item">
-                <a class="pagination-item__link" href="#">Previous</a>
+              <li *ngIf="currentPage != 1" class="pagination-item">
+                <a class="pagination-item__link" routerLink="/" [queryParams]="{'page': currentPage-1}" queryParamsHandling="merge">Previous</a>
               </li>
               <li *ngFor="let page of Pages" [ngStyle]="{'background-color: #ee4d2d': page - 1 === currentPage}" class="pagination-item">
-                <a th:href="@{'/?sort_by=' + ${sort_by} + '&type_sort=' + ${type_sort}  + '&pageNumber=' +${i - 1}}" class="pagination-item__link" href="#"><span>{{page}}</span></a>
+                <a  routerLink="/" [queryParams]="{'page': page}" queryParamsHandling="merge" class="pagination-item__link" href="#"><span>{{page}}</span></a>
               </li>
-              <li *ngIf="currentPage != totalPage" class="pagination-item">
-                <a th:href="@{'/?sort_by=' + ${sort_by} + '&type_sort=' + ${type_sort}  + '&pageNumber=' +${pageNumber + 1}}" class="pagination-item__link" href="#">Next</a>
+              <li *ngIf="currentPage !== Pages.length" class="pagination-item">
+                <a  routerLink="/" [queryParams]="{'page': currentPage+1}" queryParamsHandling="merge"  class="pagination-item__link" href="#">Next</a>
+                <!-- <a th:href="@{'/?sort_by=' + ${sort_by} + '&type_sort=' + ${type_sort}  + '&pageNumber=' +${pageNumber + 1}}" class="pagination-item__link" href="#">Next</a> -->
               </li>
             </ul>
           </nav>
@@ -89,3 +91,4 @@
       </div>
     </div>
   </div>
+<app-footer></app-footer>

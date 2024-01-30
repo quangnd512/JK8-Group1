@@ -14,7 +14,6 @@
   <!-- reset css  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <!-- css  -->
-  <link rel="stylesheet" href="/assets/css/login.css">
   <!-- gg font  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,18 +46,20 @@
                   <h4 class="mt-1 mb-5 pb-1"></h4>
                 </div>
 
-                <form th:action="@{/registration}" method="POST" th:object="${Account}">
+                <form #signupForm ='ngForm' (ngSubmit)="onSignup()">
                   <p>ĐIỀN CÁC THÔNG TIN CẦN THIẾT ĐỂ ĐĂNG KÍ</p>
 
                   <div class="form-outline mb-4">
-                    <input field="*{username}" name="username" required type="text" id="form2Example1" class="form-control"
-                           placeholder="" />
+                    <input ngModel #username="ngModel" name="username" required type="text" id="form2Example1" class="form-control"
+                          placeholder="" />
                     <label class="form-label" for="form2Example1">Họ và tên</label>
+                    <span class="text-danger" *ngIf="!username.valid && username.touched"></span>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input field="*{password}" name="password" required type="password" id="form2Example22" class="form-control" />
+                    <input ngModel #password="ngModel" name="password" required type="password" id="form2Example22" class="form-control" />
                     <label class="form-label" for="form2Example22">Mật Khẩu</label>
+                    <span class="text-bg-danger text-danger " *ngIf="!password.valid && password.touched"></span>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
@@ -78,7 +79,7 @@
                   <div class="alert alert-info"> Đăng kí thành công!</div>
                 </div>
 
-                <div *ngIf="error" class="alert alert-danger">
+                <div *ngIf="!success && signupForm.submitted" class="alert alert-danger">
                   Tài khoản đã tồn tại!!
                 </div>
 

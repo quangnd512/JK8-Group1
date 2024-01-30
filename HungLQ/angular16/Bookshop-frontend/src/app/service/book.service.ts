@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, switchMap } from "rxjs";
 import { apiHost } from "./Api";
 import { Category } from "./category.service";
 
@@ -65,6 +65,33 @@ export class BookService{
         let url = apiHost + "/books/category/" + categoryId;
         if(params !== undefined) url += params;
         return this.HttpClient.get<book[]>(url);
+    }
+
+    getById(id:string):Observable<book>{
+        let url = apiHost + `/books/${id}`;
+        return this.HttpClient.get<book>(url)
+    }
+
+    // getBySearch(search:string,params?:string):Observable<book[]>{
+    //     let url = apiHost + "/books/category/" + params;
+    //     if(params !== undefined) url += params;
+    //     return this.HttpClient
+    // }
+
+    delete(id:number):Observable<book[]>{
+        let url = apiHost + `/books/${id}`;
+        return this.HttpClient.delete(url).pipe(
+            switchMap(
+                (data) => {
+                    return this.getAllBooks()
+                }
+            )
+        )
+    }
+
+    addBook(bookForm: FormData): Observable<book>{
+        const url = `${apiHost}/books/add`;
+        return this.HttpClient.post<book>(url,bookForm);
     }
 
 }

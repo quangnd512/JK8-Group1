@@ -8,13 +8,12 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/> -->
   <!-- MDB -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.css" rel="stylesheet"/>
   <!-- reset css  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <!-- css  -->
-  <!-- <link rel="stylesheet" href="/assets/css/login.css"> -->
   <!-- gg font  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,10 +22,6 @@
   <script src="https://kit.fontawesome.com/46f0e7003f.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <script
-        type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
-></script>
 <!-- Section: Design Block -->
 <section class="h-100 gradient-form" style="background-color: #eee;">
   <div class="container py-5 h-100">
@@ -51,41 +46,42 @@
                   <h4 class="mt-1 mb-5 pb-1"></h4>
                 </div>
 
-                <form >
+                <form (ngSubmit)="onSubmit()" #f='ngForm'>
                   <p>VUI LÒNG ĐĂNG NHẬP</p>
 
                   <div class="form-outline mb-4">
-                    <input required name="username" type="text" id="form2Example11" class="form-control"
-                           placeholder="" />
+                    <input #username="ngModel" required ngModel name="username" type="text" id="form2Example11" class="form-control"/>
                     <label class="form-label" for="form2Example11">Tên đăng nhập</label>
+                    <span class="text-danger" *ngIf="!username.valid && username.touched"> Vui lòng nhập tên đăng nhập </span>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input required  name="password" type="password" id="form2Example22" class="form-control" />
+                    <input #passowrd="ngModel" required ngModel name="password" type="password" id="form2Example22" class="form-control" />
                     <label class="form-label" for="form2Example22">Mật Khẩu</label>
+                    <span *ngIf="!passowrd.valid && passowrd.touched" class="text-danger "> Vui lòng nhập mật khẩu </span>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="padding: 20px; font-size: 1rem;">Đăng nhập</button>
+                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="padding: 20px;">Đăng nhập</button>
                     <a class="text-muted" href="#!"></a>
                   </div>
 
                   <div class="d-flex align-items-center justify-content-center pb-4">
                     <p class="mb-0 me-2">Chưa có tài khoản?</p>
-                    <a routerLink="/sign-up"><button type="button" class="btn btn-outline-danger" style="font-size: 1rem;">Đăng kí tại đây</button></a>
+                    <a routerLink="/sign-up"><button type="button" class="btn btn-outline-danger">Đăng kí tại đây</button></a>
                   </div>
 
                 </form>
 
               </div>
             </div>
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2 ">
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
               <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                <h4 class="mb-4">Tìm Sách</h4>
-                <p class="small mb-0">Mục đích chính của chúng tôi là giúp người dùng tìm kiếm sách dễ dàng hơn, đặc biệt là khi họ muốn biết thông tin cơ bản về một cuốn sách cụ thể trước khi quyết định mua hoặc mượn nó. Điều này có thể tiết kiệm thời gian và giúp người dùng chọn sách phù hợp với nhu cầu của họ một cách thuận tiện.</p>
+                <!-- <h4 class="mb-4">Tìm Sách</h4> -->
+                <!-- <p class="small mb-0">Mục đích chính của chúng tôi là giúp người dùng tìm kiếm sách dễ dàng hơn, đặc biệt là khi họ muốn biết thông tin cơ bản về một cuốn sách cụ thể trước khi quyết định mua hoặc mượn nó. Điều này có thể tiết kiệm thời gian và giúp người dùng chọn sách phù hợp với nhu cầu của họ một cách thuận tiện.</p> -->
                 <br>
                 <div class="d-flex align-items-center flex-row-reverse pb-4">
-                  <a routerLink="/"><button type="button" class="btn btn-outline-white" style="color: white; font-size: 1rem;">Trở lại trang chủ</button></a>
+                  <a href="/"><button type="button" class="btn btn-outline-white" style="color: white;">Trở lại trang chủ</button></a>
                 </div>
               </div>
             </div>
@@ -95,5 +91,9 @@
     </div>
   </div>
 </section>
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+></script>
 </body>
 </html>

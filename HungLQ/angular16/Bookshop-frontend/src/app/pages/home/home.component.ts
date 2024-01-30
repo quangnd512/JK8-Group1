@@ -1,8 +1,6 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BookService, ListPageable, book } from 'src/app/service/book.service';
-import { Category, CategoryService } from 'src/app/service/category.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -10,11 +8,10 @@ import { Category, CategoryService } from 'src/app/service/category.service';
   providers: [],
 })
 export class HomeComponent implements OnInit {
-  loadedAll:boolean = false;
   books: book[] = [];
   Pages: number[];
-  totalPage: number;
   currentPage: number;
+  route: string;
 
   constructor (
     private bookService:BookService,
@@ -23,24 +20,16 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      //get all book
-      // this.bookService.getAllBooks().subscribe(
-      //   (data) => this.books = data
-      // )
-    
-      //
-
-      if(!this.loadedAll){
+      const route_param = +this.activedRoute.snapshot.params['id'];
+      if(!route_param){
         this.bookService.getAllBooksPageable().subscribe(
           (data:ListPageable) => {
             console.log("getAll");
             this.books = data.content;
-            this.totalPage = data.totalPages;
-            this.Pages = Array(this.totalPage).fill(0).map((n,i) => i+1);
-            this.currentPage = data.pageable.pageNumber;
+            this.Pages = Array(data.totalPages).fill(0).map((n,i) => i+1);
+            this.currentPage = data.pageable.pageNumber + 1;
           }
         )
-        this.loadedAll = true;
       }
 
       this.activedRoute.params.subscribe(
@@ -52,8 +41,21 @@ export class HomeComponent implements OnInit {
               (data) => this.books = data
             )
           }
-        }
+        },
+        (err) => console.log(err),
+        () =>  console.log("1")
       )
+
+      this.activedRoute.queryParams.subscribe(
+        (queryParam) => {
+          const type_sort = queryParam['type_sort'];
+          const page = queryParam['page'];
+          const search = queryParam['search']
+        }
+        
+      )
+
+      this.route = this.router.url;
   };
   
   

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { apiHost } from './Api';
 
 export interface Category {
@@ -11,11 +11,38 @@ export interface Category {
     providedIn: 'root',
 })
 export class CategoryService {
-    private apiUrl = `${apiHost}/category/`;
 
     constructor(private http: HttpClient) {}
   
     getCategories(): Observable<Category[]> {
-      return this.http.get<Category[]>(this.apiUrl);
+      const url = `${apiHost}/category/`;
+      return this.http.get<Category[]>(url);
     }
+
+    getById(id): Observable<Category> {
+      const url = `${apiHost}/category/${id}`;
+      return this.http.get<Category>(url);
+    }
+
+    putCategory(category:Category){
+      const url = `${apiHost}/category/${category.id}`;
+      return this.http.put<Category>(url,category);
+    }
+
+    deleteOne(id){
+      const url = `${apiHost}/category/${id}`;
+      return this.http.delete(url).pipe(
+        switchMap(
+          (data) => {
+            return this.getCategories()
+          }
+          )
+      )
+    }
+
+    addCategory(category:Category){
+      const url = `${apiHost}/category/add`;
+      return this.http.post<Category>(url,category);
+    }
+
   }
