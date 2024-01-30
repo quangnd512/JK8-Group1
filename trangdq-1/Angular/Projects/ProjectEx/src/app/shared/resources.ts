@@ -44,6 +44,20 @@ export type Item = {
   productId: number,
   quantity: number
 }
+export type Order = {
+  id: number;
+  items: string;
+  customerId: number;
+  voucherId: number;
+  checkoutDate: Date;
+  orderStatus: string;
+  paymentMethod: string;
+  messageOfCustomer: string;
+  addressToReceive: string;
+  customerInfo: string;
+  // voucher: VoucherEntity;
+}
+
 export type OrderDTO = {
   customerPhone: string;
   voucherChosen: number;
@@ -85,6 +99,15 @@ export type ResponseObject = {
     totalElements?: number,
     totalPages?: number,
   }
+}
+
+export enum OrderStatus {
+  SUCCESS = "SUCCESS",
+  SHIPPING = "SHIPPING",
+  ADMIN_PREPARING = "ADMIN_PREPARING",
+  CUSTOMER_CONFIRMED = "CUSTOMER_CONFIRMED",
+  CUSTOMER_CANCELED = "CUSTOMER_CANCELED",
+  CUSTOMER_REQUEST_CANCEL = "CUSTOMER_REQUEST_CANCEL",
 }
 
 @Injectable()

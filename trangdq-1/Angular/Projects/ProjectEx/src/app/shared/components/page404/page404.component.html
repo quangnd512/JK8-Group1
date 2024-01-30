@@ -1,8 +1,8 @@
 <div class="container-lg">
   <div class="error-container">
-    <img alt="404 Page Not Found" class="error-image" src="assets/sad-meme.jpg">
-    <h1 class="error-header">Page Not Found</h1>
-    <p class="error-message">It seems like you've stumbled upon a page that doesn't exist.</p>
+    <img [src]="imageLink" alt="Meme" class="error-image">
+    <h1 class="error-header">{{ title }}</h1>
+    <p class="error-message">{{ message }}</p>
     <div class="error-buttons">
       <a class="btn btn-primary" href="/home/1">Go to Home Page</a>
     </div>

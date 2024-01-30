@@ -22,6 +22,7 @@ import {PaginationComponent} from './shared/components/pagination/pagination.com
 import {ShoppingCartComponent} from './shopping-cart/shopping-cart.component';
 import {CheckOutComponent} from './check-out/check-out.component';
 import {OrderManagerComponent} from './admin-dashboard/order-manager/order-manager.component';
+import {OrderHistoryComponent} from './order-history/order-history.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {OrderManagerComponent} from './admin-dashboard/order-manager/order-manag
     PaginationComponent,
     ShoppingCartComponent,
     CheckOutComponent,
-    OrderManagerComponent
+    OrderManagerComponent,
+    OrderHistoryComponent
   ],
   imports: [
     BrowserModule,

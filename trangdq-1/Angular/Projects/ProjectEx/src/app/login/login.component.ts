@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../shared/services/auth.service';
 import {ErrorMessage, PASSWORD_PATTERN, TakeUntilDestroy} from '../shared/resources';
-import {takeUntil} from "rxjs";
+import {Observable, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -9,12 +9,17 @@ import {takeUntil} from "rxjs";
   styleUrl: './login.component.scss'
 })
 export class LoginComponent extends TakeUntilDestroy {
+  public isLoggedIn$: Observable<boolean> = new Observable<boolean>()
   public errors: Array<ErrorMessage> = []
   public username: string = ""
   public password: string = ""
 
   constructor(private authService: AuthService) {
     super()
+  }
+
+  public ngOnInit() {
+    this.isLoggedIn$ = this.authService.isLoggedIn()
   }
 
   public login(): void {

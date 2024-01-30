@@ -28,8 +28,11 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
       if (product.inStock) {
         this.cartService.addToCart(product.id).pipe(takeUntil(this.destroy$))
           .subscribe({
-            next: () => this.router.navigate(['/my-shopping-cart']),
-            error: (error) => console.error(error)
+            next: () => {
+              console.log("Item added to cart!")
+              this.router.navigate(['/my-shopping-cart'])
+            },
+            error: (error) => console.error(error.message)
           })
       } else {
         alert("Product is out-of-stock! Please come back later!")
@@ -37,7 +40,7 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
     }
   }
 
-  public buyNow = (product: Product) => {
+  public buyNow = (product: Product): void => {
     const item: CartItem = {
       quantity: 1,
       productId: product.id ? product.id : 0,

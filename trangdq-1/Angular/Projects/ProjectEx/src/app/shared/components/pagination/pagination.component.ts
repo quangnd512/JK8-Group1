@@ -11,19 +11,16 @@ import {UserService} from "../../services/user.service";
 })
 export class PaginationComponent {
   @Input('position') public position: 'home' | 'admin-dashboard' = 'home'
-  public total_pages$: Observable<number> = new Observable<number>()
   @Input() public board: string = ''
-  public page: number = 1
   @Input() public query_params = ''
+  public page: number = 1
+  public total_pages$: Observable<number> = new Observable<number>()
 
   constructor(private route: ActivatedRoute, private productService: ProductService, private userService: UserService) {
   }
 
   public ngOnInit() {
-    let pageNo = this.route.snapshot.paramMap.get('page')
-    if (pageNo) {
-      this.page = Number.parseInt(pageNo)
-    }
+    this.page = Number.parseInt(<string>this.route.snapshot.paramMap.get('page'))
     if (this.board === "users-manager") {
       this.total_pages$ = this.userService.getTotalPages()
     } else {

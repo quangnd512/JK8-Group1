@@ -47,15 +47,16 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
   private getItems() {
     this.cartService.getItems().pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: response => {
+        next: (response) => {
           this.cartItems = response
           this.totalPrice = 0
           this.cartItems.forEach(item => {
             this.totalPrice += (item.price - item.price * item.discount / 100) * item.quantity;
           })
+          console.log("Cart items gotten.")
         },
         error: error => {
-          console.error(error)
+          console.error(error.message)
         }
       })
   }
@@ -64,10 +65,10 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
     this.cartService.updateItemQuantity(productId, quantity).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          console.log(response.message)
           this.updateState(productId, quantity)
         },
-        error: (error) => {
-          console.error(error)
+        error: () => {
           alert("Cannot change the quantity of item!")
         }
       })
@@ -77,10 +78,11 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
     this.cartService.deleteItem(item.productId).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          console.log(response.message)
           this.cartItems = this.cartItems.filter(cartItem => cartItem.productId !== item.productId)
           this.totalPrice -= (item.price - item.price * item.discount / 100)
         },
-        error: error => {
+        error: () => {
           alert("Failed to delete item!")
         }
       })
@@ -99,6 +101,7 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
         break
       }
     }
+    console.log("State updated!")
   }
 
 }

@@ -22,17 +22,6 @@ export class ProductService {
       );
   }
 
-  public searchProducts(page: number = 0, keywords: string): Observable<Array<Product>> {
-    return this.http.get<ResponseObject>(`${SERVER_URL}/search/${page}?name=${keywords}`)
-      .pipe(
-        map(response => response.data.content as Array<Product>),
-        catchError(error => {
-          console.error(error);
-          return of([]);
-        })
-      );
-  }
-
   public getTotalProducts(sort?: string, direction = 'asc'): Observable<number> {
     let url = this.accumulateUrl(0, sort, direction)
     return this.http.get<ResponseObject>(url)

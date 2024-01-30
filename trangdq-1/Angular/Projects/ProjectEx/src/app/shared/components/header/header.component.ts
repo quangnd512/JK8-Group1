@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable, takeUntil} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
 import {TakeUntilDestroy} from "../../resources";
-import {ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router";
+import {SearchService} from "../../services/search.service";
 
 @Component({
   selector: 'app-header',
@@ -12,9 +13,11 @@ import {ActivatedRoute} from "@angular/router";
 export class HeaderComponent extends TakeUntilDestroy implements OnInit {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>()
   public isAdmin$: Observable<boolean> = new Observable<boolean>()
-  public keywords: string | null = ''
+  public keyword: string = ''
+  @Output()
+  public searchKeywordsChange: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private authService: AuthService, private route: ActivatedRoute) {
+  constructor(private searchService: SearchService, private authService: AuthService, private router: Router) {
     super();
   }
 
@@ -29,5 +32,10 @@ export class HeaderComponent extends TakeUntilDestroy implements OnInit {
         next: () => console.log('Logout successfully!'),
         error: (error) => alert(error.message)
       })
+  }
+
+  public search(): void {
+    this.searchService.setSearchKeyword(this.keyword);
+    this.router.navigate(['/home/1'], {queryParams: {search: this.keyword}})
   }
 }

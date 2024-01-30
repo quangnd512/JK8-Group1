@@ -21,6 +21,9 @@
             <a class="nav-link" routerLink='/my-shopping-cart' routerLinkActive="active">My Cart</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" routerLink='/my-orders' routerLinkActive="active">My Orders</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" routerLink='/profile' routerLinkActive="active">My Profile</a>
           </li>
           <li *ngIf="!(isLoggedIn$ | async)" class="nav-item">
@@ -33,9 +36,9 @@
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <form class="d-flex">
-              <input [(ngModel)]="keywords" aria-label="Search" class="form-control me-2"
+              <input (input)="search()" [(ngModel)]="keyword" aria-label="Search" class="form-control me-2"
                      name="Search" placeholder="Search product's name" type="search">
-              <a class="btn btn-outline-success" href="/home/1?search={{keywords}}">Search</a>
+              <button (click)="search()" class="btn btn-outline-success">Search</button>
             </form>
           </li>
           <li class="nav-item">

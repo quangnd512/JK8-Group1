@@ -42,10 +42,7 @@ export class UserManagerComponent extends TakeUntilDestroy {
   }
 
   public ngOnInit(): void {
-    let pageNo = this.route.snapshot.paramMap.get('page')
-    if (pageNo) {
-      this.page = Number.parseInt(pageNo)
-    }
+    this.page = Number.parseInt(<string>this.route.snapshot.paramMap.get('page'))
     this.current = "dashboard"
     this.updateState()
   }
@@ -80,6 +77,7 @@ export class UserManagerComponent extends TakeUntilDestroy {
           this.userInput.address = user.address
           this.userInput.phone = user.phone
           this.userInput.role = user.role
+          console.log("User's information gotten!")
         },
         error: (error) => alert(error.message)
       })
@@ -101,9 +99,9 @@ export class UserManagerComponent extends TakeUntilDestroy {
       this.userService.addUser(inputDTO)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: () => {
+          next: (response) => {
             this.loading = false
-            alert("User added successfully!")
+            alert(response.message)
             this.returnToDashboard()
             this.updateState()
           },
@@ -119,13 +117,14 @@ export class UserManagerComponent extends TakeUntilDestroy {
 
   public updateUser() {
     if (this.validateData()) {
+      console.log(this.userInput)
       this.loading = true
       this.userService.updateUser(this.userInput)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: () => {
+          next: (response) => {
             this.loading = false
-            alert("User updated successfully!")
+            alert(response.message)
             this.returnToDashboard()
             this.updateState()
           },
@@ -146,9 +145,9 @@ export class UserManagerComponent extends TakeUntilDestroy {
       this.userService.deleteUser(id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: () => {
+          next: (response) => {
             this.loading = false
-            alert("User deleted successfully!")
+            alert(response.message)
             this.updateState()
           },
           error: (error) => {
@@ -182,7 +181,7 @@ export class UserManagerComponent extends TakeUntilDestroy {
         should = false;
       }
       if (this.current === 'update') {
-        if (!this.userInput.name.trim()) {
+        if (!this.userInput.name || !this.userInput.name.trim()) {
           this.errors[3].message = "*Name is empty.";
           should = false;
         }
@@ -194,11 +193,11 @@ export class UserManagerComponent extends TakeUntilDestroy {
           this.errors[4].message = "*User is too old.";
           should = false;
         }
-        if (!this.userInput.phone.match(PHONE_PATTERN)) {
+        if (!this.userInput.phone || !this.userInput.phone.match(PHONE_PATTERN)) {
           this.errors[5].message = "*Invalid phone number.";
           should = false;
         }
-        if (!this.userInput.address.trim()) {
+        if (!this.userInput.address || !this.userInput.address.trim()) {
           this.errors[6].message = "*Address is empty.";
           should = false;
         }

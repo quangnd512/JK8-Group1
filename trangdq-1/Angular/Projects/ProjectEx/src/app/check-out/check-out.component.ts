@@ -47,9 +47,9 @@ export class CheckOutComponent extends TakeUntilDestroy {
           this.data.customerName = response.name ? response.name : response.username
           this.data.customerPhone = response.phone
           this.data.addressToReceive = response.address
+          console.log("User's information gotten!")
         },
-        error: (error) => {
-          console.error(error)
+        error: () => {
           alert("Cannot retrieve your account. Please come back later...")
         }
       })
@@ -75,7 +75,6 @@ export class CheckOutComponent extends TakeUntilDestroy {
       this.orderService.checkout(this.data).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            alert("Checkout successfully!")
             if (localStorage.getItem("fromCart") === "true") {
               this.cartService.deleteAllItems().pipe(takeUntil(this.destroy$))
                 .subscribe({
@@ -87,13 +86,14 @@ export class CheckOutComponent extends TakeUntilDestroy {
                     this.router.navigate(['/home/1'])
                   },
                   error: (error) => {
-                    console.error(error)
+                    console.error(error.message)
                   }
                 })
             }
+            alert("Checkout successfully!")
+            this.router.navigate(['/my-orders'])
           },
           error: (error) => {
-            console.error(error)
             alert("Cannot checkout this time. Please come back later...")
           }
         })

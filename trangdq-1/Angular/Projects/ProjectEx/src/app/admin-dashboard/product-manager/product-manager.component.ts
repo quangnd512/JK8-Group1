@@ -37,10 +37,7 @@ export class ProductManagerComponent extends TakeUntilDestroy {
   }
 
   public ngOnInit(): void {
-    let pageNo = this.route.snapshot.paramMap.get('page')
-    if (pageNo) {
-      this.page = Number.parseInt(pageNo)
-    }
+    this.page = Number.parseInt(<string>this.route.snapshot.paramMap.get('page'))
     this.current = "dashboard"
     this.updateState()
   }
@@ -75,6 +72,7 @@ export class ProductManagerComponent extends TakeUntilDestroy {
           this.productInput.inStock = product.inStock
           this.productInput.images = product.images
           this.id = product.id ? product.id : 0
+          console.log("Product's information gotten!")
         },
         error: (error) => alert(error.message)
       })
@@ -116,6 +114,7 @@ export class ProductManagerComponent extends TakeUntilDestroy {
       this.productService.addProduct(this.productInput).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
+            console.log("Product's information saved!")
             for (const image of this.images) {
               this.formData.append('images', image, image.name);
             }
@@ -147,6 +146,7 @@ export class ProductManagerComponent extends TakeUntilDestroy {
     if (this.validateData()) {
       this.productService.updateProduct(this.id, this.productInput).pipe(takeUntil(this.destroy$)).subscribe({
         next: (response) => {
+          console.log("Product's information saved!")
           if (this.images.length !== 0) {
             for (const image of this.images) {
               this.formData.append('images', image, image.name);
@@ -204,6 +204,7 @@ export class ProductManagerComponent extends TakeUntilDestroy {
   public updateState(): void {
     this.products$ = this.productService.getProducts(this.page - 1);
     this.total_products$ = this.productService.getTotalProducts()
+    console.log("State updated!")
   }
 
   private deleteElement(clone: Array<File>, index: number) {

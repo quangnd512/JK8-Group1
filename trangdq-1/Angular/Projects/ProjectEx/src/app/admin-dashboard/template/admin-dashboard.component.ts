@@ -11,7 +11,6 @@ import {ActivatedRoute} from "@angular/router";
 })
 
 export class AdminDashboardComponent extends TakeUntilDestroy {
-  public page: number = 1
   public isAdmin$: Observable<boolean> = new Observable<boolean>()
   public board: "products-manager" | "users-manager" = "products-manager"
 
@@ -26,13 +25,6 @@ export class AdminDashboardComponent extends TakeUntilDestroy {
       this.board = "products-manager"
     } else if (board === 'users-manager') {
       this.board = "users-manager"
-    }
-  }
-
-  public ngOnChanges() {
-    let pageNo = this.route.snapshot.paramMap.get('page')
-    if (pageNo) {
-      this.page = Number.parseInt(pageNo)
     }
   }
 
