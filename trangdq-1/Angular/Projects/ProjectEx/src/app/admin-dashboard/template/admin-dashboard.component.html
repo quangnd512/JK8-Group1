@@ -1,0 +1,44 @@
+<ng-template #display>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 bg-light sidebar">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a (click)="productsManager()" [ngClass]="{'active': board==='products-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/products-manager/1" routerLinkActive="active">Products Manager</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="usersManager()" [ngClass]="{'active': board==='users-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/users-manager/1" routerLinkActive="active">Users Manager</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="/admin-dashboard/orders-manager" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Orders Manager
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown"  (click)="ordersManager()" >
+              <li><a class="dropdown-item" href="/admin-dashboard/orders-manager?status={{OrderStatus.CUSTOMER_CONFIRMED}}">Checked out orders</a></li>
+              <li><a class="dropdown-item" href="/admin-dashboard/orders-manager?status={{OrderStatus.ADMIN_PREPARING}}">Preparing orders</a></li>
+              <li><a class="dropdown-item" href="/admin-dashboard/orders-manager?status={{OrderStatus.SHIPPING}}">Shipping orders</a></li>
+              <li><a class="dropdown-item" href="/admin-dashboard/orders-manager?status={{OrderStatus.SUCCESS}}">Successful orders</a></li>
+              <li><a class="dropdown-item" href="/admin-dashboard/orders-manager?status={{OrderStatus.CUSTOMER_REQUEST_CANCEL}}">Cancelling orders</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="board==='products-manager'" class="col-md-10 p-4 main-body">
+        <app-product-manager></app-product-manager>
+      </div>
+      <div *ngIf="board==='users-manager'" class="col-md-10 p-4 main-body">
+        <app-user-manager></app-user-manager>
+      </div>
+      <div *ngIf="board==='orders-manager'" class="col-md-10 p-4 main-body">
+        <app-order-manager></app-order-manager>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #notfound>
+  <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="(isAdmin$ | async), then display, else notfound">
+</ng-container>
