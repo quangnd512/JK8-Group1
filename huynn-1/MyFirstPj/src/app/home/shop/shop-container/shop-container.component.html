@@ -1,0 +1,216 @@
+<!-- Main wrapper -->
+<app-home-header-main></app-home-header-main>
+<div class="wrapper" id="wrapper">
+
+  <!-- Header -->
+
+  <!-- //Header -->
+  <!-- Start Search Popup -->
+  <div class="box-search-content search_active block-bg close__top">
+    <form id="search_mini_form" class="minisearch" action="#">
+      <div class="field__search">
+        <input type="text" placeholder="Search entire store here...">
+        <div class="action">
+          <a href="#"><i class="zmdi zmdi-search"></i></a>
+        </div>
+      </div>
+    </form>
+    <div class="close__wrap">
+      <span>close</span>
+    </div>
+  </div>
+  <!-- End Search Popup -->
+  <!-- Start breadcrumb area -->
+  <div class="ht__breadcrumb__area bg-image--6">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="breadcrumb__inner text-center">
+            <h2 class="breadcrumb-title">Thư viện</h2>
+            <nav class="breadcrumb-content">
+              <a class="breadcrumb_item" href="">Trang chủ</a>
+              <span class="brd-separator">/Thư viện</span>
+              <span class="breadcrumb_item active"></span>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End breadcrumb area -->
+  <!-- Start Shop Page -->
+  <div class="page-shop-sidebar left--sidebar bg--white section-padding--lg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-12 order-2 order-lg-1 md-mt-40 sm-mt-40">
+          <div class="shop__sidebar">
+            <aside class="widget__categories products--cat">
+              <h3 class="widget__title">Các thể loại</h3>
+              <ul>
+                <li><a style="cursor: pointer" (click)="addAllBookComponent()" class="tatCarButton" value="tất cả">Tất
+                  cả <span></span></a></li>
+                <li><a style="cursor: pointer" (click)="addAllBookByType(BookType.TIEU_THUYET)" class="tieuThuyetButton"
+                       value="Tiểu Thuyết">Tiểu thuyết <span></span></a></li>
+                <li><a style="cursor: pointer" (click)="addAllBookByType(BookType.TRUYEN_NGAN)"
+                       class="truyenNganButton" value="Truyện Ngắn">Truyện ngắn <span></span></a></li>
+                <li><a style="cursor: pointer" (click)="addAllBookByType(BookType.THO)" class="thoButton" value="Thơ">Thơ
+                  <span></span></a></li>
+              </ul>
+            </aside>
+            <!--                        <aside class="widget__categories pro&#45;&#45;range">-->
+            <!--                            <h3 class="widget__title">Lọc theo giá</h3>-->
+            <!--                            <div class="content-shopby">-->
+            <!--                                <div class="price_filter s-filter clear">-->
+            <!--                                    <form action="#" method="GET">-->
+            <!--                                        <div id="slider-range"></div>-->
+            <!--                                        <div class="slider__range&#45;&#45;output">-->
+            <!--                                            <div class="price__output&#45;&#45;wrap">-->
+            <!--                                                <div class="price&#45;&#45;output">-->
+            <!--                                                    <span>Giá :</span><input type="text" id="amount" readonly="">-->
+            <!--                                                </div>-->
+            <!--                                                <div class="price&#45;&#45;filter">-->
+            <!--                                                    <a href="#" onclick="locTheoGia()">Lọc</a>-->
+            <!--                                                </div>-->
+            <!--                                            </div>-->
+            <!--                                        </div>-->
+            <!--                                    </form>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </aside>-->
+            <aside class="widget__categories sidebar--banner">
+              <img src="https://res.cloudinary.com/ddmdpbsoc/image/upload/v1706238769/banner_left_i9wtju.jpg"
+                   alt="banner images">
+              <div class="text">
+                <h2>new products</h2>
+                <h6>save up to <br> <strong>40%</strong>off</h6>
+              </div>
+            </aside>
+          </div>
+        </div>
+        <div class="col-lg-9 col-12 order-1 order-lg-2">
+          <div class="row">
+            <div class="col-lg-12">
+              <div
+                class="shop__list__wrapper d-flex flex-wrap flex-md-nowrap justify-content-between">
+                <div class="shop__list nav justify-content-center" role="tablist">
+                  <a class="nav-item nav-link active" data-bs-toggle="tab" href="#nav-grid"
+                     role="tab"><i class="fa fa-th"></i></a>
+                </div>
+                <p>Kết quả</p>
+                <div class="orderby__wrapper">
+                  <span>Sắp xếp theo</span>
+                  <select class="shot__byselect" [(ngModel)]="selectedSortOption">
+                    <option [value]="'Tên sách'">Tên</option>
+                    <option [value]="'Ngày xuất bản'">Ngày xuất bản</option>
+                    <option [value]="'Giá tiền'">Giá</option>
+                  </select>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab__container tab-content">
+            <div class="shop-grid tab-pane fade show active" id="nav-grid" role="tabpanel">
+              <div #productList id="productList">
+
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Shop Page -->
+  <!-- Footer Area -->
+  <app-home-footer></app-home-footer>
+  <!-- //Footer Area -->
+  <!-- QUICKVIEW PRODUCT -->
+  <div id="quickview-wrapper">
+    <!-- Modal -->
+    <div class="modal fade" id="productmodal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal__container" role="document">
+        <div class="modal-content">
+          <div class="modal-header modal__header">
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-product">
+              <!-- Start product images -->
+              <div class="product-images">
+                <div class="main-image images">
+                  <img alt="big images" src="boighor/images/product/big-img/1.jpg">
+                </div>
+              </div>
+              <!-- end product images -->
+              <div class="product-info">
+                <h1>Simple Fabric Bags</h1>
+                <div class="rating__and__review">
+                  <ul class="rating">
+                    <li><span class="ti-star"></span></li>
+                    <li><span class="ti-star"></span></li>
+                    <li><span class="ti-star"></span></li>
+                    <li><span class="ti-star"></span></li>
+                    <li><span class="ti-star"></span></li>
+                  </ul>
+                  <div class="review">
+                    <a href="#">4 customer reviews</a>
+                  </div>
+                </div>
+                <div class="price-box-3">
+                  <div class="s-price-box">
+                    <span class="new-price">$17.20</span>
+                  </div>
+                </div>
+                <div class="quick-desc">
+                  Designed for simplicity and made from high quality materials. Its sleek geometry
+                  and material combinations creates a modern look.
+                </div>
+                <div class="select__color">
+                  <h2>Select color</h2>
+                  <ul class="color__list">
+                    <li class="red"><a title="Red" href="#">Red</a></li>
+                    <li class="gold"><a title="Gold" href="#">Gold</a></li>
+                    <li class="orange"><a title="Orange" href="#">Orange</a></li>
+                    <li class="orange"><a title="Orange" href="#">Orange</a></li>
+                  </ul>
+                </div>
+                <div class="select__size">
+                  <h2>Select size</h2>
+                  <ul class="color__list">
+                    <li class="l__size"><a title="L" href="#">L</a></li>
+                    <li class="m__size"><a title="M" href="#">M</a></li>
+                    <li class="s__size"><a title="S" href="#">S</a></li>
+                    <li class="xl__size"><a title="XL" href="#">XL</a></li>
+                    <li class="xxl__size"><a title="XXL" href="#">XXL</a></li>
+                  </ul>
+                </div>
+                <div class="social-sharing">
+                  <div class="widget widget_socialsharing_widget">
+                    <h3 class="widget-title-modal">Share this product</h3>
+                    <ul class="social__net social__net--2 d-flex justify-content-start">
+                      <li class="facebook"><a href="#" class="rss social-icon"><i
+                        class="zmdi zmdi-rss"></i></a></li>
+                      <li class="linkedin"><a href="#" class="linkedin social-icon"><i
+                        class="zmdi zmdi-linkedin"></i></a></li>
+                      <li class="pinterest"><a href="#" class="pinterest social-icon"><i
+                        class="zmdi zmdi-pinterest"></i></a></li>
+                      <li class="tumblr"><a href="#" class="tumblr social-icon"><i
+                        class="zmdi zmdi-tumblr"></i></a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="addtocart-btn">
+                  <a href="#">Add to cart</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END QUICKVIEW PRODUCT -->
+</div>
+<!-- //Main wrapper -->

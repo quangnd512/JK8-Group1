@@ -1,0 +1,117 @@
+<div class="container mt-4">
+  <table mat-table [dataSource]="checkOutDatas" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> STT.</th>
+      <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="maPhieuMuon">
+      <th mat-header-cell *matHeaderCellDef> Mã phiếu mượn</th>
+      <td mat-cell *matCellDef="let element"> {{ element.maPhieuMuon }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="maPhieuTra">
+      <th mat-header-cell *matHeaderCellDef> Mã phiếu trả</th>
+      <td mat-cell *matCellDef="let element"> {{ element.maPhieuTra }}</td>
+    </ng-container>
+
+    <!-- Ngay Muon Column -->
+    <ng-container matColumnDef="ngayMuon">
+      <th mat-header-cell *matHeaderCellDef> Ngày mượn</th>
+      <td mat-cell *matCellDef="let element"> {{ element.ngayMuon | date:'dd/MM/yyyy' }}</td>
+    </ng-container>
+
+    <!-- Ngay Tra Column -->
+    <ng-container matColumnDef="ngayTra">
+      <th mat-header-cell *matHeaderCellDef> Ngày trả</th>
+      <td mat-cell *matCellDef="let element"> {{ element.ngayTra | date:'dd/MM/yyyy' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="soLuong">
+      <th mat-header-cell *matHeaderCellDef> Số lượng</th>
+      <td mat-cell *matCellDef="let element"> {{ element.soLuong }}</td>
+    </ng-container>
+
+    <!-- Tong Tien Column -->
+    <ng-container matColumnDef="tongTien">
+      <th mat-header-cell *matHeaderCellDef> Tổng tiền</th>
+      <td mat-cell *matCellDef="let element"> {{ element.tongTien | currency:'VND':'symbol':'1.0-0' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trangThaiMuon">
+      <th mat-header-cell *matHeaderCellDef> Trạng thái mượn</th>
+      <td mat-cell *matCellDef="let element"> {{ element.trangThaiMuon }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="trangThaiTra">
+      <th mat-header-cell *matHeaderCellDef> Trạng thái trả</th>
+      <td mat-cell *matCellDef="let element"> {{ element.trangThaiTra }}</td>
+    </ng-container>
+
+    <!-- Xem Chi Tiet Column -->
+    <ng-container matColumnDef="xemChiTietBtn">
+      <th mat-header-cell *matHeaderCellDef> Xem chi tiết</th>
+      <td mat-cell (click)="openCloseModal(); getCheckOut(i)" *matCellDef="let element; let i = index" style="cursor: pointer">
+        <mat-icon>remove_red_eye</mat-icon>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div [@openCloseModal]="isShown ? 'open' : 'close' " class="modal-content"
+       style="width: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+    <div class="modal-header">
+      <h4 class="modal-title">Thông tin mượn trả</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openCloseModal()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body" style="overflow: auto; max-height: 500px;">
+      <table mat-table [dataSource]="checkOutData" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="maSach">
+          <th mat-header-cell *matHeaderCellDef> Mã sách </th>
+          <td mat-cell *matCellDef="let element"> {{ element.maSach }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tenSach">
+          <th mat-header-cell *matHeaderCellDef> Tên Sách</th>
+          <td mat-cell *matCellDef="let element"> {{ element.tenSach }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="giaTien">
+          <th mat-header-cell *matHeaderCellDef> Giá tiền</th>
+          <td mat-cell *matCellDef="let element"> {{ element.giaTien | currency:'VND':'symbol':'1.0-0'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="theLoai">
+          <th mat-header-cell *matHeaderCellDef> Thể loại</th>
+          <td mat-cell *matCellDef="let element"> {{ element.theLoai.tenTheLoai }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nhaXuatBan">
+          <th mat-header-cell *matHeaderCellDef> Nhà xuất bản</th>
+          <td mat-cell *matCellDef="let element"> {{ element.nhaXuatBan.tenNhaXuatBan }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="tacGia">
+          <th mat-header-cell *matHeaderCellDef> Tác giả</th>
+          <td mat-cell *matCellDef="let element"> {{ element.tacGia.ten }}</td>
+        </ng-container>
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedDeitalColums"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedDeitalColums;"></tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+  </div>
+
+</div>

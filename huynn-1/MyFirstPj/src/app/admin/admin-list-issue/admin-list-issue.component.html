@@ -1,0 +1,87 @@
+<div class="container pt-5 mt-5 border border-primary rounded table-responsive">
+    <div class="col-md-12">
+        <h2 class="mb-4 text-center">Danh Sách Phiếu Mượn Trả</h2>
+        <div class="table-container" style="max-height: 400px; overflow-y: auto">
+            <table id="listIssue" class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Đọc Giả</th>
+                        <th scope="col">Sách</th>
+                        <th scope="col">Ngày Mượn</th>
+                        <th scope="col">Ngày Trả</th>
+                        <th scope="col">Xác nhận trả</th>
+                    </tr>
+                </thead>
+
+                <tbody *ngIf="bookBorrowReciepts.length > 0;">
+                    <tr *ngFor="let item of bookBorrowReciepts; let currentIndex = index;">
+                        <th scope="row">{{ (currentIndex + 1).toString() }}</th>
+                        <td [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}">{{ item.docGia.ten }}</td>
+                        <td>
+                            <ul>
+                                <li [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}" *ngFor="let ib of item.sachs">{{ ib.tenSach }}</li>
+                            </ul>
+                        </td>
+                        <td [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}">{{ item.ngayMuon | date:'dd/MM/yyyy' }}</td>
+                        <td [ngStyle]="{'color': bookReturnReciepts[currentIndex].trang_thai ? 'black' : 'red'}">
+                            {{ bookReturnReciepts[currentIndex].ngayTra | date:'dd/MM/yyyy' }}
+                        </td>
+                        <td (click)="getBorrowBookReciept(item.maPhieuMuon)" style="cursor: pointer;"> <fa-icon
+                                [icon]="faRotateRight"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+        </div>
+
+    </div>
+
+    <div class="modal-content isHide"
+        style="background-color: white; width: 50%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+        <div class="modal-header">
+            <h4 class="modal-title">Return Book(s)</h4>
+            <button type="button" (click)="openModal()" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table id="returnBookTable" class="table">
+                <thead>
+                </thead>
+                <tbody class="container" *ngIf="bookBorrowReciept">
+
+                    <section class="example-section">
+                        <span class="example-list-section">
+                            <mat-checkbox class="example-margin" [checked]="selectAll" [indeterminate]="someComplete()"
+                                (change)="setAll($event.checked)">
+                                Chọn tất cả
+                            </mat-checkbox>
+                        </span>
+                        <span class="example-list-section">
+                            <ul>
+                                @for (book of bookBorrowReciept.sachs; track book) {
+                                <li>
+                                    <mat-checkbox (ngModelChange)="updateAllComplete()"
+                                        (click)="handleBookSelection(book.maSach)" [ngModel]="selectAll">
+                                        <div style="width: 100px;">{{book.tenSach}}</div>
+                                    </mat-checkbox>
+                                </li>
+                                }
+                            </ul>
+                        </span>
+                    </section>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="openModal()" class="btn btn-default " data-dismiss="modal">Tắt
+            </button>
+            <button type="button" class="btn btn-primary" (click)="returnBookConfirm()">Trả Sách được chọn</button>
+        </div>
+    </div>
+
+</div>

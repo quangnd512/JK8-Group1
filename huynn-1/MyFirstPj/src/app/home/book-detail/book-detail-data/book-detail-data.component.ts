@@ -1,58 +1,99 @@
-import { Component, inject } from '@angular/core';
-import { ActivatedRoute, ROUTER_CONFIGURATION } from '@angular/router';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BookServices } from '../../../services/bookServices';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Book } from '../../../services/interfaces/book';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {  } from '@fortawesome/fontawesome-svg-core'
+import { } from '@fortawesome/fontawesome-svg-core'
+import { CartServces } from '../../../services/cartServces';
+import { Cart } from '../../../services/interfaces/cart';
+import { UserService } from '../../../services/userServices';
+import { BookResponse } from '../../../services/interfaces/book/bookResponse.interface';
 
 @Component({
   selector: 'app-book-detail-data',
   standalone: true,
   imports: [CommonModule, HttpClientModule, FontAwesomeModule],
-  providers: [BookServices],
+  providers: [BookServices, CartServces, UserService],
   templateUrl: './book-detail-data.component.html',
-  // styleUrl: './book-detail-data.component.scss'
-  styleUrl: '../../home.component.scss'
+  styleUrls: ['../../home.component.scss', './book-detail-data.component.scss']
 })
-export class BookDetailDataComponent {
+export class BookDetailDataComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
 
   private bookServices = inject(BookServices);
 
-  public book: Book = {
-    id: '',
-    name: '',
+  private cartServices = inject(CartServces);
+
+  public bookList: Book[] = [];
+
+  @Output() successAlertVisible = new EventEmitter<boolean>();
+
+  public book: BookResponse = {
+    maSach: 0,
+    tenSach: '',
+    soLuong: 0,
+    ngayXuatBan: '',
+    giaTien: 0,
+    theLoai: '',
+    nhaXuatBan: '',
     image: '',
-    price: 0,
-    detail: '',
-    author: '',
-    quantity: 0,
-    publishedDate: '',
-    bookType: '',
-    publisher: ''
+    tacGia: ''
   };
 
+
   constructor() {
+
+  }
+
+  ngOnInit(): void {
     this.getBookData();
   }
 
+  // get book to display on book detail page
   public getBookData() {
-    const bookId: string | null = this.route.snapshot.paramMap.get('bookId');
-    if (bookId) {
-      this.bookServices.getBook(bookId).subscribe(
-        (data) => {
-          if (data.image == '') {
-            data.image = "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.webp";
-            this.book = data;
-            return;
-          }
-          return;
-        }
-      )
+    const bookIdParam = this.route.snapshot.paramMap.get('bookId');
+
+    if (!bookIdParam) {
+      return;
     }
+
+    const bookId = parseFloat(bookIdParam);
+
+    this.bookServices.getBookById(bookId).subscribe(
+      (data) => {
+        if (data) {
+          this.book = data;
+          if (data.image === '') {
+            this.book.image = "https://lightwidget.com/wp-content/uploads/localhost-file-not-found-480x480.webp";
+          }
+          console.log(this.book);
+        }
+      }
+    );
   }
 
+  // click add book to cart handling
+  public addBookToCart(bookId: any) {
+    const userIdParam = localStorage.getItem('userId')?.toString();
+    if (userIdParam) {
+      const userId = parseFloat(userIdParam);
+      this.cartServices.addBookToCart(bookId, userId).subscribe({
+        next: (value) => {
+          if (value != null) {
+            alert("Thêm vào giỏ hàng thành công");
+            return;
+          }
+          alert("Đã hết sách");
+          return;
+        },
+        error: (err) => {
+          alert("Đã xảy ra lỗi khi thêm vào giỏ hàng");
+        }
+      });
+    }
+
+  }
 }

@@ -7,6 +7,7 @@ import { RouterLink, RouterModule, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { AdminUpdateBookComponent } from '../admin-update-book/admin-update-book.component';
+import { ListBookResponse } from '../../../services/interfaces/book/listBookResponse.interface';
 
 @Component({
   selector: 'app-admin-book-list',
@@ -22,7 +23,7 @@ export class AdminBookListComponent implements OnInit {
 
   private router = inject(Router)
 
-  public listOfBooks: Book[] = [];
+  public listOfBooks: ListBookResponse[] = [];
 
   public faPencil = faPencil;
 
@@ -30,14 +31,12 @@ export class AdminBookListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bookServices.getBooks().subscribe(
-      (data) => {
-        this.listOfBooks = data;
-      }
-    )
+    this.bookServices.getAllBooks().subscribe((data) => {
+      this.listOfBooks = data
+    })
   }
 
-  public navigateToUpdateBook(book: Book) {
-    this.router.navigate(['/admin/update-book', {id: book.id}]);
+  public navigateToUpdateBook(bookId: number) {
+    this.router.navigate(['/admin/update-book', {id: bookId}]);
   }
 }

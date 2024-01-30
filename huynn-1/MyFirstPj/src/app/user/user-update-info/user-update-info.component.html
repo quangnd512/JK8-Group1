@@ -1,0 +1,66 @@
+<div class="container mt-5" style="height: 100vh; background-color: white" >
+  <mat-drawer-container class="example-container" >
+    <mat-drawer mode="side" opened>
+      <div class="side-bar">
+        <div class="user-info">
+          <ul class="meta list list-unstyled" id="userInfo"><li class="name">NGƯỜI DÙNG
+            <label class="label label-info"> {{ user.ten }} </label>
+          </li>
+            <li class="activity">DỊA CHỈ: {{ user.diaCHi }}</li>
+            <li class="activity">NGÀY SINH: {{ user.ngaySinh |  date:'dd/MM/yyyy'}}</li>
+            <li class="activity">SỐ ĐIỆN THOẠI: {{ user.sdt }}</li>
+            <li class="activity">EMAIL: {{ user.email }}</li>
+          </ul>
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content style="background-color: white">
+      <div class="content-panel">
+        <h2 class="title">Profile<span class="pro-label label label-warning"></span></h2>
+        <form class="form-horizontal" (ngSubmit)="onSubmit()" [formGroup]="userInfoForm">
+          <fieldset class="fieldset">
+            <h3 class="fieldset-title">cập nhật thông tin cá nhân</h3>
+
+            <div class="form-group">
+              <label class="col-md-2 col-sm-3 col-xs-12 control-label">Họ và tên</label>
+              <div class="col-md-10 col-sm-9 col-xs-12">
+                <input formControlName="ten" type="text" class="form-control" id="hoVaTen" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 col-sm-3 col-xs-12 control-label">Địa chỉ</label>
+              <div class="col-md-10 col-sm-9 col-xs-12">
+                <input formControlName="diaChi" type="text" class="form-control" id="diaChi" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 col-sm-3 col-xs-12 control-label">Ngày sinh</label>
+              <div class="col-md-10 col-sm-9 col-xs-12">
+                <input formControlName="ngaySinh" type="date" class="form-control" id="ngaySinh" required>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset class="fieldset">
+            <h3 class="fieldset-title">Contact Info</h3>
+            <div class="form-group">
+              <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
+              <div class="col-md-10 col-sm-9 col-xs-12">
+                <input formControlName="email" type="email" class="form-control" placeholder="huynn@gmail.com">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2  col-sm-3 col-xs-12 control-label">Số điện thoai</label>
+              <div class="col-md-10 col-sm-9 col-xs-12">
+                <input formControlName="sdt" type="text" class="form-control" id="soDienThoai" required>
+              </div>
+            </div>
+          </fieldset>
+          <hr>
+          <button [disabled]="userInfoForm.invalid" (click)="onSubmit()" type="button" class="btn btn-primary">Cập nhật</button>
+        </form>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
+

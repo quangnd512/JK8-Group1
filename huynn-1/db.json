@@ -147,14 +147,40 @@
   ],
   "userInfos": [
     {
+      "id": "1",
+      "email": "",
       "userName": "admin",
       "password": "Huynguyen",
       "role": "ADMIN"
     },
     {
+      "id": "2",
+      "email": "",
       "userName": "user",
       "password": "Huynguyen",
       "role": "USER"
+    }
+  ],
+  "carts": [
+    {
+      "userId": "1",
+      "id": "2",
+      "bookId": "2"
+    },
+    {
+      "id": "0fhzlkW",
+      "bookId": "12",
+      "userId": "2"
+    },
+    {
+      "id": "by8BuPr",
+      "bookId": "12",
+      "userId": "2"
+    },
+    {
+      "id": "k2gLkCw",
+      "bookId": "12",
+      "userId": "2"
     }
   ]
 }

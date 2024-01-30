@@ -1,0 +1,18 @@
+<div class="" *ngIf="listOfBooks" class="row">
+  <div class="product product__style--3 col-3" *ngFor="let item of listOfBooks.slice(0, 8)">
+    <div class="product__thumb ">
+      <a class="first__img">
+        <img class="image-thumbnail"
+             [src]="item.image"
+             alt="product image" style="width: 249px; height: 313.55px">
+      </a>
+    </div>
+    <div class="product__content content--center">
+      <h4 class="book-name"><a style="cursor: pointer; color: black" class="book-name"
+                               (click)="navigateToBookDetail(item.maSach)">{{ item.tenSach |truncate: 18}}</a></h4>
+      <ul class="price d-flex">
+        <li>{{ item.giaTien | currency:'VND':'symbol':'1.0-0'}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

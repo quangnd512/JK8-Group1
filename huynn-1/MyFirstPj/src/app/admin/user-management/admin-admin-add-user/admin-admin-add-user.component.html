@@ -1,0 +1,34 @@
+<div class="container mt-4">
+    <h2>Add Member</h2>
+
+    <form #addUserForm="ngForm" (ngSubmit)="submitData(addUserForm)" novalidate>
+        <div class="form-group">
+            <label for="username">Tên đăng nhập:</label>
+            <input type="text" class="form-control" id="username" name="tenTk" ngModel />
+            <div *ngIf="inputErr.usernameErr" class="text-danger"> {{ inputErr.usernameErr }} </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="matKhau" ngModel />
+            <div *ngIf="inputErr.passwordErr" class="text-danger"> {{ inputErr.passwordErr }} </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Xác nhận mật khẩu</label>
+            <input type="password" class="form-control" id="comfirmPassword" name="nhapLaiMk" ngModel />
+            <div *ngIf="inputErr.comfirmPasswordErr" class="text-danger"> {{ inputErr.comfirmPasswordErr }} </div>
+        </div>
+        <div class="form-group mt-2">
+            <mat-form-field>
+                <mat-label>User role</mat-label>
+                <mat-select name="role" ngModel>
+                    @for (userRole of userRoles; track userRole) {
+                    <mat-option [value]="userRole.value">{{userRole.viewValue}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="inputErr.roleErr" class="text-danger"> {{ inputErr.roleErr }} </div>
+        </div>
+
+        <button class="btn btn-primary mt-2">Submit</button>
+    </form>
+</div>

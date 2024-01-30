@@ -1,42 +1,92 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable, OnInit, inject } from "@angular/core";
-import { Book } from "./interfaces/book";
-import { Observable } from "rxjs";
-import { BOOKS_URI } from "./api";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Injectable, OnInit, inject} from "@angular/core";
+import {Book} from "./interfaces/book";
+import {Observable, catchError, throwError} from "rxjs";
+import {
+  ADD_BOOK_URI,
+  BASE__URL,
+  BOOKS_URI,
+  DELETE_BOOK_URI,
+  GET_ALL_BOOK_URI, GET_BOOK_BY_TYPE_URI,
+  GET_BOOK_DETAIL_URI, GET_BOOK_PAGINAION_BY_TYPE_URI, GET_BOOK_PAGINAION_URI,
+  GET_NEW_BOOK_URI,
+  UPDATE_BOOK_URI
+} from "./api";
+import {ListBookResponse} from "./interfaces/book/listBookResponse.interface";
+import {BookResponse} from "./interfaces/book/bookResponse.interface";
+import {addBookDto} from "./dto/addBookDto";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class BookServices implements OnInit {
 
 
-    public httpClient = inject(HttpClient);
+  public httpClient = inject(HttpClient);
 
-    constructor() {
+  constructor() {
 
-    }
+  }
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
-    }
+  }
 
-    public addBook(bookData: Book): Observable<Book> {
-        return this.httpClient.post<Book>(BOOKS_URI, bookData)
-    }
+  public addNewBook(bookData: addBookDto): Observable<addBookDto | null> {
+    return this.httpClient.post<addBookDto>(BASE__URL.concat(ADD_BOOK_URI), bookData).pipe(catchError((err) => {
+      return throwError(() => err);
+    }));
+  }
 
-    public getBooks(): Observable<Book[]> {
-        return this.httpClient.get<Book[]>(BOOKS_URI);
-    }
+  public getNewBooks(): Observable<ListBookResponse[]> {
+    return this.httpClient.get<ListBookResponse[]>(BASE__URL.concat(GET_NEW_BOOK_URI));
+  }
 
-    public getBook(id: string): Observable<Book> {
-        return this.httpClient.get<Book>(BOOKS_URI.concat("/" + id));
-    }
+  public getAllBooks(): Observable<ListBookResponse[]> {
+    return this.httpClient.get<ListBookResponse[]>(BASE__URL.concat(GET_ALL_BOOK_URI));
+  }
 
-    public updateBook(id: string, data: Book): Observable<Book> {
-        return this.httpClient.put<Book>(BOOKS_URI.concat("/" + id), data);
-    }
+  public getBookByType(bookType: any): Observable<ListBookResponse[]> {
+      return this.httpClient.get<ListBookResponse[]>(BASE__URL.concat(GET_BOOK_BY_TYPE_URI + "?the-loai=" + bookType));
+  }
 
-    public deleteBook(id: string): Observable<Book> {
-        return this.httpClient.delete<Book>(BOOKS_URI.concat("/" + id));
-    }
+  public getBookById(bookId: number): Observable<BookResponse | null> {
+    const url = `${BASE__URL}${GET_BOOK_DETAIL_URI}?id=${bookId}`;
+    return this.httpClient.get<BookResponse>(url);
+  }
+
+  public GetBookPagination(pageNumber: number, orderBy: string, pageSize: number): Observable<any> {
+    return this.httpClient.get<any>(BASE__URL.concat(GET_BOOK_PAGINAION_URI + "?pageNumber=" + pageNumber + "&orderBy=" + orderBy + "&pageSize=" + pageSize));
+  }
+
+  public GetBookPaginationByType(pageNumber: number, orderBy: string, pageSize: number, bookType: string): Observable<any> {
+    const encodedBookType = encodeURIComponent(bookType);
+    console.log(encodedBookType)
+    return this.httpClient.get<any>(BASE__URL.concat(GET_BOOK_PAGINAION_BY_TYPE_URI + "?pageNumber=" + pageNumber + "&orderBy=" + orderBy + "&pageSize=" + pageSize + "&theLoai=" + bookType));
+  }
+
+  public updateBook(bookId: number, bookData: addBookDto): Observable<addBookDto> {
+    const url = `${BASE__URL}${UPDATE_BOOK_URI}?id=${bookId}`;
+    console.log("bookdata   ", bookData)
+    return this.httpClient.put<addBookDto>(url, bookData);
+  }
+
+  // decripted
+  public getBooks(): Observable<Book[]> {
+    return this.httpClient.get<Book[]>(BOOKS_URI);
+  }
+
+  // decripted
+
+
+  // decripted
+  public getBook(id: string): Observable<Book> {
+    return this.httpClient.get<Book>(BOOKS_URI.concat("/" + id));
+  }
+
+  // decripted
+
+  public deleteBook(id: number): Observable<BookResponse> {
+    return this.httpClient.delete<BookResponse>(BASE__URL.concat(DELETE_BOOK_URI + "?id=" + id));
+  }
 }

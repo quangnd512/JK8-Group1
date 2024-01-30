@@ -26,18 +26,18 @@
                 <tbody *ngIf="listOfBooks">
                     <!-- Duyệt qua danh sách sách và hiển thị thông tin -->
                     <tr *ngFor="let book of listOfBooks">
-                        <td>{{ book.id }}</td>
+                        <td>{{ book.maSach }}</td>
                         <td><img [src]="book.image" class="zoomable-image" style="max-width: 50px; max-height: 50px;"
                                 alt="Ảnh"></td>
-                        <td>{{ book.name }}</td>
-                        <td>{{ book.price | currency:'VND':'symbol':'1.0-0' }}</td>
-                        <td>{{ book.quantity }}</td>
-                        <td>{{ book.publishedDate | date:'dd/MM/yyyy' }}</td>
-                        <td>{{ book.publisher }}</td>
-                        <td>{{ book.bookType }}</td>
-                        <td>{{ book.author }}</td>
+                        <td>{{ book.tenSach }}</td>
+                        <td>{{ book.giaTien | currency:'VND':'symbol':'1.0-0' }}</td>
+                        <td>{{ book.soLuong }}</td>
+                        <td>{{ book.ngayXuatBan | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ book.nhaXuatBan.tenNhaXuatBan }}</td>
+                        <td>{{ book.theLoai.tenTheLoai }}</td>
+                        <td>{{ book.tacGia.ten }}</td>
                         <td>
-                            <a (click)="navigateToUpdateBook(book)" style="cursor: pointer; color: black">
+                            <a (click)="navigateToUpdateBook(book.maSach)" style="cursor: pointer; color: black">
                                 <fa-icon [icon]="faPencil"></fa-icon>
                             </a>
                         </td>

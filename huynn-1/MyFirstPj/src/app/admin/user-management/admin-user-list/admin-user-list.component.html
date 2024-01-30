@@ -1,0 +1,81 @@
+<div class="container mt-4">
+    <h2>Đọc giả</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã đọc giả</th>
+                <th>Tên đọc giả</th>
+                <th>Địa chỉ</th>
+                <th>Ngày sinh</th>
+                <th>SĐT</th>
+                <th>Mã tài khoản</th>
+                <th>Sự kiện</th>
+            </tr>
+        </thead>
+
+        <tbody class="list-of-members" *ngIf="userList.length != 0">
+            <tr *ngFor="let item of userList">
+                <td>{{ item.maDocGia }}</td>
+                <td>{{ item.ten }}</td>
+                <td>{{ item.diaCHi }}</td>
+                <td>{{ item.ngaySinh | date:'dd/MM/yyyy' }}</td>
+                <td>{{ item.sdt }}</td>
+                <td>{{ item.taiKhoan.maTk }}</td>
+                <td>
+                    <a style="cursor: pointer;" (click)="navigateUpdateUser(item.taiKhoan.maTk)">
+                        <span class="ml-2">Cập nhật</span>
+                    </a>
+                    <br>
+                    <a style="cursor: pointer;" (click)="deleteUserBtn(item.taiKhoan.maTk)">
+                        <span class="ml-2">Xóa</span>
+                    </a>
+                    <br>
+                    <a href="#">
+                        <span class="ml-2">Lịch sử mượn trả</span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <div class="lichSuMuonTra container">
+        <div class="modal-content"
+            style="display: none; width: 80%; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%)">
+            <div class="modal-header">
+                <h4 class="modal-title">Lịch sử mượn trả</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    onclick="closeChiTietSach()">
+                    <span aria-hidden="true" onclick="closeChiTietSach()">×</span>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow: auto; max-height: 500px;">
+                <table class="table">
+                    <thead style="position: sticky; top: -16px; background-color: #f5f5f5;">
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Mã phiếu mượn</th>
+                            <th scope="col">Ngày Mượn</th>
+                            <th scope="col">Mã Phiếu Trả</th>
+                            <th scope="col">Ngày Trả</th>
+                            <th scope="col">Mã sách</th>
+                            <th scope="col">Tên sách</th>
+                            <th scope="col">Giá cọc</th>
+                            <th scope="col">Thể loại</th>
+                            <th scope="col">Nhà xuất bản</th>
+                            <th scope="col">Tác giả</th>
+                            <th scope="col">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody class="thongTinSachBody">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>

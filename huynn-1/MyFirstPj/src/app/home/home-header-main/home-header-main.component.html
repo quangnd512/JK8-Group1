@@ -1,0 +1,128 @@
+<header id="wn__header" class="header__area header__absolute sticky__header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 col-sm-6 col-6 col-lg-2">
+        <div class="logo">
+          <a>
+            <img src="https://res.cloudinary.com/ddmdpbsoc/image/upload/v1704955639/logo_wgnbdl.png"
+                 alt="logo images">
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-8 d-none d-lg-block">
+        <nav class="mainmenu__nav">
+          <ul class="meninmenu d-flex justify-content-start">
+            <li class="drop with--one--item"><a routerLink="/home" style="color: #90a395">Trang chủ</a>
+
+            </li>
+            <li class="drop"><a routerLink="/home/library" style="color: #90a395">Thư viện</a>
+            </li>
+            <!--            <li class="drop"><a style="color: #90a395">Sách</a>-->
+            <!--              <div class="megamenu mega03">-->
+            <!--                <ul class="item item03">-->
+            <!--                  <li class="title">Thể loại</li>-->
+            <!--                  <li><a class="vao-cua-hang" value="Tiểu Thuyết" href="">Tiểu thuyết</a></li>-->
+            <!--                  <li><a class="vao-cua-hang" value="Truyện Ngắn" href="">truyện ngắn</a></li>-->
+            <!--                  <li><a class="vao-cua-hang" value="Thơ" href="">Thơ</a></li>-->
+            <!--                </ul>-->
+            <!--                <ul class="item item03">-->
+            <!--                  <li class="title">Tác giả</li>-->
+            <!--                  <li><a class="vao-cua-hang" value="Tiểu Thuyết" href="">Nguyễn Du</a></li>-->
+            <!--                  <li><a class="vao-cua-hang" value="Truyện Ngắn" href="">Hồ chí minh</a></li>-->
+            <!--                  <li><a class="vao-cua-hang" value="Thơ" href="">Nam Cao</a></li>-->
+            <!--                </ul>-->
+            <!--                <ul class="item item03">-->
+            <!--                  <li class="title">Nhà xuất bản</li>-->
+            <!--                  <li><a class="vao-cua-hang">Nhà xuất bản Kim Đồng</a></li>-->
+            <!--                  <li><a class="vao-cua-hang">Nhà xuất bản Văn Học</a></li>-->
+            <!--                  <li><a class="vao-cua-hang">Nhà xuất bản Trẻ</a></li>-->
+            <!--                </ul>-->
+            <!--              </div>-->
+            <!--            </li>-->
+          </ul>
+        </nav>
+      </div>
+      <div class="col-md-6 col-sm-6 col-6 col-lg-2">
+
+        <ul class="header__sidebar__right d-flex justify-content-end align-items-center">
+          <!-- <li class="shop_search"><a class="search__active" href="#"></a></li> -->
+          <li class="nav-item">
+            <div class="dropdown">
+              <a style="color: #90a395" class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink2"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <fa-icon [icon]="faUser"></fa-icon>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                   style="margin-right: 100px;">
+                <a class="dropdown-item" routerLink="/home/user-page">Thông tin các nhân</a>
+                <a class="dropdown-item" routerLink="/login">Đăng xuất</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+    <!-- Start Mobile Menu -->
+    <div class="row d-none">
+      <div class="col-lg-12 d-none">
+        <nav class="mobilemenu__nav">
+          <ul class="meninmenu">
+            <li><a href="">Home</a>
+              <ul>
+                <li><a href="index.html">Home Style Default</a></li>
+                <li><a href="boighor/index-2.html">Home Style Two</a></li>
+                <li><a href="boighor/index-3.html">Home Style Three</a></li>
+                <li><a href="boighor/index-box.html">Home Box Style</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Pages</a>
+              <ul>
+                <li><a href="boighor/about.html">About Page</a></li>
+                <li><a href="boighor/portfolio.html">Portfolio</a>
+                  <ul>
+                    <li><a href="boighor/portfolio.html">Portfolio</a></li>
+                    <li><a href="boighor/portfolio-three-column.html">Portfolio 3 Column</a>
+                    </li>
+                    <li><a href="boighor/portfolio-details.html">Portfolio Details</a></li>
+                  </ul>
+                </li>
+                <li><a href="boighor/my-account.html">My Account</a></li>
+                <li><a href="cart.html">Cart Page</a></li>
+                <li><a href="boighor/checkout.html">Checkout Page</a></li>
+                <li><a href="boighor/wishlist.html">Wishlist Page</a></li>
+                <li><a href="error404.html">404 Page</a></li>
+                <li><a href="boighor/faq.html">Faq Page</a></li>
+                <li><a href="boighor/team.html">Team Page</a></li>
+              </ul>
+            </li>
+            <li><a href="shop-grid.html">Shop</a>
+              <ul>
+                <li><a href="shop-grid.html">Shop Grid</a></li>
+                <li><a href="boighor/shop-list.html">Shop List</a></li>
+                <li><a href="boighor/shop-left-sidebar.html">Shop Left Sidebar</a></li>
+                <li><a href="boighor/shop-right-sidebar.html">Shop Right Sidebar</a></li>
+                <li><a href="boighor/shop-no-sidebar.html">Shop No sidebar</a></li>
+                <li><a href="single-product.html">Single Product</a></li>
+              </ul>
+            </li>
+            <li><a href="boighor/blog.html">Blog</a>
+              <ul>
+                <li><a href="boighor/blog.html">Blog Page</a></li>
+                <li><a href="boighor/blog-left-sidebar.html">Blog Left Sidebar</a></li>
+                <li><a href="boighor/blog-no-sidebar.html">Blog No Sidebar</a></li>
+                <li><a href="boighor/blog-details.html">Blog Details</a></li>
+              </ul>
+            </li>
+            <li><a href="">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- End Mobile Menu -->
+    <div class="mobile-menu d-block d-lg-none">
+    </div>
+    <!-- Mobile Menu -->
+  </div>
+</header>

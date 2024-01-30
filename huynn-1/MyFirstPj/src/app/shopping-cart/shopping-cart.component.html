@@ -1,0 +1,100 @@
+<app-home-header></app-home-header>
+<!-- Main wrapper -->
+<div class="wrapper" id="wrapper">
+
+    <!-- Header -->
+    <!-- //Header -->
+    <!-- Start Search Popup -->
+    <div class="box-search-content search_active block-bg close__top">
+        <form id="search_mini_form" class="minisearch" action="#">
+            <div class="field__search">
+                <input type="text" placeholder="Search entire store here...">
+                <div class="action">
+                    <a href="#"><i class="zmdi zmdi-search"></i></a>
+                </div>
+            </div>
+        </form>
+        <div class="close__wrap">
+            <span>close</span>
+        </div>
+    </div>
+    <!-- End Search Popup -->
+    <!-- Start breadcrumb area -->
+    <div class="ht__breadcrumb__area bg-image--3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__inner text-center">
+                        <h2 class="breadcrumb-title">Shopping Cart</h2>
+                        <nav class="breadcrumb-content">
+                            <a class="breadcrumb_item" href="index.html">Home</a>
+                            <span class="brd-separator">/</span>
+                            <span class="breadcrumb_item active">Shopping Cart</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End breadcrumb area -->
+    <!-- cart-main-area start -->
+    <div class="cart-main-area section-padding--lg bg--white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 ol-lg-12">
+                    <form action="#">
+                        <div class="table-content wnro__table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr class="title-top">
+                                        <th class="product-name">Sản phẩm</th>
+                                        <th class="product-price">Giá đặt cọc</th>
+                                        <th class="product-remove">xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-cart-body" *ngIf="bookList">
+                                    <tr *ngFor="let book of bookList">
+                                      <td class="product-name">
+                                        <a>
+                                          {{ book.tenSach }}
+                                        </a>
+                                      </td>
+                                      <td class="product-price"><span class="amount">{{ book.giaTien | currency:'VND':true }}</span></td>
+                                      <td class="product-remove">
+                                        <fa-icon (click)="removeBookFromCart(book.maSach)" [icon]="faXmark" style="cursor: pointer; padding: 5px;"></fa-icon>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                            </table>
+                        </div>
+                    </form>
+                    <div class="cartbox__btn">
+                        <ul
+                            class="cart__btn__list d-flex flex-wrap flex-md-nowrap flex-lg-nowrap justify-content-between">
+                            <li></li>
+                            <li><a (click)="checkout()" style="cursor: pointer;" class="thanhToanBtn">Yêu cầu mượn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 offset-lg-6">
+                    <div class="cartbox__total__area">
+                        <div class="cartbox-total d-flex justify-content-between tong-tien">
+                            <ul class="cart__total__list">
+                                <li>Tổng tiền</li>
+                            </ul>
+                            <ul class="cart__total__tk">
+                                <li> {{ totalAmount | currency:'VND':true }} </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- cart-main-area end -->
+    <!-- Footer Area -->
+    <!-- //Footer Area -->
+
+</div>
