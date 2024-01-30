@@ -13,6 +13,11 @@ img {
   text-decoration: line-through;
 }
 
+.form-error {
+  color: red;
+  margin-top: 0.5rem;
+}
+
 .checkout-form, .items-display {
   border-radius: 10px;
   padding: 2rem;

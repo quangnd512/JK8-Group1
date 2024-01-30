@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable} from "rxjs";
-import {CartItem, headers, Response, SERVER_URL} from "../resources";
+import {OutputCartItem, headers, Response, SERVER_URL} from "../resources";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -10,11 +10,11 @@ export class ShoppingCartService {
   constructor(private http: HttpClient) {
   }
 
-  public getItems(): Observable<Array<CartItem>> {
+  public getItems(): Observable<Array<OutputCartItem>> {
     let userId = localStorage.getItem('userId')
     return this.http.get<Response>(`${SERVER_URL}/cart/${userId}`, {headers})
       .pipe(
-        map(response => response.data as Array<CartItem>),
+        map(response => response.data as Array<OutputCartItem>),
         catchError(error => {
           if (error.response.data.errors) {
             throw new Error(error.response.data.errors[0].defaultMessage)

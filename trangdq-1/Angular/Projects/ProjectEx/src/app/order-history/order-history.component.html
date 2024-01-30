@@ -1,1 +1,38 @@
-<p>order-history works!</p>
+<div class="container">
+  <h2 class="mb-4">Order History</h2>
+
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let order of orders">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Order #{{ order.id }}</h5>
+          <p class="card-text">Status: {{ order.orderStatus }}</p>
+          <p class="card-text">Date: {{ order.checkoutDate }}</p>
+          <p class="card-text">Total: {{ order.total | currency }}</p>
+          <button type="button" class="btn btn-link" data-toggle="collapse">
+            View Items ({{ order.items.length }})
+          </button>
+        </div>
+        <div id="order-items-{{ order.id }}" class="collapse">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let item of order.items">
+              <div class="row">
+                <div class="col-md-3">
+                  <img src="{{ item.images[0] }}" class="img-thumbnail" alt="{{ item.productName }}">
+                </div>
+                <div class="col-md-9">
+                  <h6>{{ item.productName }}</h6>
+                  <p>Quantity: {{ item.quantity }}</p>
+                  <p>Price: {{ item.price | currency }}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-danger" (click)="updateStatus(order, OrderStatus.CUSTOMER_CANCELED)">Cancel Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

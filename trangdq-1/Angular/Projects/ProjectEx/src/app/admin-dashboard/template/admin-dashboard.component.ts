@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from '../../shared/services/auth.service';
 import {Observable} from 'rxjs';
-import {TakeUntilDestroy} from '../../shared/resources';
+import {OrderStatus, TakeUntilDestroy} from '../../shared/resources';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -12,7 +12,7 @@ import {ActivatedRoute} from "@angular/router";
 
 export class AdminDashboardComponent extends TakeUntilDestroy {
   public isAdmin$: Observable<boolean> = new Observable<boolean>()
-  public board: "products-manager" | "users-manager" = "products-manager"
+  public board: "products-manager" | "users-manager" | "orders-manager" = "products-manager"
 
   constructor(private authService: AuthService, private route: ActivatedRoute) {
     super()
@@ -21,10 +21,12 @@ export class AdminDashboardComponent extends TakeUntilDestroy {
   public ngOnInit(): void {
     this.isAdmin$ = this.authService.isAdmin()
     let board = this.route.snapshot.paramMap.get('board')
-    if (!board || board === 'products-manager') {
+    if (board === 'products-manager') {
       this.board = "products-manager"
     } else if (board === 'users-manager') {
       this.board = "users-manager"
+    } else if (board === 'orders-manager') {
+      this.board = "orders-manager"
     }
   }
 
@@ -35,4 +37,10 @@ export class AdminDashboardComponent extends TakeUntilDestroy {
   public usersManager() {
     this.board = "users-manager"
   }
+
+  public ordersManager() {
+    this.board = "orders-manager"
+  }
+
+  protected readonly OrderStatus = OrderStatus;
 }

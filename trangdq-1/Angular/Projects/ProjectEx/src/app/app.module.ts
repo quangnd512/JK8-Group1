@@ -54,7 +54,6 @@ import {OrderHistoryComponent} from './order-history/order-history.component';
     MatIconModule
   ],
   providers: [
-    provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })

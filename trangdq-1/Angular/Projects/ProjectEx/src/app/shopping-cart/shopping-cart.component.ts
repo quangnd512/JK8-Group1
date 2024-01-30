@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Observable, takeUntil} from "rxjs";
-import {CartItem, TakeUntilDestroy} from "../shared/resources";
+import {OutputCartItem, TakeUntilDestroy} from "../shared/resources";
 import {ShoppingCartService} from "../shared/services/shopping-cart.service";
 import {AuthService} from "../shared/services/auth.service";
 import {Router} from "@angular/router";
@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class ShoppingCartComponent extends TakeUntilDestroy {
   public isLoggedIn$: Observable<boolean> = new Observable<boolean>()
-  public cartItems: Array<CartItem> = [];
+  public cartItems: Array<OutputCartItem> = [];
   public totalPrice: number = 0;
 
   constructor(private cartService: ShoppingCartService, private authService: AuthService, private router: Router) {
@@ -24,12 +24,12 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
     this.isLoggedIn$ = this.authService.isLoggedIn()
   }
 
-  public handleIncrement(item: CartItem) {
+  public handleIncrement(item: OutputCartItem) {
     if (item.quantity < item.inStock)
       this.handleClick(item.productId, item.quantity + 1)
   }
 
-  public handleDecrement(item: CartItem) {
+  public handleDecrement(item: OutputCartItem) {
     if (item.quantity > 1) {
       this.handleClick(item.productId, item.quantity - 1);
     } else {
@@ -74,7 +74,7 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
       })
   }
 
-  private deleteItem(item: CartItem): void {
+  private deleteItem(item: OutputCartItem): void {
     this.cartService.deleteItem(item.productId).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {

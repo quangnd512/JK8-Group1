@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductService} from '../shared/services/product.service';
 import {Observable, takeUntil} from 'rxjs';
-import {CartItem, Product, TakeUntilDestroy} from '../shared/resources';
+import {OutputCartItem, Product, TakeUntilDestroy} from '../shared/resources';
 import {ShoppingCartService} from "../shared/services/shopping-cart.service";
 
 @Component({
@@ -41,7 +41,7 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
   }
 
   public buyNow = (product: Product): void => {
-    const item: CartItem = {
+    const item: OutputCartItem = {
       quantity: 1,
       productId: product.id ? product.id : 0,
       name: product.name,

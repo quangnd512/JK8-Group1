@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {CartItem, Item, OrderDTO, TakeUntilDestroy} from "../shared/resources";
+import {OutputCartItem, ErrorMessage, Item, OrderDTO, PHONE_PATTERN, TakeUntilDestroy} from "../shared/resources";
 import {takeUntil} from "rxjs";
 import {UserService} from "../shared/services/user.service";
 import {ShoppingCartService} from "../shared/services/shopping-cart.service";
@@ -12,18 +12,19 @@ import {OrderService} from "../shared/services/order.service";
   styleUrl: './check-out.component.scss'
 })
 export class CheckOutComponent extends TakeUntilDestroy {
-  public cartItems: Array<CartItem> = []
+  public cartItems: Array<OutputCartItem> = []
   public totalPrice: number = 0
   public data: OrderDTO = {
-    cartItems: [],
+    items: [],
     paymentMethod: 'Cash',
-    customerName: '',
-    customerPhone: '',
+    userName: '',
+    userPhone: '',
     addressToReceive: '',
     voucherChosen: 0, // just ignore
-    messageOfCustomer: ''
+    message: ''
   }
   public displayBill: boolean = false
+  public errors: Array<ErrorMessage> = []
 
   constructor(private userService: UserService, private cartService: ShoppingCartService, private orderService: OrderService, private router: Router) {
     super()
@@ -33,19 +34,19 @@ export class CheckOutComponent extends TakeUntilDestroy {
     this.cartItems = JSON.parse(<string>localStorage.getItem("cartItems"))
     this.totalPrice = Number.parseInt(<string>localStorage.getItem("totalPrice"))
     this.data = {
-      cartItems: [],
+      items: [],
       paymentMethod: 'Cash',
-      customerName: '',
-      customerPhone: '',
+      userName: '',
+      userPhone: '',
       addressToReceive: '',
       voucherChosen: 0, // just ignore
-      messageOfCustomer: ''
+      message: ''
     }
     this.userService.getUserById(Number.parseInt(<string>localStorage.getItem("userId"))).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.data.customerName = response.name ? response.name : response.username
-          this.data.customerPhone = response.phone
+          this.data.userName = response.name ? response.name : response.username
+          this.data.userPhone = response.phone
           this.data.addressToReceive = response.address
           console.log("User's information gotten!")
         },
@@ -58,7 +59,9 @@ export class CheckOutComponent extends TakeUntilDestroy {
   }
 
   public billPopUp() {
-    this.displayBill = true
+    if (this.validateData()) {
+      this.displayBill = true
+    }
   }
 
   public checkout() {
@@ -70,7 +73,7 @@ export class CheckOutComponent extends TakeUntilDestroy {
       }
       itemsToCheckout.push(item)
     }
-    this.data.cartItems = itemsToCheckout;
+    this.data.items = itemsToCheckout;
     if (this.data.paymentMethod === "Cash") {
       this.orderService.checkout(this.data).pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -104,5 +107,26 @@ export class CheckOutComponent extends TakeUntilDestroy {
 
   public closeBill() {
     this.displayBill = false
+  }
+
+  private validateData(): boolean {
+    let should: boolean = true
+    this.errors = [{}, {}, {}]
+
+    if (this.data) {
+      if (!this.data.userName.trim()) {
+        this.errors[0].message = "*Receiver is required.";
+        should = false;
+      }
+      if (!this.data.userPhone.match(PHONE_PATTERN)) {
+        this.errors[1].message = "*Invalid phone number.";
+        should = false;
+      }
+      if (!this.data.addressToReceive.trim()) {
+        this.errors[2].message = "*Address is required.";
+        should = false;
+      }
+    }
+    return should
   }
 }

@@ -28,7 +28,7 @@ export type Product = {
   discount: number
 }
 
-export type CartItem = {
+export type OutputCartItem = {
   quantity: number,
   productId: number,
   name: string;
@@ -40,32 +40,54 @@ export type CartItem = {
   discount: number
 }
 
+export type OutputOrder = {
+  id: number;
+  items: Array<OutputItem>;
+  userId: number;
+  voucherId: number;
+  checkoutDate: Date;
+  orderStatus: string;
+  paymentMethod: string;
+  message: string;
+  addressToReceive: string;
+  total: number;
+}
+
+export type OutputItem = {
+  productId: number;
+  productName: string;
+  price: number;
+  images: string[];
+  quantity: number;
+  category: string;
+}
+
 export type Item = {
   productId: number,
   quantity: number
 }
 export type Order = {
   id: number;
-  items: string;
-  customerId: number;
+  items: OutputCartItem;
+  userId: number;
   voucherId: number;
   checkoutDate: Date;
   orderStatus: string;
   paymentMethod: string;
-  messageOfCustomer: string;
+  message: string;
   addressToReceive: string;
-  customerInfo: string;
+  userInfo: string;
   // voucher: VoucherEntity;
 }
 
 export type OrderDTO = {
-  customerPhone: string;
+  userPhone: string;
   voucherChosen: number;
   paymentMethod: "Cash" | "Paypal";
-  messageOfCustomer: string;
-  cartItems: Array<Item>;
+  message: string;
+  items: Array<Item>;
   addressToReceive: string;
-  customerName: string
+  userName: string
 }
 
 export type User = {

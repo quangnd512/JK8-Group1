@@ -5,20 +5,23 @@
       <form>
         <div class="form-group">
           <label>Receiver:</label>
-          <input [(ngModel)]="data.customerName" class="form-control" name="customerName"
+          <input [(ngModel)]="data.userName" class="form-control" name="customerName"
                  placeholder="Input receiver's name"
                  type="text">
+          <p *ngIf="errors[0]" class="form-error">{{ errors[0].message }}</p>
         </div>
         <div class="form-group">
           <label>Phone Number:</label>
-          <input [(ngModel)]="data.customerPhone" class="form-control" name="customerPhone"
+          <input [(ngModel)]="data.userPhone" class="form-control" name="customerPhone"
                  placeholder="We'll use this number for delivering products" type="text">
+          <p *ngIf="errors[1]" class="form-error">{{ errors[1].message }}</p>
         </div>
 
         <div class="form-group">
           <label>Address To Receive:</label>
           <input [(ngModel)]="data.addressToReceive" class="form-control"
                  name="customerAddress" placeholder="Input address to receive products" type="text">
+          <p *ngIf="errors[2]" class="form-error">{{ errors[2].message }}</p>
         </div>
 
         <div class="form-group">
@@ -31,7 +34,7 @@
 
         <div class="form-group">
           <label>Note:</label>
-          <textarea [(ngModel)]="data.messageOfCustomer" class="form-control" name="message"
+          <textarea [(ngModel)]="data.message" class="form-control" name="message"
                     placeholder="Somethings you want us to note when delivering..." rows="4"></textarea>
         </div>
       </form>
@@ -93,15 +96,15 @@
               <h4 class="mb-4">Billing Information</h4>
               <dl class="row">
                 <dt class="col-sm-4">Receiver:</dt>
-                <dd class="col-sm-8">{{ data.customerName }}</dd>
+                <dd class="col-sm-8">{{ data.userName }}</dd>
                 <dt class="col-sm-4">Phone:</dt>
-                <dd class="col-sm-8">{{ data.customerPhone }}</dd>
+                <dd class="col-sm-8">{{ data.userPhone }}</dd>
                 <dt class="col-sm-4">Address:</dt>
                 <dd class="col-sm-8">{{ data.addressToReceive }}</dd>
                 <dt class="col-sm-4">Pay by:</dt>
                 <dd class="col-sm-8">{{ data.paymentMethod }}</dd>
                 <dt class="col-sm-4">Note:</dt>
-                <dd class="col-sm-8">{{ data.messageOfCustomer ? data.messageOfCustomer : "..." }}</dd>
+                <dd class="col-sm-8">{{ data.message ? data.message : "..." }}</dd>
               </dl>
             </div>
             <div class="col-md-7">

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {OrderService} from "../shared/services/order.service";
-import {Order, OrderStatus, TakeUntilDestroy} from "../shared/resources";
+import {Order, OrderStatus, OutputOrder, TakeUntilDestroy} from "../shared/resources";
 import {ActivatedRoute} from "@angular/router";
 import {takeUntil} from "rxjs";
 
@@ -10,24 +10,28 @@ import {takeUntil} from "rxjs";
   styleUrl: './order-history.component.scss'
 })
 export class OrderHistoryComponent extends TakeUntilDestroy {
-  public orders: Array<Order> = []
+  public orders: Array<OutputOrder> = []
   public status: OrderStatus = OrderStatus.CUSTOMER_CONFIRMED
 
   constructor(private orderService: OrderService, private route: ActivatedRoute) {
     super()
-    this.status = OrderStatus[<string>this.route.snapshot.paramMap.get('status') as OrderStatus]
+    let st = <string>this.route.snapshot.queryParamMap.get('status')
+    if (st) {
+      this.status = OrderStatus[st as OrderStatus]
+    }
   }
 
   public ngOnInit() {
-    this.getOrderByStatus();
+    this.getUserOrdersByStatus();
   }
 
-  public getOrderByStatus() {
-    this.orderService.getOrderByStatus(this.status).pipe(takeUntil(this.destroy$))
+  public getUserOrdersByStatus() {
+    this.orderService.getUserOrdersByStatus(this.status).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
+          console.log(response)
           this.orders = response
-          console.log("Orders gotten!")
+          console.log("Customer's orders gotten!")
         },
         error: (error) => {
           console.error(error.message)
@@ -35,8 +39,18 @@ export class OrderHistoryComponent extends TakeUntilDestroy {
       })
   }
 
-  public updateStatus(id: number, fromStatus: OrderStatus, toStatus: OrderStatus) {
-    this.orderService.updateStatus(id, fromStatus, toStatus)
-    this.orders[id].orderStatus = toStatus
+  public updateStatus(order: OutputOrder, toStatus: string) {
+    this.orderService.updateStatus(order.id, order.orderStatus, toStatus).pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          console.log(response.message)
+        },
+        error: error => {
+          console.log(error.message)
+        }
+      })
+    order.orderStatus = toStatus
   }
+
+  protected readonly OrderStatus = OrderStatus;
 }
