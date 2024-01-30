@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
+import { AuthService } from 'src/app/components/service/auth.service';
 import { homeService } from './service.service';
 
 @Component({
@@ -7,12 +8,9 @@ import { homeService } from './service.service';
   styleUrls: ['./home.component.scss'],
   // providers: [homeService]
 })
-export class HomeComponent {
-  myInfo = {
-    name: 'Tung Beo',
-    age: 26,
 
-  };
+@Injectable()
+export class HomeComponent {
 
   homeService:homeService;
 
@@ -20,24 +18,6 @@ export class HomeComponent {
     this.homeService = homeService;
   }
 
-  users = [
-    {
-      name: 'Hung',
-      age: 23,
-    },
-    {
-      name: 'Le',
-      age: 1,
-    },
-    {
-      name: 'kick',
-      age: 3,
-    },
-    {
-      name: 'Tung',
-      age: 2,
-    },
-  ];
   //  property binding
   tmp: string = 'number';
   //  event binding
@@ -46,4 +26,14 @@ export class HomeComponent {
   };
   // class binding
   classes: string[] = ['container', 'row'];
+
+  // get Product
+  public getProduct(){
+    
+  }
+
+
+
+
+
 }
