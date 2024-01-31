@@ -1,0 +1,40 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="vh-100">
+    <mat-card>
+        <mat-card-title class="mt-1 mb-4">Login</mat-card-title>
+        <mat-card-content>
+            <form class="login-form" (ngSubmit)="login()" fxLayoutAlign="stretch"
+                fxLayout="column" style="width: 400px">
+
+                <mat-form-field>
+                    <mat-label>Username</mat-label>
+                    <input type="text" id="username" name="username" matInput placeholder="username1"
+                        [formControl]="username" [errorStateMatcher]="matcher">
+                    @if (username.hasError('minlength') && !username.hasError('required')){
+                    <mat-error>Username is at least 2 characters</mat-error>
+                    }
+                    @if (username.hasError('required')){
+                    <mat-error>Username is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input type="password" id="password" name="password" matInput placeholder="password"
+                        [formControl]="password" [errorStateMatcher]="matcher">
+                    @if (password.hasError('minlength') && !password.hasError('required')){
+                    <mat-error>Password is at least 2 characters</mat-error>
+                    }
+                    @if (password.hasError('required')){
+                    <mat-error>Password is required</mat-error>
+                    }
+                </mat-form-field>
+
+
+                <div class="button">
+                    <button type="submit" mat-raised-button color="accent" class="btn-lg">Login</button>
+                </div>
+
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

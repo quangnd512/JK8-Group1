@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+    <button (click)="drawer.toggle()" mat-icon-button>
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Boleto Movie Tickets Booking Website</span>
+    <span class="example-spacer"></span>
+    <button routerLink="/" mat-button>Home</button>
+    <button [matMenuTriggerFor]="lvl1master" mat-button>Master</button>
+    <mat-menu #lvl1master="matMenu">
+        <button mat-menu-item>Company</button>
+        <button mat-menu-item>Company</button>
+        <button mat-menu-item>Company</button>
+    </mat-menu>
+    <button *ngIf="isAdmin$ | async as isAdmin" routerLink="/ad" mat-button>Admin</button>
+    <button mat-raised-button color="accent" *ngIf="!(isLoggedIn$ | async) as isLoggedIn" routerLink='/login'  mat-button>Login</button>
+    <button mat-raised-button color="accent" *ngIf="isLoggedIn$ | async as isLoggedIn" (click)="logout()" routerLink='login'  mat-button>Logout</button>
+    
+</mat-toolbar>
+<mat-drawer-container autosize>
+    <mat-drawer #drawer opened="true" mode="side" position="start">
+        <mat-nav-list>
+            <mat-list-item>
+                <button mat-button><mat-icon>dashboard</mat-icon> Dashboard</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button><mat-icon>dashboard</mat-icon> Dashboard</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button><mat-icon>dashboard</mat-icon> Dashboard</button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button><mat-icon>dashboard</mat-icon> Dashboard</button>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+        <div style="text-align: center; min-height: 600px;">
+
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
