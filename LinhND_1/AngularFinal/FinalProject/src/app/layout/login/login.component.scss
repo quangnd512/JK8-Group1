@@ -1,0 +1,36 @@
+.login-form {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-form-field {
+  width: 100%;
+  min-width: 300px;
+  margin: 10px 0px;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  font-size: 16px; /* Adjust font size as needed */
+  padding: 12px 24px; /* Adjust padding as needed */
+  min-width: 200px; /* Adjust width as needed */
+  height: 48px; /* Adjust height as needed */
+}
+
+mat-card-title {
+  font-size: xx-large;
+}
