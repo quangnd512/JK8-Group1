@@ -73,20 +73,6 @@
               </div>
             </div>
           </div>
-          <nav aria-label="Page navigation example">
-            <ul class="pagination home-product__pagination">
-              <li *ngIf="currentPage != 1" class="pagination-item">
-                <a class="pagination-item__link" routerLink="/" [queryParams]="{'page': currentPage-1}" queryParamsHandling="merge">Previous</a>
-              </li>
-              <li *ngFor="let page of Pages" [ngStyle]="{'background-color: #ee4d2d': page - 1 === currentPage}" class="pagination-item">
-                <a  routerLink="/" [queryParams]="{'page': page}" queryParamsHandling="merge" class="pagination-item__link" href="#"><span>{{page}}</span></a>
-              </li>
-              <li *ngIf="currentPage !== Pages.length" class="pagination-item">
-                <a  routerLink="/" [queryParams]="{'page': currentPage+1}" queryParamsHandling="merge"  class="pagination-item__link" href="#">Next</a>
-                <!-- <a th:href="@{'/?sort_by=' + ${sort_by} + '&type_sort=' + ${type_sort}  + '&pageNumber=' +${pageNumber + 1}}" class="pagination-item__link" href="#">Next</a> -->
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </div>

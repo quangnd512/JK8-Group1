@@ -10,7 +10,7 @@ import { BookDetailComponent } from './pages/book-detail/book-detail.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { HeaderComponent } from './pages/header/header.component';
-import { HistoryCheckoutComponent } from './pages/history-checkout/history-checkout.component';
+// import { HistoryCheckoutComponent } from './pages/history-checkout/history-checkout.component';
 import { CategoryHomeComponent } from './pages/home/category-home/category-home.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ListBookComponent } from './pages/home/list-book/list-book.component';
@@ -28,6 +28,10 @@ import { CategoryDetailComponent } from './admin/category-detail/category-detail
 import { BookAdjustComponent } from './admin/book-adjust/book-adjust.component';
 import { AddCategoryComponent } from './admin/add-category/add-category.component';
 import { AddBookComponent } from './admin/add-book/add-book.component';
+import { CheckoutListComponent } from './admin/checkout-list/checkout-list.component';
+import { CheckoutDetailComponent } from './admin/checkout-detail/checkout-detail.component';
+import { HomebycategoryComponent } from './pages/homebycategory/homebycategory.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +45,6 @@ import { AddBookComponent } from './admin/add-book/add-book.component';
     UserDetailComponent,
     OrderComponent,
     CheckoutComponent,
-    HistoryCheckoutComponent,
     CategoryHomeComponent,
     BookComponent,
     AdminHomeComponent,
@@ -54,7 +57,11 @@ import { AddBookComponent } from './admin/add-book/add-book.component';
     CategoryDetailComponent,
     BookAdjustComponent,
     AddCategoryComponent,
-    AddBookComponent
+    AddBookComponent,
+    CheckoutListComponent,
+    CheckoutDetailComponent,
+    HomebycategoryComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

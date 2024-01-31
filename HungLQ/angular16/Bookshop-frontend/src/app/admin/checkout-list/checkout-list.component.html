@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-      xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +23,7 @@
 </head>
 <body>
 <!-- Section: Design Block -->
-<div class="app">
+<div class="">
     <section class="h-100 gradient-form" style="background-color: #eee;">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -44,62 +43,68 @@
                             </svg>
                             <h4 class="mt-1 mb-5 pb-1"></h4>
                         </div>
-                        <div style="font-size: 14px" *ngIf="message" class="text-center alert-success alert">
-                            <p >{{message}}</p>
-                        </div>
                         <!--          <div class="row g-0">-->
-                        <form (ngSubmit)="changeName()" ngForm #cateForm="ngForm" class="row g-0" id="myForm" style="font-size: 14px;">
-                            <div class="col-lg-6">
+                        <div class="row g-0">
+                            <div class="col-lg-12">
+                                <div style="font-size: 14px" *ngIf="success" class="text-center alert-success alert">
+                                    <p >{{success}}</p>
+                                </div>
                                 <div class="card-body p-md-5 mx-md-4" >
+                                    <table style="font-size: 14px"  class="table">
+                                        <thead>
+                                        <tr>
+                                            <th class="order-date">Order Date</th>
+                                            <th>Delivery Date</th>
+                                            <th class="price-pr">Order Status</th>
 
-                                    <fieldset [disabled]="!isEditing">
-                                        <!-- <p>VUI LÒNG ĐĂNG NHẬP</p> -->
-
-
-
-                                        <div style="display: block;">
-                                            <p class="form-label" for="name">Tên Danh mục</p>
-                                            <div class="form-outline mb-4">
-                                                <input id="name" type="text" name="name" class="border form-control" [ngModel]="category.name">
-<!--                                                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>-->
-                                            </div>
-                                        </div>
-
-                                    </fieldset>
+                                            <!--                                            <th class="quantity-box">Quantity</th>-->
+                                            <th>Total Price</th>
+                                            <th>Username</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let order of orders">
+                                            <td class="order-date">
+                                                <span><b>{{order.orderDate}}</b></span>
+                                            </td>
+                                            <td class="name-pr" >
+                                                <a *ngIf="order.accept !== null" href="#">
+                                                    {{order.deliveryDate}}
+                                                </a>
+                                                <!--                                                <a th:if = "${order.isAccept == null}"><p>Chờ xác nhận</p> </a>-->
+                                            </td>
+                                            <td class="price-pr">
+                                                <p>{{order.status}}</p>
+                                            </td>
+                                            <!--                                            <td class="quantity-box" th:text="${order.quantity}"> </td>-->
+                                            <td class="total-pr">
+                                                <p style="color: red">${{order.total}}</p>
+                                            </td>
+                                            <td class="">
+                                                <p >{{order.user.name}}</p>
+                                            </td>
+                                            <td>
+                                                <a [routerLink]="'/admin/order/'+ order.id" style="background-color: #d9de3c" class="ml-auto btn hvr-hover">View</a>
+                                                <a *ngIf="order.status === 'Chờ xác nhận'" (click)="accept(order.id)" style="background-color: #0eaf4d" class="ml-auto btn hvr-hover">Accept</a>
+                                                <a *ngIf="order.status === 'Chờ xác nhận'" (click)="cancel(order.id)" style="background-color: #dc1717" class="ml-auto btn hvr-hover">Cancel</a>
+                                                <a *ngIf="order.accept === true" (click)="cancel(order.id)" style="background-color: #dc1717" class="ml-auto btn hvr-hover">Cancel</a>
+                                            </td>
+                                            <!-- </a> -->
+                                            <!-- </td> -->
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </form>
-                        <br>
-                        <br>
-                        <div  sec:authorize="hasRole('ROLE_ADMIN')" class="pagination-item--active md-5 d-flex align-items-center pb-4" style="justify-content: space-around">
-                            <button *ngIf="!isEditing"type="button" class="pagination-item__link btn btn-outline-danger" (click)="editSave()" form="myForm">Sửa</button>
-                            <button *ngIf="isEditing" type="submit" class="pagination-item__link btn btn-outline-danger" form="myForm">Lưu</button>
-                            
                         </div>
-                        <!--            <div class="d-flex align-items-center justify-content-center pb-4">-->
-                        <!--              <a href="/">-->
-                        <!--                <button type="button" class="btn btn-outline-danger">Home</button>-->
-                        <!--              </a>-->
-                        <!--            </div>-->
-                        <!--          </div>-->
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <footer th:replace="~{fragments::main-footer}"></footer>
 </div>
-<script>
-    function myFunction() {
-        document.getElementsByTagName("fieldset")[0].disabled = false;
-        var x = document.getElementById("editSave");
-        x.innerHTML = "Lưu";
-        setTimeout(() => {
-            x.setAttribute("type", "submit");
-            x.setAttribute("form", "myForm");
-        }, 50);
-    }
-
-</script>
 <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"></script>
 </body>
 </html>

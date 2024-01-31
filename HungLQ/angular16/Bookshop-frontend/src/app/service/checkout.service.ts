@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { apiHost } from "./Api";
 import { book } from "./book.service";
+import { User } from './user.service';
 
 export interface Checkout {
     id: number
@@ -13,6 +14,7 @@ export interface Checkout {
     paymentMethod: string
     checkoutDetails: CheckoutDetail[]
     accept: boolean
+    user: User
   }
   
   export interface CheckoutDetail {
@@ -51,6 +53,34 @@ export class CheckoutService{
                 return this.getTotalHistoryOrder();
             })
         )
+    }
+
+    adminCancelOrder(id):Observable<Checkout[]>{
+        const url = `${apiHost}/user/cancel-order/${id}`;
+        return this.HttpClient.delete(url).pipe(
+            switchMap((data) =>{
+                return this.getAll();
+            })
+        )
+    }
+
+    adminAcceptOrder(id):Observable<Checkout[]>{
+        const url = `${apiHost}/admin/accept-order/${id}`;
+        return this.HttpClient.get(url).pipe(
+            switchMap((data) =>{
+                return this.getAll();
+            })
+        )
+    }
+
+    getAll():Observable<Checkout[]>{
+        const url = `${apiHost}/admin/checkout`;
+        return this.HttpClient.get<Checkout[]>(url);
+    }
+
+    getOrder(id):Observable<Checkout>{
+        const url = `${apiHost}/admin/checkout/${id}`;
+        return this.HttpClient.get<Checkout>(url);
     }
 
 

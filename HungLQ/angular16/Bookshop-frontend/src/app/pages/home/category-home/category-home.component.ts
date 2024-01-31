@@ -22,6 +22,6 @@ export class CategoryHomeComponent implements OnInit {
   }
 
   findByCategory(id:number){
-      this.route.navigate(["/category",id],{relativeTo: this.router})
+      this.route.navigate(["/cate",id])
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { book } from 'src/app/service/book.service';
 import { Category } from 'src/app/service/category.service';
 import { BookService } from '../../service/book.service';
@@ -19,7 +19,7 @@ export class BookAdjustComponent implements OnInit {
   book:book;
   categories:Category[];
 
-  constructor(private BookService:BookService,private Router:ActivatedRoute, private CategoryService:CategoryService) {
+  constructor(private BookService:BookService,private Router:ActivatedRoute, private CategoryService:CategoryService,private Route:Router) {
     
   }
 
@@ -39,7 +39,29 @@ export class BookAdjustComponent implements OnInit {
 
   changeBook(){
     const value = this.bookForm.value;
-    console.log(value);
+    const fileInput = document.getElementById('cover') as HTMLInputElement;
+    const selectedFile = fileInput.files?.[0];
+    const formData = new FormData();
+    formData.append('imgcover', selectedFile);
+    formData.append('title', value.title);
+    formData.append('author', value.author);
+    formData.append('price', value.price);
+    formData.append('category.id', value.category);
+    formData.append('releaseDate',value.releaseDate);
+    console.log(value)
+    this.BookService.adjustBook(this.book.id,formData).subscribe(
+      (data) => {this.book = data;
+      this.message = "Thay Đổi Sách Thành Công"}
+    )
+    
+  }
+
+  delete(id){
+    this.BookService.delete(id).subscribe(
+      (data) => {
+        this.Route.navigateByUrl("/admin")
+      }
+    )
   }
 
   editSave() {

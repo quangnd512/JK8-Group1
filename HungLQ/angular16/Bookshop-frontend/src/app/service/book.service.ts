@@ -94,4 +94,11 @@ export class BookService{
         return this.HttpClient.post<book>(url,bookForm);
     }
 
+    adjustBook(id:number,bookForm: FormData): Observable<book>{
+        const url = `${apiHost}/books/${id}`;
+        return this.HttpClient.put<book>(url,bookForm);
+
+    }
+
+
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookService, ListPageable, book } from 'src/app/service/book.service';
 @Component({
   selector: 'app-home',
@@ -20,8 +20,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      const route_param = +this.activedRoute.snapshot.params['id'];
-      if(!route_param){
         this.bookService.getAllBooksPageable().subscribe(
           (data:ListPageable) => {
             console.log("getAll");
@@ -30,29 +28,32 @@ export class HomeComponent implements OnInit {
             this.currentPage = data.pageable.pageNumber + 1;
           }
         )
-      }
 
-      this.activedRoute.params.subscribe(
-        (param: Params) => {
-          const id:string = param['id'];
-          if(id !== undefined){
-            console.log("getByCategory")
-            this.bookService.getByCategory(id).subscribe(
-              (data) => this.books = data
-            )
-          }
-        },
-        (err) => console.log(err),
-        () =>  console.log("1")
-      )
+
 
       this.activedRoute.queryParams.subscribe(
         (queryParam) => {
-          const type_sort = queryParam['type_sort'];
-          const page = queryParam['page'];
-          const search = queryParam['search']
+          let type_sort:string = queryParam['type_sort'];
+          const page:number = queryParam['page'];
+          // const search:string = queryParam['search'];
+          let param:string = '';
+          if(page !== undefined){
+            param+= `?pageNumber=${page-1}`
+            if(type_sort !== undefined) param+=`&sort_by=price&type_sort=${type_sort}`
+            this.bookService.getAllBooksPageable(param).subscribe(
+              (data) => {this.books = data.content;
+                this.currentPage = data.pageable.pageNumber + 1;
+              }
+            )
+          }
+          if(page === undefined && type_sort!== undefined){
+            param+=`?sort_by=price&type_sort=${type_sort}`
+            this.bookService.getAllBooksPageable(param).subscribe(
+              (data) => {this.books = data.content;
+              }
+            )
+          }
         }
-        
       )
 
       this.route = this.router.url;

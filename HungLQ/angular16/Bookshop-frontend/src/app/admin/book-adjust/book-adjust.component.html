@@ -43,8 +43,11 @@
                             </svg>
                             <h4 class="mt-1 mb-5 pb-1"></h4>
                         </div>
+                        <div style="font-size: 14px" *ngIf="message" class="text-center alert-success alert">
+                          <p >{{message}}</p>
+                      </div>
                         <!--          <div class="row g-0">-->
-                        <form style="font-size: 14px;" class="row g-0" id="myForm" (ngSubmit)="changeBook()" #userForm="ngForm" enctype="multipart/form-data">
+                        <form style="font-size: 14px;" class="row g-0" id="myForm" ngForm (ngSubmit)="changeBook()" #bookForm="ngForm" enctype="multipart/form-data">
                             <div class="col-lg-6">
                                 <div class="card-body p-md-5 mx-md-4" >
 
@@ -69,8 +72,8 @@
                                           <div style="display: block;">
                                             <p class="form-label" for="category">Thể Loại</p>
                                             <div class="form-outline mb-4">
-                                              <input *ngIf="!isEditing" type="text" name="temp" id="author" class="border form-control" [ngModel]="book.category.name"/>
-                                              <select *ngIf="isEditing" id="category" type="text" name="category" class="form-control border" [(ngModel)]="book.category.name">
+                                              <input *ngIf="!isEditing" type="text" name="temp" id="temp" class="border form-control" [ngModel]="book.category.name"/>
+                                              <select *ngIf="isEditing" id="category" type="text" name="category" class="form-control border" [ngModel]="book.category.id">
                                                 <option *ngFor="let category of categories" [value]="category.id" >{{category.name}}</option>
                                               </select>
                                             </div>
@@ -92,7 +95,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6" style="margin: auto 0;">
-                                <input id="cover" type="{{ isEditing ? 'file' : 'hidden' }}" name="avatarcover" class="form-control-file" accept="image/png, image/jpeg" (change)="preview($event)">
+                                <input id="cover" type="{{ isEditing ? 'file' : 'hidden' }}" name="imgcover" class="form-control-file" accept="image/png, image/jpeg" (change)="preview($event)">
                                 <img id="frame" style="max-width: 500px; max-height: 500px;" />
                                 <img *ngIf="!isImageUploaded" class="img-thumbnail" [src]="'http://localhost:2369'+book.imgCover" style="max-width: 500px;max-height: 500px">
                             </div>
@@ -103,7 +106,10 @@
                         <div  class="pagination-item--active md-5 d-flex align-items-center pb-4" style="justify-content: space-around">
                             <button *ngIf="!isEditing"type="button" class="pagination-item__link btn btn-outline-danger" (click)="editSave()" form="myForm">Sửa</button>
                             <button *ngIf="isEditing" type="submit" class="pagination-item__link btn btn-outline-danger" form="myForm">Lưu</button>
-                        </div>
+                            <a class="pagination-item--active" (click)="delete(book.id)">
+                              <button type="button" class="pagination-item__link btn btn btn-outline-danger">Xóa</button>
+                          </a>
+                          </div>
                         <!--            <div class="d-flex align-items-center justify-content-center pb-4">-->
                         <!--              <a href="/">-->
                         <!--                <button type="button" class="btn btn-outline-danger">Home</button>-->

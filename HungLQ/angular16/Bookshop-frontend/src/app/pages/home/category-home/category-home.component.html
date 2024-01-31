@@ -6,7 +6,7 @@
     <ul class="category-list" *ngFor="let category of categories">
 <!--              <&#45;&#45;category-item&#45;&#45;active &ndash;&gt;-->
       <li class="category-item">
-        <a (click)="findByCategory(category.id)"  class="category-item__link" >{{category.name}}</a>
+        <a [routerLink]="'/category/'+category.id"  class="category-item__link" >{{category.name}}</a>
       </li>
     </ul>
   </div>
