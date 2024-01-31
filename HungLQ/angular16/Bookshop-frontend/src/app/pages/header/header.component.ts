@@ -26,6 +26,6 @@ constructor(private router: ActivatedRoute, private Route:Router){}
 
   submitForm(){
     const search = this.searchForm.value.search;
-    this.Route.navigate(['/'],{queryParams: {'search': search} })
+    this.Route.navigate(['/search'],{queryParams: {'search': search} })
   }
 }

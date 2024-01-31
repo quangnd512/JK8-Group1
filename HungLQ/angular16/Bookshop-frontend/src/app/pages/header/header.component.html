@@ -140,7 +140,7 @@
                     </svg>
                 </a>
             </div>
-            <form sec:authorize="!hasRole('ROLE_ADMIN')" class="header__search" (ngSubmit)="submitForm()" #searchForm="ngForm">
+            <form class="header__search" (ngSubmit)="submitForm()" #searchForm="ngForm">
                 <div class="header__search-input-wrap">
                     <input ngModel type="text" class="header__search-input" placeholder="Tìm kiếm sách" name="search">
                 </div>

@@ -67,6 +67,12 @@ export class BookService{
         return this.HttpClient.get<book[]>(url);
     }
 
+    getBySearch(search:string,params?:string): Observable<book[]>{
+        let url = apiHost + "/books/search/" + search;
+        if(params !== undefined) url += params;
+        return this.HttpClient.get<book[]>(url);
+    }
+
     getById(id:string):Observable<book>{
         let url = apiHost + `/books/${id}`;
         return this.HttpClient.get<book>(url)

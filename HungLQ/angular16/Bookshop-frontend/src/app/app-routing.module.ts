@@ -21,6 +21,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { AuthGuard } from './service/auth.guard';
 import { HomebycategoryComponent } from './pages/homebycategory/homebycategory.component';
+import { SearchComponent } from './pages/search/search.component';
 
 const routes: Routes = [
   // {path: "", redirectTo:"/home",pathMatch: 'full'},
@@ -45,7 +46,8 @@ const routes: Routes = [
 
   {path: "order", component:OrderComponent},
   {path: "user", component:UserDetailComponent},
-  {path: "category/:id", component:HomebycategoryComponent},
+  {path: "search", component:SearchComponent},
+  {path: "category", component:HomebycategoryComponent},
   {path: "books/:id", component:BookDetailComponent},
   {path: "sign-in", component:SigninComponent},
   {path: "sign-up", component:SignupComponent},
