@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Observable, takeUntil} from 'rxjs';
 import {AuthService} from '../../services/auth.service';
-import {TakeUntilDestroy} from "../../resources";
+import {OrderStatus, TakeUntilDestroy} from "../../resources";
 import {Router} from "@angular/router";
 import {SearchService} from "../../services/search.service";
 
@@ -16,6 +16,7 @@ export class HeaderComponent extends TakeUntilDestroy implements OnInit {
   public keyword: string = ''
   @Output()
   public searchKeywordsChange: EventEmitter<string> = new EventEmitter<string>();
+  protected readonly OrderStatus = OrderStatus;
 
   constructor(private searchService: SearchService, private authService: AuthService, private router: Router) {
     super();

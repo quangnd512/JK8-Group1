@@ -1,21 +1,24 @@
 <nav>
   <ul *ngIf="(total_pages$ | async) as totalPages"
-      [ngClass]="{'justify-content-center': position==='home', 'justify-content-end': position==='admin-dashboard'}"
+      [ngClass]="{
+        'justify-content-center': position==='home' || position==='my-orders',
+        'justify-content-end': position==='admin-dashboard'}"
       class="pagination">
+
     <li [ngClass]="{'disabled': page === 1}" class="page-item">
-      <a [href]="position + '/' + board+(page-1) + query_params" class="page-link">Previous</a>
+      <a [href]="position + '/' + board + (page-1) + query_params" class="page-link">Previous</a>
     </li>
     <li *ngIf="page-1>=1" class="page-item">
-      <a [href]="position + '/' + board+(page-1) + query_params" class="page-link">{{ page - 1 }}</a>
+      <a [href]="position + '/' + board + (page-1) + query_params" class="page-link">{{ page - 1 }}</a>
     </li>
     <li *ngIf="page!==0" class="page-item active">
-      <a [href]="position + '/' +board+page + query_params" class="page-link active">{{ page }}</a>
+      <a [href]="position + '/' + board + page + query_params" class="page-link active">{{ page }}</a>
     </li>
     <li *ngIf="page+1<=totalPages" class="page-item">
-      <a [href]="position + '/' +board+(page+1) + query_params" class="page-link">{{ page + 1 }}</a>
+      <a [href]="position + '/' + board + (page+1) + query_params" class="page-link">{{ page + 1 }}</a>
     </li>
     <li [ngClass]="{'disabled': page === totalPages}" class="page-item">
-      <a [href]="position + '/' +board+(page+1) + query_params" class="page-link">Next</a>
+      <a [href]="position + '/' + board + (page+1) + query_params" class="page-link">Next</a>
     </li>
   </ul>
 </nav>

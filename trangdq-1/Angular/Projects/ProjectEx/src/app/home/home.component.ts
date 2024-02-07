@@ -12,7 +12,8 @@ import {SearchService} from "../shared/services/search.service";
 })
 export class HomeComponent extends TakeUntilDestroy {
   public page: number = 1
-  public products$: Observable<Array<Product>> = new Observable()
+  public products$: Observable<Array<Product>> = new Observable<Array<Product>>()
+  public total_products$: Observable<number> = new Observable<number>()
   public name_asc = true
   public price_asc = true
   public inStock_asc = true
@@ -21,10 +22,9 @@ export class HomeComponent extends TakeUntilDestroy {
   constructor(private searchService: SearchService, private productService: ProductService, private route: ActivatedRoute, private router: Router) {
     super()
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      takeUntil(this.destroy$)
-    )
-      .subscribe(() => this.getProducts());
+      takeUntil(this.destroy$),
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => this.getProducts());
   }
 
   public ngOnInit(): void {
@@ -36,6 +36,7 @@ export class HomeComponent extends TakeUntilDestroy {
     if (pageNo) {
       this.page = Number.parseInt(pageNo)
     }
+    this.total_products$ = this.productService.getTotalProducts()
     // SORTING ?
     let nameOn = this.route.snapshot.queryParamMap.get('name')
     let priceOn = this.route.snapshot.queryParamMap.get('price')
@@ -56,7 +57,9 @@ export class HomeComponent extends TakeUntilDestroy {
       // SEARCH
       this.searchService.searchKeyword$.pipe(takeUntil(this.destroy$)).subscribe({
         next: keyword => {
-          this.query_params = '?search=' + keyword
+          if (keyword) {
+            this.query_params = '?search=' + keyword
+          }
           this.products$ = this.searchService.searchProducts(this.page - 1, keyword)
         },
         // NOTHING

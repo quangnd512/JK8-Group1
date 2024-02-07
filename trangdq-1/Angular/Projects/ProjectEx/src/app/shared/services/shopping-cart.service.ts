@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {catchError, map, Observable} from "rxjs";
-import {OutputCartItem, headers, Response, SERVER_URL} from "../resources";
+import {headers, Item, OutputCartItem, Response, SERVER_URL} from "../resources";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
@@ -10,7 +10,7 @@ export class ShoppingCartService {
   constructor(private http: HttpClient) {
   }
 
-  public getItems(): Observable<Array<OutputCartItem>> {
+  public getCartItems(): Observable<Array<OutputCartItem>> {
     let userId = localStorage.getItem('userId')
     return this.http.get<Response>(`${SERVER_URL}/cart/${userId}`, {headers})
       .pipe(
@@ -25,15 +25,20 @@ export class ShoppingCartService {
       );
   }
 
-  public deleteItem(productId: number): Observable<Response> {
+  public updateCart(cartItems: Array<Item>): Observable<Response> {
     let userId = localStorage.getItem('userId')
-    return this.http.delete<Response>(`${SERVER_URL}/cart/${userId}/${productId}`, {headers})
+    return this.http.put<Response>(`${SERVER_URL}/cart/${userId}`, cartItems, {headers})
   }
 
-  public updateItemQuantity(productId: number, quantity: number): Observable<Response> {
-    let userId = localStorage.getItem('userId')
-    return this.http.put<Response>(`${SERVER_URL}/cart/${userId}/${productId}/${quantity}`, {}, {headers})
-  }
+  // public deleteItem(productId: number): Observable<Response> {
+  //   let userId = localStorage.getItem('userId')
+  //   return this.http.delete<Response>(`${SERVER_URL}/cart/${userId}/${productId}`, {headers})
+  // }
+  //
+  // public updateItemQuantity(productId: number, quantity: number): Observable<Response> {
+  //   let userId = localStorage.getItem('userId')
+  //   return this.http.put<Response>(`${SERVER_URL}/cart/${userId}/${productId}/${quantity}`, {}, {headers})
+  // }
 
   public addToCart(productId: number): Observable<Response> {
     let userId = localStorage.getItem('userId')

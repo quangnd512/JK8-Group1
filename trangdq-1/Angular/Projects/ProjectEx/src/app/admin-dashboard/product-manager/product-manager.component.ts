@@ -1,6 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {ErrorMessage, Product, TakeUntilDestroy} from "../../shared/resources";
-import {Observable, takeUntil} from "rxjs";
+import {filter, last, merge, Observable, of, takeUntil, tap} from "rxjs";
 import {ProductService} from "../../shared/services/product.service";
 import {ActivatedRoute} from "@angular/router";
 
@@ -144,40 +144,55 @@ export class ProductManagerComponent extends TakeUntilDestroy {
 
   public updateProduct(): void {
     if (this.validateData()) {
-      this.productService.updateProduct(this.id, this.productInput).pipe(takeUntil(this.destroy$)).subscribe({
-        next: (response) => {
-          console.log("Product's information saved!")
-          if (this.images.length !== 0) {
-            for (const image of this.images) {
-              this.formData.append('images', image, image.name);
-            }
-            this.loading = true
-            this.productService.uploadImages(this.id, this.formData).pipe(takeUntil(this.destroy$))
-              .subscribe({
-                next: () => {
-                  this.loading = false
-                  alert(response.message)
-                  this.updateState()
-                  this.returnToDashboard()
-                },
-                error: (error) => {
-                  this.loading = false
-                  alert(error.message)
-                  this.updateState()
-                  this.returnToDashboard()
-                }
-              })
-          } else {
-            alert(response.message)
-            this.updateState()
-            this.returnToDashboard()
-          }
+      if (this.images.length !== 0) {
+        for (const image of this.images) {
+          this.formData.append('images', image, image.name);
+        }
+      }
+      this.loading = true;
+      let completions = 0
+
+      merge(
+        this.productService.updateProduct(this.id, this.productInput),
+        this.images.length !== 0 ? this.productService.uploadImages(this.id, this.formData) : of(null)
+      ).pipe(
+        takeUntil(this.destroy$),
+        tap(_ => completions++),
+        last(),
+        filter(response => completions === 2)
+      ).subscribe({
+        next: _ => {
+          this.loading = false;
+          alert("Product updated and images uploaded successfully!");
+          this.updateState();
+          this.returnToDashboard();
         },
-        error: (error) => {
-          alert(error.message)
-          this.returnToDashboard()
+        error: error => {
+          this.loading = false;
+          alert(error.message);
+          this.updateState();
+          this.returnToDashboard();
         }
       })
+
+      // forkJoin([
+      //   this.productService.updateProduct(this.id, this.productInput),
+      //   this.images.length !== 0 ? this.productService.uploadImages(this.id, this.formData) : of(null) // Emit null if no images
+      // ]).pipe(takeUntil(this.destroy$))
+      //   .subscribe({
+      //     next: () => {
+      //       this.loading = false;
+      //       alert("Product updated and images uploaded successfully!")
+      //       this.updateState();
+      //       this.returnToDashboard();
+      //     },
+      //     error: error => {
+      //       this.loading = false
+      //       alert(error.message)
+      //       this.updateState()
+      //       this.returnToDashboard()
+      //     }
+      //   });
     }
   }
 
@@ -249,6 +264,5 @@ export class ProductManagerComponent extends TakeUntilDestroy {
     }
     return should
   }
-
 
 }

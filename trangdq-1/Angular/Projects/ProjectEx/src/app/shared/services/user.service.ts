@@ -33,26 +33,8 @@ export class UserService {
       );
   }
 
-  public addUser(user: NewUserDTO): Observable<Response> {
-    return this.http.post<Response>(`${SERVER_URL}/admin/user`, user, {headers})
-  }
-
-  public updateUser(user: User): Observable<Response> {
-    return this.http.put<Response>(`${SERVER_URL}/admin/user/${user.id}`, user, {headers})
-  }
-
-  public deleteUser(id: number): Observable<Response> {
-    return this.http.delete<Response>(`${SERVER_URL}/admin/user/${id}`, {headers});
-  }
-
-  public getUserById(id: number): Observable<User> {
-    return this.http.get<Response>(`${SERVER_URL}/admin/user/${id}`, {headers})
-      .pipe(
-        map(response => response.data as User),
-      );
-  }
-
   public getTotalPages() {
+    console.log(headers)
     return this.http.get<ResponseObject>(`${SERVER_URL}/admin/users/0`, {headers})
       .pipe(
         map(response => response.data.totalPages as number),
@@ -62,4 +44,42 @@ export class UserService {
         })
       );
   }
+
+  // handle error later
+  public getUserById(id: number): Observable<User> {
+    console.log(headers)
+    return this.http.get<Response>(`${SERVER_URL}/admin/user/${id}`, {headers})
+      .pipe(
+        map(response => response.data as User)
+      );
+  }
+
+  // customer's right
+  // handle error later
+  public getCustomerById(id: number): Observable<User> {
+    return this.http.get<Response>(`${SERVER_URL}/customer/${id}`, {headers})
+      .pipe(
+        map(response => response.data as User),
+      );
+  }
+
+  // handle error later
+  public addUser(user: NewUserDTO): Observable<Response> {
+    return this.http.post<Response>(`${SERVER_URL}/admin/user`, user, {headers})
+  }
+
+  // handle error later
+  public updateUser(user: User): Observable<Response> {
+    return this.http.put<Response>(`${SERVER_URL}/admin/user/${user.id}`, user, {headers})
+  }
+
+  // handle error later
+  public deleteUser(id: number): Observable<Response> {
+    return this.http.delete<Response>(`${SERVER_URL}/admin/user/${id}`, {headers});
+  }
+
+  public register(user: NewUserDTO): Observable<Response> {
+    return this.http.post<Response>(`${SERVER_URL}/register`, user)
+  }
+
 }

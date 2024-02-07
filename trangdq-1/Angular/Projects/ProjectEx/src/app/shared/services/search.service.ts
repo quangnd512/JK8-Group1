@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class SearchService {
   private searchKeywordSource = new BehaviorSubject<string>('');
-  searchKeyword$ = this.searchKeywordSource.asObservable();
+  public searchKeyword$ = this.searchKeywordSource.asObservable();
 
   constructor(private http: HttpClient) {
   }

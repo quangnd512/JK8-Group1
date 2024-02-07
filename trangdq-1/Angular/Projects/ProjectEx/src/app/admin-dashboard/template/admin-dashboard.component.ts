@@ -13,6 +13,7 @@ import {ActivatedRoute} from "@angular/router";
 export class AdminDashboardComponent extends TakeUntilDestroy {
   public isAdmin$: Observable<boolean> = new Observable<boolean>()
   public board: "products-manager" | "users-manager" | "orders-manager" = "products-manager"
+  protected readonly OrderStatus = OrderStatus;
 
   constructor(private authService: AuthService, private route: ActivatedRoute) {
     super()
@@ -22,25 +23,23 @@ export class AdminDashboardComponent extends TakeUntilDestroy {
     this.isAdmin$ = this.authService.isAdmin()
     let board = this.route.snapshot.paramMap.get('board')
     if (board === 'products-manager') {
-      this.board = "products-manager"
+      this.onProductsManager()
     } else if (board === 'users-manager') {
-      this.board = "users-manager"
+      this.onUsersManager()
     } else if (board === 'orders-manager') {
-      this.board = "orders-manager"
+      this.onOrdersManager()
     }
   }
 
-  public productsManager() {
+  public onProductsManager() {
     this.board = "products-manager"
   }
 
-  public usersManager() {
+  public onUsersManager() {
     this.board = "users-manager"
   }
 
-  public ordersManager() {
+  public onOrdersManager() {
     this.board = "orders-manager"
   }
-
-  protected readonly OrderStatus = OrderStatus;
 }

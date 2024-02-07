@@ -54,11 +54,11 @@
         </thead>
         <tbody>
         <tr *ngFor="let item of cartItems">
-          <td><img [src]="item.images[0]"></td>
+          <td><img [src]="item.images[0]" alt="Item Image"></td>
           <td class="text-start">{{ item.name }}</td>
           <td>{{ item.quantity }}</td>
           <td *ngIf="item.discount !== 0">
-            <span class="original-price text-muted">{{ item.price| currency }}</span>
+            <span appDiscounted class="text-muted">{{ item.price| currency }}</span>
             <br><span class="text-danger">{{ item.price - item.price * item.discount / 100| currency }}</span>
           </td>
           <td *ngIf="item.discount === 0">{{ item.price | currency }}</td>
@@ -80,14 +80,12 @@
   </div>
 </div>
 
-<div *ngIf="displayBill" aria-hidden="true" aria-labelledby="billModalLabel" class="modal display" id="billModal"
-     tabindex="-1">
+<div *ngIf="displayBill" appDisplayed class="modal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="billModalLabel">Confirm Your Bill</h5>
-        <button (click)="closeBill()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"
-                type="button"></button>
+        <button (click)="closeBill()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <div class="container">
@@ -136,8 +134,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button (click)="closeBill()" class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
-        <button (click)="checkout()" class="btn btn-primary" type="button">Confirm</button>
+        <button (click)="closeBill()" class="btn btn-secondary">Close</button>
+        <button (click)="checkout()" class="btn btn-primary">Confirm</button>
       </div>
     </div>
   </div>

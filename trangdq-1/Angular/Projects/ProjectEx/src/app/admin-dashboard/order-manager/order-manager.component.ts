@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {OrderStatus, OutputOrder, TakeUntilDestroy} from "../../shared/resources";
 import {OrderService} from "../../shared/services/order.service";
-import {ActivatedRoute} from "@angular/router";
-import {takeUntil} from "rxjs";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {filter, Observable, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-order-manager',
@@ -10,41 +10,64 @@ import {takeUntil} from "rxjs";
   styleUrl: './order-manager.component.scss'
 })
 export class OrderManagerComponent extends TakeUntilDestroy {
-  public orders: Array<OutputOrder> = []
+  public orders$: Observable<Array<OutputOrder>> = new Observable<Array<OutputOrder>>()
+  public total_orders$: Observable<number> = new Observable<number>()
   public status: string = OrderStatus.CUSTOMER_CONFIRMED
+  public page: number = 1
+  protected readonly OrderStatus = OrderStatus;
 
-  constructor(private orderService: OrderService, private route: ActivatedRoute) {
+  constructor(private orderService: OrderService, private route: ActivatedRoute, private router: Router) {
     super()
+    this.router.events.pipe(
+      takeUntil(this.destroy$),
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => this.getOrdersByStatus());
   }
 
   public ngOnInit() {
-    this.status = <string>(this.route.snapshot.queryParamMap.get('status')?.toUpperCase())
-    this.getOrdersByStatus();
+    this.getOrdersByStatus()
   }
 
-  public getOrdersByStatus() {
-    console.log(this.status)
-    this.orderService.getOrdersByStatus(this.status).pipe(takeUntil(this.destroy$))
+  public updateStatus(order: OutputOrder, toStatus: OrderStatus) {
+    this.orderService.updateStatus(order.id, order.orderStatus, toStatus).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.orders = response
-          console.log("All orders gotten!")
+          console.log("Admin update: " + response.message)
+          this.getOrdersByStatus()
         },
-        error: (error) => {
-          console.error(error.message)
+        error: error => {
+          console.log(error.message)
         }
       })
   }
 
-  public updateStatus(id: number, fromStatus: OrderStatus, toStatus: OrderStatus) {
-    this.orderService.updateStatus(id, fromStatus, toStatus)
-    for (let i = 0; i < this.orders.length; i++) {
-      if (this.orders[i].id === id) {
-        console.log(this.orders[i])
-        this.orders[i].orderStatus = toStatus
-        break
-      }
+  public status2Display(status: OrderStatus | string) {
+    switch (status) {
+      case OrderStatus.CANCELED:
+        return "Canceled"
+      case OrderStatus.SUCCESS:
+        return "Succeeded"
+      case OrderStatus.SHIPPING:
+        return "Shipping"
+      case OrderStatus.ADMIN_PREPARING:
+        return "Preparing"
+      case OrderStatus.CUSTOMER_REQUEST_CANCEL:
+        return "Canceling"
+      case OrderStatus.CUSTOMER_CONFIRMED:
+        return "Processing"
+      default:
+        return status
     }
   }
 
+  public viewItemsDetails() {
+
+  }
+
+  private getOrdersByStatus() {
+    let st = <string>(this.route.snapshot.queryParamMap.get('status')?.toUpperCase())
+    this.status = st ? st : OrderStatus.CUSTOMER_CONFIRMED
+    this.orders$ = this.orderService.getOrdersByStatus(this.status, this.page - 1)
+    this.total_orders$ = this.orderService.getTotalOrdersByStatus(this.status)
+  }
 }

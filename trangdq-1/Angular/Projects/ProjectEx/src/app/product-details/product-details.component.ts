@@ -29,6 +29,22 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
         this.cartService.addToCart(product.id).pipe(takeUntil(this.destroy$))
           .subscribe({
             next: () => {
+              if (localStorage.getItem("cartItems")) {
+                let cartItems: Array<OutputCartItem> = JSON.parse(<string>localStorage.getItem("cartItems"))
+                let item: OutputCartItem = {
+                  quantity: 1,
+                  productId: product.id!,
+                  name: product.name,
+                  price: product.price,
+                  description: product.description,
+                  inStock: product.inStock,
+                  images: product.images,
+                  category: product.category,
+                  discount: product.discount
+                }
+                cartItems.push(item)
+                localStorage.setItem("cartItems", JSON.stringify(cartItems))
+              }
               console.log("Item added to cart!")
               this.router.navigate(['/my-shopping-cart'])
             },

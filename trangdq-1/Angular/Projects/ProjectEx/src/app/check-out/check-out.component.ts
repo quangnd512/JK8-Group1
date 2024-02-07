@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {OutputCartItem, ErrorMessage, Item, OrderDTO, PHONE_PATTERN, TakeUntilDestroy} from "../shared/resources";
+import {ErrorMessage, Item, OrderDTO, OutputCartItem, PHONE_PATTERN, TakeUntilDestroy} from "../shared/resources";
 import {takeUntil} from "rxjs";
 import {UserService} from "../shared/services/user.service";
 import {ShoppingCartService} from "../shared/services/shopping-cart.service";
@@ -42,18 +42,33 @@ export class CheckOutComponent extends TakeUntilDestroy {
       voucherChosen: 0, // just ignore
       message: ''
     }
-    this.userService.getUserById(Number.parseInt(<string>localStorage.getItem("userId"))).pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          this.data.userName = response.name ? response.name : response.username
-          this.data.userPhone = response.phone
-          this.data.addressToReceive = response.address
-          console.log("User's information gotten!")
-        },
-        error: () => {
-          alert("Cannot retrieve your account. Please come back later...")
-        }
-      })
+    if (localStorage.getItem('role') === "ROLE_ADMIN") {
+      this.userService.getUserById(Number.parseInt(<string>localStorage.getItem("userId"))).pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.data.userName = response.name ? response.name : response.username
+            this.data.userPhone = response.phone
+            this.data.addressToReceive = response.address
+            console.log("User's information gotten!")
+          },
+          error: (error) => {
+            alert("Cannot retrieve your account. Please come back later...")
+          }
+        })
+    } else {
+      this.userService.getCustomerById(Number.parseInt(<string>localStorage.getItem("userId"))).pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.data.userName = response.name ? response.name : response.username
+            this.data.userPhone = response.phone
+            this.data.addressToReceive = response.address
+            console.log("User's information gotten!")
+          },
+          error: () => {
+            alert("Cannot retrieve your account. Please come back later...")
+          }
+        })
+    }
     // TODO: future
     // this.vouchers = []
   }
@@ -94,7 +109,7 @@ export class CheckOutComponent extends TakeUntilDestroy {
                 })
             }
             alert("Checkout successfully!")
-            this.router.navigate(['/my-orders'])
+            this.router.navigate(['/my-orders/1'])
           },
           error: (error) => {
             alert("Cannot checkout this time. Please come back later...")

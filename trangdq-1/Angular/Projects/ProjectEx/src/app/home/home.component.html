@@ -1,10 +1,11 @@
+<!--<ng-template #display>-->
 <div class="container my-4">
   <div class="d-flex justify-content-between align-items-center">
     <h2 class="text-white">Explore Our Collection</h2>
     <div class="btn-group">
-      <a class="btn btn-outline-primary" href="/home/1?name={{name_asc}}" type="button">Sort by Name</a>
-      <a class="btn btn-outline-primary" href="/home/1?price={{price_asc}}" type="button">Sort by Price</a>
-      <a class="btn btn-outline-primary" href="/home/1?inStock={{inStock_asc}}" type="button">Sort by In Stock</a>
+      <a class="btn btn-outline-light" href="/home/1?name={{name_asc}}">Sort by Name</a>
+      <a class="btn btn-outline-light" href="/home/1?price={{price_asc}}">Sort by Price</a>
+      <a class="btn btn-outline-light" href="/home/1?inStock={{inStock_asc}}">Sort by In Stock</a>
     </div>
   </div>
 </div>
@@ -17,10 +18,9 @@
         <div class="card-body">
           <h5 class="card-title text-center"><a href="product/{{product.id}}">{{ product.name }}</a></h5>
           <p class="card-text mb-1 text-sky fw-bold">{{ product.category }}</p>
-
           <div class="d-flex justify-content-between align-items-center">
             <span *ngIf="product.discount!==0"
-                  class="text-muted original-price">{{ product.price |currency : 'USD' : 'symbol' : '1.2-2' }}</span>
+                  appDiscounted class="text-muted">{{ product.price |currency : 'USD' : 'symbol' : '1.2-2' }}</span>
             <span *ngIf="product.discount!==0" class="badge animated-badge">-{{ product.discount }}%</span>
             <span *ngIf="product.discount===0"
                   class="text-sea">{{ product.price | currency : 'USD' : 'symbol' : '1.2-2' }}</span>
@@ -37,3 +37,9 @@
 </div>
 <app-pagination [position]="'home'" [query_params]="query_params"></app-pagination>
 <app-footer></app-footer>
+<!--</ng-template>-->
+<!--<ng-template #notfound>-->
+<!--  <app-page404></app-page404>-->
+<!--</ng-template>-->
+<!--<ng-container *ngIf="page! <= (total_products$ | async), then display, else notfound">-->
+<!--</ng-container>-->

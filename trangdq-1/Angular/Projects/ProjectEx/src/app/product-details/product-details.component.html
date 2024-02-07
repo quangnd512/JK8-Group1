@@ -8,8 +8,7 @@
                     [attr.data-bs-slide-to]="i"
                     [attr.data-bs-target]="'#carouselExampleIndicators'"
                     [class.active]="i === 0"
-                    aria-current="true"
-                    type="button">
+                    aria-current="true">
             </button>
           </div>
           <div class="carousel-inner">
@@ -19,13 +18,11 @@
               <img [src]="image" alt="Slide {{ i + 1 }}" class="d-block w-100">
             </div>
           </div>
-          <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators"
-                  type="button">
+          <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators">
             <span aria-hidden="true" class="carousel-control-prev-icon"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleIndicators"
-                  type="button">
+          <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleIndicators">
             <span aria-hidden="true" class="carousel-control-next-icon"></span>
             <span class="visually-hidden">Next</span>
           </button>

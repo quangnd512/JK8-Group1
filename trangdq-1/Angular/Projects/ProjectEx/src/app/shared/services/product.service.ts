@@ -22,8 +22,17 @@ export class ProductService {
       );
   }
 
-  public getTotalProducts(sort?: string, direction = 'asc'): Observable<number> {
-    let url = this.accumulateUrl(0, sort, direction)
+  // handle error later
+  // in product details: check when async
+  public getProductById(id: number): Observable<Product> {
+    return this.http.get<Response>(`${SERVER_URL}/product/${id}`)
+      .pipe(
+        map(response => response.data as Product)
+      );
+  }
+
+  public getTotalProducts(direction = 'asc'): Observable<number> {
+    let url = this.accumulateUrl(0, direction)
     return this.http.get<ResponseObject>(url)
       .pipe(
         map(response => response.data.totalElements as number),
@@ -71,13 +80,6 @@ export class ProductService {
 
   public deleteProduct(id: number): Observable<Response> {
     return this.http.delete<Response>(`${SERVER_URL}/admin/product/${id}`, {headers});
-  }
-
-  public getProductById(id: number): Observable<Product> {
-    return this.http.get<Response>(`${SERVER_URL}/product/${id}`)
-      .pipe(
-        map(response => response.data as Product)
-      );
   }
 
   private accumulateUrl(page: number = 0, sort?: string, direction?: string): string {

@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {BrowserModule, provideClientHydration} from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms'
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {HttpClientModule} from '@angular/common/http';
@@ -16,13 +16,16 @@ import {FooterComponent} from './shared/components/footer/footer.component';
 import {ProductDetailsComponent} from './product-details/product-details.component';
 import {ProductManagerComponent} from './admin-dashboard/product-manager/product-manager.component';
 import {UserManagerComponent} from './admin-dashboard/user-manager/user-manager.component';
-import {LoaderComponent} from './shared/components/loader/loader.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PaginationComponent} from './shared/components/pagination/pagination.component';
 import {ShoppingCartComponent} from './shopping-cart/shopping-cart.component';
 import {CheckOutComponent} from './check-out/check-out.component';
 import {OrderManagerComponent} from './admin-dashboard/order-manager/order-manager.component';
 import {OrderHistoryComponent} from './order-history/order-history.component';
+import {DiscountedDirective} from './shared/directives/discounted.directive';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {DisplayedDirective} from './shared/directives/displayed.directive';
+import {RegisterComponent} from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -36,12 +39,14 @@ import {OrderHistoryComponent} from './order-history/order-history.component';
     ProductDetailsComponent,
     ProductManagerComponent,
     UserManagerComponent,
-    LoaderComponent,
     PaginationComponent,
     ShoppingCartComponent,
     CheckOutComponent,
     OrderManagerComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    DiscountedDirective,
+    DisplayedDirective,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -51,10 +56,10 @@ import {OrderHistoryComponent} from './order-history/order-history.component';
     HttpClientModule,
     NgOptimizedImage,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
-  providers: [
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

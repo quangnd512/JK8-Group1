@@ -46,10 +46,11 @@ export type OutputOrder = {
   userId: number;
   voucherId: number;
   checkoutDate: Date;
-  orderStatus: string;
+  orderStatus: OrderStatus;
   paymentMethod: string;
   message: string;
   addressToReceive: string;
+  userInfo: string
   total: number;
 }
 
@@ -65,19 +66,6 @@ export type OutputItem = {
 export type Item = {
   productId: number,
   quantity: number
-}
-export type Order = {
-  id: number;
-  items: OutputCartItem;
-  userId: number;
-  voucherId: number;
-  checkoutDate: Date;
-  orderStatus: string;
-  paymentMethod: string;
-  message: string;
-  addressToReceive: string;
-  userInfo: string;
-  // voucher: VoucherEntity;
 }
 
 export type OrderDTO = {
@@ -117,7 +105,7 @@ export type Response = {
 
 export type ResponseObject = {
   data: {
-    content?: Array<Product> | Product | Array<User> | User
+    content?: Array<Product> | Product | Array<User> | User | Array<OutputOrder>
     totalElements?: number,
     totalPages?: number,
   }
@@ -128,7 +116,7 @@ export enum OrderStatus {
   SHIPPING = "SHIPPING",
   ADMIN_PREPARING = "ADMIN_PREPARING",
   CUSTOMER_CONFIRMED = "CUSTOMER_CONFIRMED",
-  CUSTOMER_CANCELED = "CUSTOMER_CANCELED",
+  CANCELED = "CANCELED",
   CUSTOMER_REQUEST_CANCEL = "CUSTOMER_REQUEST_CANCEL",
 }
 

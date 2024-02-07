@@ -46,17 +46,21 @@ export class AuthService {
     if (jwt && !this.isTokenExpired(jwt)) {
       this.loggedIn.next(true)
     } else {
-      this.loggedIn.next(false)
+      this.logoutFromClient()
     }
     return this.loggedIn.asObservable()
   }
 
   public isAdmin(): Observable<boolean> {
     const jwt = localStorage.getItem('token');
-    if (jwt && !this.isTokenExpired(jwt) && localStorage.getItem('role') === 'ROLE_ADMIN') {
-      this.admin.next(true);
+    if (jwt && !this.isTokenExpired(jwt)) {
+      if (localStorage.getItem('role') === 'ROLE_ADMIN') {
+        this.admin.next(true);
+      } else {
+        this.admin.next(false);
+      }
     } else {
-      this.admin.next(false);
+      this.logoutFromClient()
     }
     return this.admin.asObservable()
   }
@@ -65,17 +69,19 @@ export class AuthService {
     return this.http.post<any>(`${SERVER_URL}/logout`, {})
       .pipe(
         tap(() => {
-          this.loggedIn.next(false)
-          this.admin.next(false)
-          localStorage.removeItem('userId')
-          localStorage.removeItem('token')
-          localStorage.removeItem('role')
+          this.logoutFromClient()
           this.router.navigate(['/login'])
         }),
         catchError(() => {
-          throw new Error('Failed to logout...')
+          throw new Error('Failed to logout from server...')
         })
       )
+  }
+
+  private logoutFromClient() {
+    localStorage.clear()
+    this.admin.next(false);
+    this.loggedIn.next(false)
   }
 
   private isTokenExpired(token: string): boolean {

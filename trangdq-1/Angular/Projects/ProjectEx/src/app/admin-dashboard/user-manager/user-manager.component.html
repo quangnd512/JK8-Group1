@@ -34,13 +34,13 @@
   </tr>
   </tbody>
 </table>
-<div [ngClass]="{'display':current === 'add' || current === 'update'}" class="modal">
+<div *ngIf="current === 'add' || current === 'update'" appDisplayed class="modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 *ngIf="current === 'add'" class="modal-title">Add New User</h5>
         <h5 *ngIf="current === 'update'" class="modal-title">Update User</h5>
-        <button (click)="returnToDashboard()" class="btn-close" type="button"></button>
+        <button (click)="returnToDashboard()" class="btn-close"></button>
       </div>
       <div class="modal-body">
         <form>
@@ -106,7 +106,7 @@
 
       </div>
       <div class="modal-footer">
-        <button (click)="returnToDashboard()" class="btn btn-secondary" type="button">Close</button>
+        <button (click)="returnToDashboard()" class="btn btn-secondary">Close</button>
         <button (click)="addUser()" *ngIf="current === 'add'" class="btn btn-primary" type="submit">Add User
         </button>
         <button (click)="updateUser()" *ngIf="current === 'update'" class="btn btn-primary" type="submit">Update User

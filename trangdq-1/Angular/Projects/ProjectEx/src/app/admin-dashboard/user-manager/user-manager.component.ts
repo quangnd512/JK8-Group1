@@ -21,7 +21,6 @@ export class UserManagerComponent extends TakeUntilDestroy {
   public page: number = 1
   public users$: Observable<Array<User>> = new Observable<Array<User>>()
   public total_users$: Observable<number> = new Observable<number>()
-  public loading: boolean = false
   public userInput: User = {
     id: 0,
     username: '',
@@ -90,7 +89,6 @@ export class UserManagerComponent extends TakeUntilDestroy {
 
   public addUser() {
     if (this.validateData()) {
-      this.loading = true
       let inputDTO: NewUserDTO = {
         username: this.userInput.username,
         password: this.userInput.password,
@@ -100,13 +98,11 @@ export class UserManagerComponent extends TakeUntilDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            this.loading = false
             alert(response.message)
             this.returnToDashboard()
             this.updateState()
           },
           error: (error) => {
-            this.loading = false
             alert(error.message)
             this.returnToDashboard()
             this.updateState()
@@ -118,18 +114,15 @@ export class UserManagerComponent extends TakeUntilDestroy {
   public updateUser() {
     if (this.validateData()) {
       console.log(this.userInput)
-      this.loading = true
       this.userService.updateUser(this.userInput)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            this.loading = false
             alert(response.message)
             this.returnToDashboard()
             this.updateState()
           },
           error: (error) => {
-            this.loading = false
             alert(error.message)
             this.returnToDashboard()
             this.updateState()
@@ -141,17 +134,14 @@ export class UserManagerComponent extends TakeUntilDestroy {
   public deleteUser(id: number) {
     let choice: boolean = confirm("Delete this user?")
     if (choice) {
-      this.loading = true
       this.userService.deleteUser(id)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            this.loading = false
             alert(response.message)
             this.updateState()
           },
           error: (error) => {
-            this.loading = false
             alert(error.message)
             this.updateState()
           }

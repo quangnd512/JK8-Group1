@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {OrderService} from "../shared/services/order.service";
-import {Order, OrderStatus, OutputOrder, TakeUntilDestroy} from "../shared/resources";
-import {ActivatedRoute} from "@angular/router";
-import {takeUntil} from "rxjs";
+import {OrderStatus, OutputOrder, TakeUntilDestroy} from "../shared/resources";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
+import {filter, Observable, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-order-history',
@@ -10,15 +10,17 @@ import {takeUntil} from "rxjs";
   styleUrl: './order-history.component.scss'
 })
 export class OrderHistoryComponent extends TakeUntilDestroy {
-  public orders: Array<OutputOrder> = []
-  public status: OrderStatus = OrderStatus.CUSTOMER_CONFIRMED
+  public orders$: Observable<Array<OutputOrder>> = new Observable<Array<OutputOrder>>()
+  public status: string = OrderStatus.CUSTOMER_CONFIRMED
+  public page: number = 1
+  protected readonly OrderStatus = OrderStatus;
 
-  constructor(private orderService: OrderService, private route: ActivatedRoute) {
+  constructor(private orderService: OrderService, private route: ActivatedRoute, private router: Router) {
     super()
-    let st = <string>this.route.snapshot.queryParamMap.get('status')
-    if (st) {
-      this.status = OrderStatus[st as OrderStatus]
-    }
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      takeUntil(this.destroy$)
+    ).subscribe(() => this.getUserOrdersByStatus());
   }
 
   public ngOnInit() {
@@ -26,31 +28,40 @@ export class OrderHistoryComponent extends TakeUntilDestroy {
   }
 
   public getUserOrdersByStatus() {
-    this.orderService.getUserOrdersByStatus(this.status).pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          console.log(response)
-          this.orders = response
-          console.log("Customer's orders gotten!")
-        },
-        error: (error) => {
-          console.error(error.message)
-        }
-      })
+    let st = <string>(this.route.snapshot.queryParamMap.get('status')?.toUpperCase())
+    if (st) this.status = st; else this.status = OrderStatus.CUSTOMER_CONFIRMED
+    this.orders$ = this.orderService.getUserOrdersByStatus(this.status, this.page - 1)
   }
 
-  public updateStatus(order: OutputOrder, toStatus: string) {
+  public updateStatus(order: OutputOrder, toStatus: OrderStatus) {
     this.orderService.updateStatus(order.id, order.orderStatus, toStatus).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           console.log(response.message)
+          order.orderStatus = toStatus
         },
         error: error => {
-          console.log(error.message)
+          alert(error.error.message)
         }
       })
-    order.orderStatus = toStatus
   }
 
-  protected readonly OrderStatus = OrderStatus;
+  public status2Display(status: OrderStatus) {
+    switch (status) {
+      case OrderStatus.CANCELED:
+        return "Canceled"
+      case OrderStatus.SUCCESS:
+        return "Succeeded"
+      case OrderStatus.SHIPPING:
+        return "Shipping"
+      case OrderStatus.ADMIN_PREPARING:
+        return "Preparing"
+      case OrderStatus.CUSTOMER_REQUEST_CANCEL:
+        return "Canceling"
+      case OrderStatus.CUSTOMER_CONFIRMED:
+        return "Processing"
+      default:
+        return status
+    }
+  }
 }
