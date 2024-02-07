@@ -1,5 +1,6 @@
 package hanu.edu.infrastructure.security.jwt;
 
+import hanu.edu.application.service.user.CustomUserDetailsService;
 import hanu.edu.domain.model.user.User;
 import hanu.edu.infrastructure.security.exception.BaseException;
 import io.jsonwebtoken.*;

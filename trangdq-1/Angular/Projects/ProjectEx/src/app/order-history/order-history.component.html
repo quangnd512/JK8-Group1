@@ -21,10 +21,10 @@
               <li *ngFor="let item of order.items" class="list-group-item">
                 <div class="row">
                   <div class="col-md-3">
-                    <img alt="{{ item.productName }}" class="img-thumbnail" src="{{ item.images[0] }}">
+                    <img alt="{{ item.name }}" class="img-thumbnail" src="{{ item.images[0] }}">
                   </div>
                   <div class="col-md-9">
-                    <h6>{{ item.productName }}</h6>
+                    <h6>{{ item.name }}</h6>
                     <p>Quantity: {{ item.quantity }}</p>
                     <p>Price: {{ item.price | currency }}</p>
                   </div>
@@ -59,8 +59,9 @@
   <app-pagination [position]="'my-orders'" [query_params]="'status='+status"></app-pagination>
 </ng-template>
 <ng-template #notfound>
-  <app-page404 [imageLink]="'assets/sad-meme.jpg'" [message]="'You haven\'t made any orders yet.'"
+  <app-page404 [imageLink]="'assets/sad-meme.jpg'"
+               [message]="'You haven\'t made any orders yet.'"
                [title]="'Nothing was found!'"></app-page404>
 </ng-template>
-<ng-container *ngIf="(orders$ | async), then display, else notfound">
+<ng-container *ngIf="(orders$ | async)?.length, then display, else notfound">
 </ng-container>

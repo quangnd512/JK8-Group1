@@ -59,6 +59,10 @@ public class ProductResourceService {
         return productRepository.getProductByCategory(page, 20, category);
     }
 
+    public Page<Product> getAllByPriceRange(int page, int from, int to) {
+        return productRepository.getAllProductsByPriceRange(page, 20, from, to);
+    }
+
     public void uploadImages(long productId, List<MultipartFile> productImages) {
         Product product = productRepository.getById(productId);
         List<String> images = product.getImages();

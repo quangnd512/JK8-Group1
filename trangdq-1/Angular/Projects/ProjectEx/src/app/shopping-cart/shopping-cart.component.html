@@ -40,18 +40,10 @@
     </div>
   </div>
 </ng-template>
-
-<ng-template #notfound>
-  <app-page404></app-page404>
-</ng-template>
-
 <ng-template #buy>
   <app-page404 [imageLink]="'assets/ready.png'"
                [message]="'How about going to buy something?'"
                [title]="'Your cart is empty!'"></app-page404>
 </ng-template>
-
-<ng-container *ngIf="(isLoggedIn$ | async), else notfound">
-  <ng-container *ngIf="(cartItems.length !== 0), then display, else buy">
-  </ng-container>
+<ng-container *ngIf="cartItems.length !== 0, then display, else buy">
 </ng-container>

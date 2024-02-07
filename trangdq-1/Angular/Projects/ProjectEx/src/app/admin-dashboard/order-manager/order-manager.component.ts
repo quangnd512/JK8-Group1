@@ -10,11 +10,14 @@ import {filter, Observable, takeUntil} from "rxjs";
   styleUrl: './order-manager.component.scss'
 })
 export class OrderManagerComponent extends TakeUntilDestroy {
+  protected readonly OrderStatus = OrderStatus;
   public orders$: Observable<Array<OutputOrder>> = new Observable<Array<OutputOrder>>()
   public total_orders$: Observable<number> = new Observable<number>()
   public status: string = OrderStatus.CUSTOMER_CONFIRMED
   public page: number = 1
-  protected readonly OrderStatus = OrderStatus;
+  public displayDetails: boolean = false
+  public displayNote: boolean = false
+  public current_order: OutputOrder | undefined
 
   constructor(private orderService: OrderService, private route: ActivatedRoute, private router: Router) {
     super()
@@ -60,14 +63,28 @@ export class OrderManagerComponent extends TakeUntilDestroy {
     }
   }
 
-  public viewItemsDetails() {
-
-  }
-
   private getOrdersByStatus() {
     let st = <string>(this.route.snapshot.queryParamMap.get('status')?.toUpperCase())
     this.status = st ? st : OrderStatus.CUSTOMER_CONFIRMED
     this.orders$ = this.orderService.getOrdersByStatus(this.status, this.page - 1)
     this.total_orders$ = this.orderService.getTotalOrdersByStatus(this.status)
+  }
+
+  viewOrderDetails(order: OutputOrder) {
+    this.displayDetails = true
+    this.current_order = order
+  }
+
+  viewOrderNote(order: OutputOrder | undefined = undefined) {
+    this.displayNote = true
+    this.current_order = order
+  }
+
+  closeOrderDetails() {
+    this.displayDetails = false
+  }
+
+  closeOrderNote() {
+    this.displayNote = false
   }
 }

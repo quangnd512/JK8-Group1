@@ -9,9 +9,9 @@ export const EMAIL_PATTERN = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
 
 export const PHONE_PATTERN = /^[0-9]{10}$/;
 
-export const headers = {
-  'Authorization': 'Bearer ' + localStorage.getItem('token')
-};
+export function headers() {
+  return {'Authorization': 'Bearer ' + localStorage.getItem('token')}
+}
 
 export type ErrorMessage = {
   message?: string;
@@ -56,11 +56,12 @@ export type OutputOrder = {
 
 export type OutputItem = {
   productId: number;
-  productName: string;
+  name: string;
   price: number;
   images: string[];
   quantity: number;
   category: string;
+  discount: number
 }
 
 export type Item = {

@@ -1,0 +1,29 @@
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: User-Service
+         uri: lb://User-Service
+         predicates:
+           - Path=/user-service/**
+         filters:
+#           - StripPrefix=1
+           - RequestTimeFilter
+
+       - id: Product-Service
+         uri: lb://Product-Service
+         predicates:
+           - Path=/product-service/**
+         filters:
+#           - AuthenticationFilter
+           - RequestTimeFilter
+     global-filter:
+       - CustomGlobalFilter
+
+ application:
+   name: Gateway-Service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

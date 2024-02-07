@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 public interface ProductRepository {
     Page<Product> getAllProductsByPage(int page, int size);
 
+    Page<Product> getAllProductsByPriceRange(int page, int size, int from, int to);
+
     Product getById(long id);
 
     Product save(Product productEntity);

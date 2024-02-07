@@ -12,7 +12,7 @@ export class ShoppingCartService {
 
   public getCartItems(): Observable<Array<OutputCartItem>> {
     let userId = localStorage.getItem('userId')
-    return this.http.get<Response>(`${SERVER_URL}/cart/${userId}`, {headers})
+    return this.http.get<Response>(`${SERVER_URL}/cart/${userId}`, {headers: headers()})
       .pipe(
         map(response => response.data as Array<OutputCartItem>),
         catchError(error => {
@@ -27,26 +27,26 @@ export class ShoppingCartService {
 
   public updateCart(cartItems: Array<Item>): Observable<Response> {
     let userId = localStorage.getItem('userId')
-    return this.http.put<Response>(`${SERVER_URL}/cart/${userId}`, cartItems, {headers})
+    return this.http.put<Response>(`${SERVER_URL}/cart/${userId}`, cartItems, {headers: headers()})
   }
 
   // public deleteItem(productId: number): Observable<Response> {
   //   let userId = localStorage.getItem('userId')
-  //   return this.http.delete<Response>(`${SERVER_URL}/cart/${userId}/${productId}`, {headers})
+  //   return this.http.delete<Response>(`${SERVER_URL}/cart/${userId}/${productId}`, {headers: headers()})
   // }
   //
   // public updateItemQuantity(productId: number, quantity: number): Observable<Response> {
   //   let userId = localStorage.getItem('userId')
-  //   return this.http.put<Response>(`${SERVER_URL}/cart/${userId}/${productId}/${quantity}`, {}, {headers})
+  //   return this.http.put<Response>(`${SERVER_URL}/cart/${userId}/${productId}/${quantity}`, {}, {headers: headers()})
   // }
 
   public addToCart(productId: number): Observable<Response> {
     let userId = localStorage.getItem('userId')
-    return this.http.post<Response>(`${SERVER_URL}/cart/${userId}`, {productId, quantity: 1}, {headers})
+    return this.http.post<Response>(`${SERVER_URL}/cart/${userId}`, {productId, quantity: 1}, {headers: headers()})
   };
 
   public deleteAllItems(): Observable<Response> {
     let userId = localStorage.getItem('userId')
-    return this.http.delete<Response>(`${SERVER_URL}/cart/${userId}`, {headers})
+    return this.http.delete<Response>(`${SERVER_URL}/cart/${userId}`, {headers: headers()})
   }
 }

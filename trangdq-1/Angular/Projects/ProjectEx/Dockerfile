@@ -2,7 +2,7 @@ FROM node:20.10.0
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json .
 
 RUN npm install -g @angular/cli@17.1.2 && npm install
 

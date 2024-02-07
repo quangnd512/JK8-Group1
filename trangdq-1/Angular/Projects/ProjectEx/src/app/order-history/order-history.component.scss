@@ -26,16 +26,3 @@
   color: #007bff;
   text-decoration: underline;
 }
-
-.card[data-status="customer_cancelled"] {
-  border-color: #dc3545;
-}
-
-.card[data-status="customer_cancelled"] .card-header {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.card[data-status="customer_cancelled"] .btn-danger {
-  display: none;
-}

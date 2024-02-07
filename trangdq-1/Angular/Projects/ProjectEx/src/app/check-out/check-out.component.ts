@@ -31,8 +31,13 @@ export class CheckOutComponent extends TakeUntilDestroy {
   }
 
   public ngOnInit() {
-    this.cartItems = JSON.parse(<string>localStorage.getItem("cartItems"))
-    this.totalPrice = Number.parseInt(<string>localStorage.getItem("totalPrice"))
+    if (localStorage.getItem("isFromCart")) {
+      this.cartItems = JSON.parse(<string>localStorage.getItem("cartItems"))
+      this.totalPrice = Number.parseInt(<string>localStorage.getItem("totalPrice"))
+    } else {
+      this.cartItems = JSON.parse(<string>localStorage.getItem("item"))
+      this.totalPrice = Number.parseInt(<string>localStorage.getItem("price"))
+    }
     this.data = {
       items: [],
       paymentMethod: 'Cash',
@@ -93,7 +98,7 @@ export class CheckOutComponent extends TakeUntilDestroy {
       this.orderService.checkout(this.data).pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            if (localStorage.getItem("fromCart") === "true") {
+            if (localStorage.getItem("isFromCart")==="true") {
               this.cartService.deleteAllItems().pipe(takeUntil(this.destroy$))
                 .subscribe({
                   next: (response) => {
@@ -101,15 +106,20 @@ export class CheckOutComponent extends TakeUntilDestroy {
                     localStorage.removeItem("isFromCart")
                     localStorage.removeItem("cartItems")
                     localStorage.removeItem("totalPrice")
-                    this.router.navigate(['/home/1'])
+                    alert("Checkout successfully!")
+                    this.router.navigate(['/my-orders/1'])
+
                   },
                   error: (error) => {
                     console.error(error.message)
                   }
                 })
+            } else {
+              localStorage.removeItem("item")
+              localStorage.removeItem("price")
+              alert("Checkout successfully!")
+              this.router.navigate(['/my-orders/1'])
             }
-            alert("Checkout successfully!")
-            this.router.navigate(['/my-orders/1'])
           },
           error: (error) => {
             alert("Cannot checkout this time. Please come back later...")

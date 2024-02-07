@@ -3,7 +3,7 @@ package hanu.edu.application.controller.user;
 import hanu.edu.application.dto.CustomerDTO;
 import hanu.edu.application.service.user.CustomerResourceService;
 import hanu.edu.application.share.Response;
-import hanu.edu.application.share.ResponseCustomBuilder;
+import hanu.edu.application.share.ResponseBuilder;
 import hanu.edu.domain.model.user.Customer;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class CustomerResourceController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<Response> getCustomerByIf(@PathVariable long customerId) {
-        return ResponseCustomBuilder.get200ResponseWithData("Customer gotten successfully!", customerResourceService.getById(customerId));
+        return ResponseBuilder.get200ResponseWithData("Customer gotten successfully!", customerResourceService.getById(customerId));
     }
 
     @PutMapping("/customer/{customerId}")
@@ -39,18 +39,18 @@ public class CustomerResourceController {
                 customerDTO.getAge(),
                 avatar
         ));
-        return ResponseCustomBuilder.get200ResponseWithoutData("Change information successfully!");
+        return ResponseBuilder.get200ResponseWithoutData("Change information successfully!");
     }
 
 //    @PostMapping("/customer/avatar-upload/{customerId}")
 //    public ResponseEntity<Response> updateCustomerAvatar(@PathVariable long customerId, @RequestParam("file") MultipartFile file) {
 //        customerResourceService.changeAvatar(customerId, file);
-//        return ResponseCustomBuilder.get200ResponseWithoutData("Change avatar successfully!");
+//        return ResponseBuilder.get200ResponseWithoutData("Change avatar successfully!");
 //    }
 
     @DeleteMapping("/customer/{customerId}")
     public ResponseEntity<Response> deleteCustomer(@PathVariable long customerId) {
         customerResourceService.deleteById(customerId);
-        return ResponseCustomBuilder.get204Response("Delete customer successfully!");
+        return ResponseBuilder.get204Response("Delete customer successfully!");
     }
 }

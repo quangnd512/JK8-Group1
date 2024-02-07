@@ -2,7 +2,7 @@ package hanu.edu.application.controller.order;
 
 import hanu.edu.application.service.order.UpdateStatusOrderService;
 import hanu.edu.application.share.Response;
-import hanu.edu.application.share.ResponseCustomBuilder;
+import hanu.edu.application.share.ResponseBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class UpdateOrderStatusController {
     @PutMapping("/order/{id}")
     public ResponseEntity<Response> updateOrderStatus(@PathVariable long id, @RequestBody InputStatus inputStatus) {
         updateStatusOrderService.updateStatusOrder(id, inputStatus.fromStatus, inputStatus.toStatus);
-        return ResponseCustomBuilder.get200ResponseWithoutData("Updated order from " + inputStatus.fromStatus + " to " + inputStatus.toStatus);
+        return ResponseBuilder.get200ResponseWithoutData("Updated order from " + inputStatus.fromStatus + " to " + inputStatus.toStatus);
     }
 
     @NoArgsConstructor

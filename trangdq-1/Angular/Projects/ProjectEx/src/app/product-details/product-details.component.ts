@@ -31,6 +31,7 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
             next: () => {
               if (localStorage.getItem("cartItems")) {
                 let cartItems: Array<OutputCartItem> = JSON.parse(<string>localStorage.getItem("cartItems"))
+                let totalPrice : number = Number.parseInt(<string>localStorage.getItem("totalPrice"))
                 let item: OutputCartItem = {
                   quantity: 1,
                   productId: product.id!,
@@ -43,6 +44,8 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
                   discount: product.discount
                 }
                 cartItems.push(item)
+                totalPrice += (product.price - product.price * product.discount / 100) * item.quantity
+                localStorage.setItem("totalPrice", String(totalPrice))
                 localStorage.setItem("cartItems", JSON.stringify(cartItems))
               }
               console.log("Item added to cart!")
@@ -68,9 +71,8 @@ export class ProductDetailsComponent extends TakeUntilDestroy {
       category: product.category,
       discount: product.discount
     };
-    localStorage.setItem("totalPrice", String((product.price - product.price * product.discount / 100) * item.quantity))
-    localStorage.setItem("cartItems", JSON.stringify([item]))
-    let userId = localStorage.getItem('userId')
+    localStorage.setItem("price", String((product.price - product.price * product.discount / 100) * item.quantity))
+    localStorage.setItem("item", JSON.stringify([item]))
     this.router.navigate([`/checkout`])
   }
 }

@@ -54,11 +54,11 @@ public class GetOrderByStatusService {
                     .map(item -> {
                         Product product = productRepository.getById(item.getProductId());
                         return product != null ? new OutputItemDetail(product.getId(), product.getName(), product.getPrice(),
-                                product.getImages(), item.getQuantity(), product.getCategory())
+                                product.getImages(), item.getQuantity(), product.getCategory(), product.getDiscount())
                                 : null;
                     })
                     .filter(Objects::nonNull)
-                    .peek(detail -> total[0] += detail.getPrice() * detail.getQuantity())
+                    .peek(detail -> total[0] += (detail.getPrice() - detail.getPrice() * detail.getDiscount() / 100) * detail.getQuantity())
                     .collect(Collectors.toList());
 
             if (voucher != null) {
@@ -76,7 +76,7 @@ public class GetOrderByStatusService {
 
     @AllArgsConstructor
     @Getter
-    public class OutputOrder {
+    public static class OutputOrder {
         private long id;
         private List<OutputItemDetail> items;
         private long userId;
@@ -92,12 +92,13 @@ public class GetOrderByStatusService {
 
     @AllArgsConstructor
     @Getter
-    public class OutputItemDetail {
+    public static class OutputItemDetail {
         private long productId;
-        private String productName;
+        private String name;
         private double price;
         private List<String> images;
         private long quantity;
         private String category;
+        private double discount;
     }
 }

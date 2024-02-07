@@ -1,45 +1,45 @@
-<!--<ng-template #display>-->
-<div class="container my-4">
-  <div class="d-flex justify-content-between align-items-center">
-    <h2 class="text-white">Explore Our Collection</h2>
-    <div class="btn-group">
-      <a class="btn btn-outline-light" href="/home/1?name={{name_asc}}">Sort by Name</a>
-      <a class="btn btn-outline-light" href="/home/1?price={{price_asc}}">Sort by Price</a>
-      <a class="btn btn-outline-light" href="/home/1?inStock={{inStock_asc}}">Sort by In Stock</a>
+<ng-template #display>
+  <div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="text-white">Explore Our Collection</h2>
+      <div class="btn-group">
+        <a class="btn btn-outline-light" href="/home/1?name={{name_asc}}">Sort by Name</a>
+        <a class="btn btn-outline-light" href="/home/1?price={{price_asc}}">Sort by Price</a>
+        <a class="btn btn-outline-light" href="/home/1?inStock={{inStock_asc}}">Sort by In Stock</a>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="container pb-4">
-  <div class="row row-cols-1 row-cols-md-5 g-4">
-    <div *ngFor="let product of products$ | async" class="col">
-      <div class="card h-100">
-        <img [src]="product.images[0]" alt="Product's image" class="card-img-top">
-        <div class="card-body">
-          <h5 class="card-title text-center"><a href="product/{{product.id}}">{{ product.name }}</a></h5>
-          <p class="card-text mb-1 text-sky fw-bold">{{ product.category }}</p>
-          <div class="d-flex justify-content-between align-items-center">
+  <div class="container pb-4">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+      <div *ngFor="let product of products$ | async" class="col">
+        <div class="card h-100">
+          <img [src]="product.images[0]" alt="Product's image" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title text-center"><a href="product/{{product.id}}">{{ product.name }}</a></h5>
+            <p class="card-text mb-1 text-sky fw-bold">{{ product.category }}</p>
+            <div class="d-flex justify-content-between align-items-center">
             <span *ngIf="product.discount!==0"
                   appDiscounted class="text-muted">{{ product.price |currency : 'USD' : 'symbol' : '1.2-2' }}</span>
-            <span *ngIf="product.discount!==0" class="badge animated-badge">-{{ product.discount }}%</span>
-            <span *ngIf="product.discount===0"
-                  class="text-sea">{{ product.price | currency : 'USD' : 'symbol' : '1.2-2' }}</span>
+              <span *ngIf="product.discount!==0" class="badge animated-badge">-{{ product.discount }}%</span>
+              <span *ngIf="product.discount===0"
+                    class="text-sea">{{ product.price | currency : 'USD' : 'symbol' : '1.2-2' }}</span>
+            </div>
+            <span *ngIf="product.discount!==0"
+                  class="text-danger">{{ product.price * (1 - product.discount / 100) | currency : 'USD' : 'symbol' : '1.2-2' }}</span>
+            <br *ngIf="product.discount===0">
+            <p *ngIf="product.inStock" class="text-success mb-0">In Stock: {{ product.inStock }}</p>
+            <p *ngIf="!product.inStock" class="text-muted mb-0">Out of Stock</p>
           </div>
-          <span *ngIf="product.discount!==0"
-                class="text-danger">{{ product.price * (1 - product.discount / 100) | currency : 'USD' : 'symbol' : '1.2-2' }}</span>
-          <br *ngIf="product.discount===0">
-          <p *ngIf="product.inStock" class="text-success mb-0">In Stock: {{ product.inStock }}</p>
-          <p *ngIf="!product.inStock" class="text-muted mb-0">Out of Stock</p>
         </div>
       </div>
     </div>
   </div>
-</div>
-<app-pagination [position]="'home'" [query_params]="query_params"></app-pagination>
-<app-footer></app-footer>
-<!--</ng-template>-->
-<!--<ng-template #notfound>-->
-<!--  <app-page404></app-page404>-->
-<!--</ng-template>-->
-<!--<ng-container *ngIf="page! <= (total_products$ | async), then display, else notfound">-->
-<!--</ng-container>-->
+  <app-pagination [position]="'home'" [query_params]="query_params"></app-pagination>
+  <app-footer></app-footer>
+</ng-template>
+<ng-template #notfound>
+  <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="(products$| async)?.length, then display, else notfound">
+</ng-container>

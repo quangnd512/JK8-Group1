@@ -1,4 +1,3 @@
-
 ____________________________________To restore db in volume_______________________________________
 
 mysqldump -u root -p bookstore > bookstore.sql
@@ -10,10 +9,5 @@ GRANT ALL PRIVILEGES ON bookstore.* TO 'root'@'%';
 
 ________________________________________To push to hub___________________________________________
 
-docker tag mysql:8.0.32 belemon81/internship:projects-app-mysql
-docker push belemon81/internship:projects-app-mysql
-
-________________________________________To pull from hub__________________________________________
-
-docker pull belemon81/internship:projects-app-backend
-docker network create app-network
+docker tag image_name belemon81/internship:projects-app-be
+docker push belemon81/internship:projects-app-be

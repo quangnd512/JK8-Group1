@@ -26,7 +26,7 @@ export class ShoppingCartComponent extends TakeUntilDestroy {
 
   public toCheckout() {
     this.saveToLocalStorage()
-    localStorage.setItem("fromCart", "true")
+    localStorage.setItem("isFromCart", "true")
 
     let items: Array<Item> = []
     this.cartItems.forEach((item) => {

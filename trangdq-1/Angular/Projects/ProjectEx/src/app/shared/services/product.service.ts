@@ -67,19 +67,19 @@ export class ProductService {
   }
 
   public addProduct(product: Product): Observable<Response> {
-    return this.http.post<Response>(`${SERVER_URL}/admin/product`, product, {headers})
+    return this.http.post<Response>(`${SERVER_URL}/admin/product`, product, {headers: headers()})
   }
 
   public updateProduct(id: number, product: Product): Observable<Response> {
-    return this.http.put<Response>(`${SERVER_URL}/admin/product/${id}`, product, {headers})
+    return this.http.put<Response>(`${SERVER_URL}/admin/product/${id}`, product, {headers: headers()})
   }
 
   public uploadImages(id: number, images: FormData): Observable<Response> {
-    return this.http.put<Response>(`${SERVER_URL}/admin/product/image-upload/${id}`, images, {headers})
+    return this.http.put<Response>(`${SERVER_URL}/admin/product/image-upload/${id}`, images, {headers: headers()})
   }
 
   public deleteProduct(id: number): Observable<Response> {
-    return this.http.delete<Response>(`${SERVER_URL}/admin/product/${id}`, {headers});
+    return this.http.delete<Response>(`${SERVER_URL}/admin/product/${id}`, {headers: headers()});
   }
 
   private accumulateUrl(page: number = 0, sort?: string, direction?: string): string {

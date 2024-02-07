@@ -45,6 +45,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public Page<Product> getAllProductsByPriceRange(int page, int size, int from, int to) {
+        Pageable pageRequest = PageRequest.of(page, size);
+        return productJPARepository.findAllByPriceBetween(pageRequest,from,to).map(ProductEntity::toProduct);
+    }
+
+    @Override
     public Page<Product> searchProductsByName(int page, int size, String name) {
         Pageable pageRequest = PageRequest.of(page, size);
         return productJPARepository.findAllByNameContaining(name, pageRequest).map(ProductEntity::toProduct);

@@ -33,8 +33,10 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         if (!ObjectUtils.isEmpty(accessToken) && accessToken.startsWith(jwtConfig.getPrefix() + " ")) {
             accessToken = accessToken.substring((jwtConfig.getPrefix() + " ").length());
+            System.out.println(accessToken);
             try {
                 if (jwtService.isValidToken(accessToken)) {
+                    System.out.println(2);
                     Claims claims = jwtService.extractClaims(accessToken);
                     String username = claims.getSubject();
                     List<String> authorities = claims.get("authority", List.class);

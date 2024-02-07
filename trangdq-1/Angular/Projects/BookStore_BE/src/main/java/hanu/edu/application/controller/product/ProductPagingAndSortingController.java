@@ -2,7 +2,7 @@ package hanu.edu.application.controller.product;
 
 import hanu.edu.application.service.product.ProductPagingAndSortingService;
 import hanu.edu.application.share.Response;
-import hanu.edu.application.share.ResponseCustomBuilder;
+import hanu.edu.application.share.ResponseBuilder;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +29,15 @@ public class ProductPagingAndSortingController {
         int page = pageNo.orElse(0);
         if (direction == null || direction.isEmpty()) direction = "asc";
         if (price) {
-            return ResponseCustomBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "price"));
+            return ResponseBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "price"));
         } else if (name) {
-            return ResponseCustomBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "name"));
+            return ResponseBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "name"));
         } else if (category) {
-            return ResponseCustomBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "category"));
+            return ResponseBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "category"));
         } else if (inStock) {
-            return ResponseCustomBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "inStock"));
+            return ResponseBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.sortProductsBy(page, 20, direction, "inStock"));
         } else {
-            return ResponseCustomBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.getAllProductsByPage(page, 20));
+            return ResponseBuilder.get200ResponseWithData("Fetch products successfully!", productPagingAndSortingService.getAllProductsByPage(page, 20));
         }
     }
 
@@ -45,9 +45,9 @@ public class ProductPagingAndSortingController {
     public ResponseEntity<Response> getProductsByName(@PathVariable(name = "pageNo") Optional<Integer> pageNo, @PathParam("name") String name) {
         int page = pageNo.orElse(0);
         if (name != null && !name.isEmpty()) {
-            return ResponseCustomBuilder.get200ResponseWithData("Search products successfully!", productPagingAndSortingService.searchProductsByName(page, 20, name));
+            return ResponseBuilder.get200ResponseWithData("Search products successfully!", productPagingAndSortingService.searchProductsByName(page, 20, name));
         } else {
-            return ResponseCustomBuilder.get200ResponseWithData("Search products successfully!", productPagingAndSortingService.getAllProductsByPage(page, 20));
+            return ResponseBuilder.get200ResponseWithData("Search products successfully!", productPagingAndSortingService.getAllProductsByPage(page, 20));
         }
     }
 }

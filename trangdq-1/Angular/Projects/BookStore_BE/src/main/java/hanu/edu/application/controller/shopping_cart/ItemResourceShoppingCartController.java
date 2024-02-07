@@ -2,7 +2,7 @@ package hanu.edu.application.controller.shopping_cart;
 
 import hanu.edu.application.service.shopping_cart.ItemResourceShoppingCartService;
 import hanu.edu.application.share.Response;
-import hanu.edu.application.share.ResponseCustomBuilder;
+import hanu.edu.application.share.ResponseBuilder;
 import hanu.edu.domain.model.shopping_cart.Item;
 import hanu.edu.domain.model.shopping_cart.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +19,30 @@ public class ItemResourceShoppingCartController {
     @PostMapping("/cart/{customerId}")
     public ResponseEntity<Response> addToShoppingCart(@RequestBody Item item, @PathVariable long customerId) {
         itemResourceShoppingCartService.addToShoppingCart(item, customerId);
-        return ResponseCustomBuilder.get201ResponseWithoutData("Product added to cart successfully!");
+        return ResponseBuilder.get201ResponseWithoutData("Product added to cart successfully!");
     }
 
     @GetMapping("/cart/{customerId}")
     public ResponseEntity<Response> getItems(@PathVariable long customerId) {
-        return ResponseCustomBuilder.get200ResponseWithData("Cart items gotten successfully!", itemResourceShoppingCartService.getItems(customerId));
+        return ResponseBuilder.get200ResponseWithData("Cart items gotten successfully!", itemResourceShoppingCartService.getItems(customerId));
     }
 
     @PutMapping("/cart/{customerId}")
     public ResponseEntity<Response> updateCart(@PathVariable long customerId, @RequestBody List<Item> cartItems) {
         itemResourceShoppingCartService.updateShoppingCart(new ShoppingCart(customerId,cartItems));
-        return ResponseCustomBuilder.get200ResponseWithoutData("Cart items updated successfully!");
+        return ResponseBuilder.get200ResponseWithoutData("Cart items updated successfully!");
     }
 
 //    @DeleteMapping("/cart/{customerId}/{productId}")
 //    public ResponseEntity<Response> deleteItem(@PathVariable long customerId, @PathVariable long productId) {
 //        itemResourceShoppingCartService.deleteItem(productId, customerId);
-//        return ResponseCustomBuilder.get204Response("Item deleted successfully!");
+//        return ResponseBuilder.get204Response("Item deleted successfully!");
 //    }
 
 //    @PutMapping("/cart/{customerId}/{productId}/{quantity}")
 //    public ResponseEntity<Response> updateItem(@PathVariable long customerId, @PathVariable long productId, @PathVariable long quantity) {
 //        itemResourceShoppingCartService.updateItem(customerId, productId, quantity);
-//        return ResponseCustomBuilder.get200ResponseWithoutData("Item quantity updated successfully!");
+//        return ResponseBuilder.get200ResponseWithoutData("Item quantity updated successfully!");
 //    }
 
 //    @GetMapping("/cart/count/{customerId}")
@@ -53,6 +53,6 @@ public class ItemResourceShoppingCartController {
     @DeleteMapping("/cart/{customerId}")
     public ResponseEntity<Response> deleteAllItem(@PathVariable long customerId) {
         itemResourceShoppingCartService.deleteAllItems(customerId);
-        return ResponseCustomBuilder.get200ResponseWithoutData("Cart items deleted successfully!");
+        return ResponseBuilder.get200ResponseWithoutData("Cart items deleted successfully!");
     }
 }

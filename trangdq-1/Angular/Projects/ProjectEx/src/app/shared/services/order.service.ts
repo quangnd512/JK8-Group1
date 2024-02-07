@@ -13,7 +13,7 @@ export class OrderService {
   // handle error later
   public checkout(data: OrderDTO): Observable<Response> {
     let userId = localStorage.getItem('userId')
-    return this.http.post<Response>(`${SERVER_URL}/order/${userId}`, data, {headers})
+    return this.http.post<Response>(`${SERVER_URL}/order/${userId}`, data, {headers: headers()})
   }
 
   public getUserOrdersByStatus(status: string, page: number = 0): Observable<Array<OutputOrder>> {
@@ -70,6 +70,6 @@ export class OrderService {
 
   // handle error later
   public updateStatus(id: number, fromStatus: string, toStatus: string): Observable<Response> {
-    return this.http.put<Response>(`${SERVER_URL}/order/${id}`, {fromStatus, toStatus}, {headers});
+    return this.http.put<Response>(`${SERVER_URL}/order/${id}`, {fromStatus, toStatus}, {headers: headers()});
   }
 }

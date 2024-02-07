@@ -1,3 +1,4 @@
+<ng-template #display>
 <div class="container">
   <div class="row">
     <div class="col-md-5 checkout-form bg-white">
@@ -62,7 +63,6 @@
             <br><span class="text-danger">{{ item.price - item.price * item.discount / 100| currency }}</span>
           </td>
           <td *ngIf="item.discount === 0">{{ item.price | currency }}</td>
-
         </tr>
         </tbody>
 
@@ -140,3 +140,10 @@
     </div>
   </div>
 </div>
+</ng-template>
+<ng-template #notfound>
+  <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="cartItems.length !== 0, then display, else notfound">
+</ng-container>
+

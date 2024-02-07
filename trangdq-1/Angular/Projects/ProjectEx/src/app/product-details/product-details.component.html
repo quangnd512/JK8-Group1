@@ -1,3 +1,4 @@
+<ng-template #display>
 <div *ngIf="product$ | async as p" class="container">
   <div class="details-container">
     <div class="row">
@@ -45,6 +46,9 @@
     </div>
   </div>
 </div>
-<ng-container *ngIf="!(product$ | async)">
+</ng-template>
+<ng-template #notfound>
   <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="product$ | async, then display, else notfound">
 </ng-container>
