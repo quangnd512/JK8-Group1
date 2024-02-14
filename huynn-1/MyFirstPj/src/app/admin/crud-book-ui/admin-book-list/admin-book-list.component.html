@@ -31,7 +31,7 @@
                                 alt="Ảnh"></td>
                         <td>{{ book.tenSach }}</td>
                         <td>{{ book.giaTien | currency:'VND':'symbol':'1.0-0' }}</td>
-                        <td>{{ book.soLuong }}</td>
+                        <td>{{ book.soLuong | format_quantity}}</td>
                         <td>{{ book.ngayXuatBan | date:'dd/MM/yyyy' }}</td>
                         <td>{{ book.nhaXuatBan.tenNhaXuatBan }}</td>
                         <td>{{ book.theLoai.tenTheLoai }}</td>
@@ -41,7 +41,7 @@
                                 <fa-icon [icon]="faPencil"></fa-icon>
                             </a>
                         </td>
-                        
+
                     </tr>
                 </tbody>
             </table>

@@ -4,7 +4,6 @@ import { UserService } from '../../../services/userServices';
 import { HttpClientModule } from '@angular/common/http';
 import { GetUserDto } from '../../../services/dto/getUserDto';
 import { Router, RouterLink } from '@angular/router';
-import { __values } from 'tslib';
 
 @Component({
   selector: 'app-admin-user-list',

@@ -8,12 +8,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { AdminUpdateBookComponent } from '../admin-update-book/admin-update-book.component';
 import { ListBookResponse } from '../../../services/interfaces/book/listBookResponse.interface';
+import {FormatQuantity} from "../../../pipes/FormatQuantity";
 
 @Component({
   selector: 'app-admin-book-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterLink, RouterModule, FontAwesomeModule, AdminUpdateBookComponent],
-  providers: [BookServices],
+  imports: [CommonModule, HttpClientModule, RouterLink, RouterModule, FontAwesomeModule, AdminUpdateBookComponent, FormatQuantity],
+  providers: [BookServices, FormatQuantity],
   templateUrl: './admin-book-list.component.html',
   styleUrl: './admin-book-list.component.scss'
 })

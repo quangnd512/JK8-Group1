@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild, ViewContainerRef} from '@angular/core';
 import {HomeHeaderComponent} from "../../home-header/home-header.component";
 import {HomeFooterComponent} from "../../home-footer/home-footer.component";
 import {HomeHeaderMainComponent} from "../../home-header-main/home-header-main.component";
@@ -9,6 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {BookServices} from "../../../services/bookServices";
 import {ShopBookByTypeComponent} from "../shop-book-by-type/shop-book-by-type.component";
 import {BookType} from "../../../services/constants/book-type";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-shop-container',
@@ -20,7 +21,8 @@ import {BookType} from "../../../services/constants/book-type";
     MatPaginatorModule,
     ShopAllBookComponent,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [
     BookServices
@@ -29,7 +31,7 @@ import {BookType} from "../../../services/constants/book-type";
   // styleUrl: './shop-container.component.scss'
   styleUrls: ['../../../home/home.component.scss']
 })
-export class ShopContainerComponent implements OnInit{
+export class ShopContainerComponent implements OnInit {
 
   @ViewChild('productList', {
     read: ViewContainerRef,
@@ -37,31 +39,54 @@ export class ShopContainerComponent implements OnInit{
   })
   productListContainer: ViewContainerRef | undefined;
 
-  currentPage: number = 0;
-
   pageSize: number = 10;
 
   selectedSortOption: string = 'Tên sách';
 
-  getByType: string = '';
+  protected readonly BookType = BookType;
+
+  isAllBookSelected = false;
+
+  isAllShortStorySelected = false;
+
+  isAllNovelSelected = false;
+
+  isAllPoemSelected = false;
 
   constructor() {
   }
 
   ngOnInit() {
-    this.addAllBookComponent()
+    const booktype = localStorage.getItem("bookType");
+    if (booktype === BookType.THO || booktype === BookType.TRUYEN_NGAN || booktype === BookType.TIEU_THUYET) {
+      this.addAllBookByType(booktype);
+    } else {
+      this.addAllBookComponent()
+    }
   }
 
   addAllBookComponent() {
+    this.isAllBookSelected = false;
+    this.isAllPoemSelected = false;
+    this.isAllShortStorySelected = false;
+    this.isAllNovelSelected = false;
+    if (localStorage.getItem("bookType")) {
+      localStorage.removeItem("bookType");
+    }
     this.productListContainer?.clear();
     const componentRef = this.productListContainer?.createComponent(ShopAllBookComponent);
     if (componentRef) {
       const instance: ShopAllBookComponent = componentRef.instance;
       instance.selectedSortOption = this.selectedSortOption;
     }
+    this.isAllBookSelected = true;
   }
 
   addAllBookByType(type: string) {
+    this.isAllBookSelected = false;
+    this.isAllPoemSelected = false;
+    this.isAllShortStorySelected = false;
+    this.isAllNovelSelected = false;
     this.productListContainer?.clear();
     const componentRef = this.productListContainer?.createComponent(ShopBookByTypeComponent);
     if (componentRef) {
@@ -69,7 +94,16 @@ export class ShopContainerComponent implements OnInit{
       instance.selectedSortOption = this.selectedSortOption;
       instance.sortByType = type;
     }
+    if (type == BookType.TIEU_THUYET) {
+      this.isAllNovelSelected = true;
+      localStorage.setItem("bookType", BookType.TIEU_THUYET);
+    } else if (type == BookType.THO) {
+      this.isAllPoemSelected = true;
+      localStorage.setItem("bookType", BookType.THO);
+    } else {
+      this.isAllShortStorySelected = true;
+      localStorage.setItem("bookType", BookType.TRUYEN_NGAN);
+    }
   }
 
-  protected readonly BookType = BookType;
 }

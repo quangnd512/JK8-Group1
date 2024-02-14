@@ -26,7 +26,13 @@ import {HomeHeaderMainComponent} from "./home-header-main/home-header-main.compo
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   public faUser = faUser;
+
+  ngOnInit() {
+    if (localStorage.getItem("bookType")) {
+      localStorage.removeItem("bookType");
+    }
+  }
 }

@@ -47,13 +47,13 @@
             <aside class="widget__categories products--cat">
               <h3 class="widget__title">Các thể loại</h3>
               <ul>
-                <li><a style="cursor: pointer" (click)="addAllBookComponent()" class="tatCarButton" value="tất cả">Tất
+                <li><a [ngStyle]="{'color': isAllBookSelected ? 'orange' : 'inherit'}" style="cursor: pointer" (click)="addAllBookComponent()" class="tatCarButton" value="tất cả">Tất
                   cả <span></span></a></li>
-                <li><a style="cursor: pointer" (click)="addAllBookByType(BookType.TIEU_THUYET)" class="tieuThuyetButton"
+                <li><a [ngStyle]="{'color': isAllNovelSelected ? 'orange' : 'inherit'}" style="cursor: pointer" (click)="addAllBookByType(BookType.TIEU_THUYET)" class="tieuThuyetButton"
                        value="Tiểu Thuyết">Tiểu thuyết <span></span></a></li>
-                <li><a style="cursor: pointer" (click)="addAllBookByType(BookType.TRUYEN_NGAN)"
+                <li><a [ngStyle]="{'color': isAllShortStorySelected ? 'orange' : 'inherit'}" style="cursor: pointer" (click)="addAllBookByType(BookType.TRUYEN_NGAN)"
                        class="truyenNganButton" value="Truyện Ngắn">Truyện ngắn <span></span></a></li>
-                <li><a style="cursor: pointer" (click)="addAllBookByType(BookType.THO)" class="thoButton" value="Thơ">Thơ
+                <li><a [ngStyle]="{'color': isAllPoemSelected ? 'orange' : 'inherit'}" style="cursor: pointer" (click)="addAllBookByType(BookType.THO)" class="thoButton" value="Thơ">Thơ
                   <span></span></a></li>
               </ul>
             </aside>

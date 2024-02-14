@@ -1,7 +1,6 @@
 import {Component, inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Router} from "@angular/router";
 import {ListBookResponse} from "../../../services/interfaces/book/listBookResponse.interface";
-import {HomeServices} from "../../../services/homeServices";
 import {BookServices} from "../../../services/bookServices";
 import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
@@ -29,9 +28,9 @@ export class ShopAllBookComponent implements OnInit, OnChanges {
 
   public listAllBooks: ListBookResponse[] = [];
 
-  currentPage: number = 0;
+  currentPage: any = 0;
 
-  pageSize: number = 10;
+  pageSize: any = 10;
 
   @Input()
   selectedSortOption: string = '';

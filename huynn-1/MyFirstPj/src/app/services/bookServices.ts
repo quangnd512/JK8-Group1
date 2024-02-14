@@ -55,11 +55,11 @@ export class BookServices implements OnInit {
     return this.httpClient.get<BookResponse>(url);
   }
 
-  public GetBookPagination(pageNumber: number, orderBy: string, pageSize: number): Observable<any> {
+  public GetBookPagination(pageNumber: any, orderBy: string, pageSize: any): Observable<any> {
     return this.httpClient.get<any>(BASE__URL.concat(GET_BOOK_PAGINAION_URI + "?pageNumber=" + pageNumber + "&orderBy=" + orderBy + "&pageSize=" + pageSize));
   }
 
-  public GetBookPaginationByType(pageNumber: number, orderBy: string, pageSize: number, bookType: string): Observable<any> {
+  public GetBookPaginationByType(pageNumber: any, orderBy: string, pageSize: any, bookType: string): Observable<any> {
     const encodedBookType = encodeURIComponent(bookType);
     console.log(encodedBookType)
     return this.httpClient.get<any>(BASE__URL.concat(GET_BOOK_PAGINAION_BY_TYPE_URI + "?pageNumber=" + pageNumber + "&orderBy=" + orderBy + "&pageSize=" + pageSize + "&theLoai=" + bookType));
