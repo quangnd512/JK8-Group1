@@ -1,0 +1,36 @@
+<ng-template #display>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="login-container">
+        <div class="login-header">
+          <h1>Bookstore Login</h1>
+        </div>
+        <form (ngSubmit)="login()" class="login-form">
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input [(ngModel)]="username" class="form-control" id="username" name="username"
+                   placeholder="Input your username"
+                   type="text">
+            <p *ngIf="errors[0]" class="text-danger">{{ errors[0].message }}</p>
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input [(ngModel)]="password" class="form-control" id="password" name="password"
+                   placeholder="Input your password"
+                   type="password">
+            <p *ngIf="errors[1]" class="text-danger">{{ errors[1].message }}</p>
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</ng-template>
+<ng-template #notfound>
+  <app-page404 [imageLink]="'assets/ready.png'" [message]="'You are ready to explore the bookstore.'"
+               [title]="'Welcome back!'"></app-page404>
+</ng-template>
+<ng-container *ngIf="!(isLoggedIn$ | async), then display, else notfound">
+</ng-container>

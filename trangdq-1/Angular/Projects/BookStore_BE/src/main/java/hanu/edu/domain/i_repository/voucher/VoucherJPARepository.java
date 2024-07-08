@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface VoucherJPARepository extends JpaRepository<VoucherEntity, Long> {
-    List<VoucherEntity> findByUserId(long id);
+    List<VoucherEntity> findByUserEntityId(long id);
 }

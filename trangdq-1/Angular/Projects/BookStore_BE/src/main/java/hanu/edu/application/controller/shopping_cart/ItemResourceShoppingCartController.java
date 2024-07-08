@@ -33,11 +33,11 @@ public class ItemResourceShoppingCartController {
         return ResponseBuilder.get200ResponseWithoutData("Cart items updated successfully!");
     }
 
-//    @DeleteMapping("/cart/{customerId}/{productId}")
-//    public ResponseEntity<Response> deleteItem(@PathVariable long customerId, @PathVariable long productId) {
-//        itemResourceShoppingCartService.deleteItem(productId, customerId);
-//        return ResponseBuilder.get204Response("Item deleted successfully!");
-//    }
+    @DeleteMapping("/cart/{customerId}/{productId}")
+    public ResponseEntity<Response> deleteItem(@PathVariable long customerId, @PathVariable long productId) {
+        itemResourceShoppingCartService.deleteItem(productId, customerId);
+        return ResponseBuilder.get204Response("Item deleted successfully!");
+    }
 
 //    @PutMapping("/cart/{customerId}/{productId}/{quantity}")
 //    public ResponseEntity<Response> updateItem(@PathVariable long customerId, @PathVariable long productId, @PathVariable long quantity) {

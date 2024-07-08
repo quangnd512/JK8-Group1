@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 public interface UserRepository {
     User getByUsername(String username);
 
+    User getByEmail(String email);
+
     User getById(long id);
 
     Page<User> getAllByPage(int page, int i);

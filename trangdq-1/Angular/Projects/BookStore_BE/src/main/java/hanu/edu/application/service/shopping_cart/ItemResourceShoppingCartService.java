@@ -81,20 +81,20 @@ public class ItemResourceShoppingCartService {
         return outputCartItems;
     }
 
-//    public void deleteItem(long productId, long customerId) {
-//        ShoppingCart shoppingCart = shoppingCartRepository.getByUserId(customerId);
-//        List<Item> items = shoppingCart.getItems();
-//        if (items != null) {
-//            for (Item i : items) {
-//                if (i.getProductId() == productId) {
-//                    items.remove(i);
-//                    shoppingCart.setItems(items);
-//                    shoppingCartRepository.save(shoppingCart);
-//                    break;
-//                }
-//            }
-//        }
-//    }
+    public void deleteItem(long productId, long customerId) {
+        ShoppingCart shoppingCart = shoppingCartRepository.getByUserId(customerId);
+        List<Item> items = shoppingCart.getItems();
+        if (items != null) {
+            for (Item i : items) {
+                if (i.getProductId() == productId) {
+                    items.remove(i);
+                    shoppingCart.setItems(items);
+                    shoppingCartRepository.save(shoppingCart);
+                    break;
+                }
+            }
+        }
+    }
 
 //    public void updateItem(long customerId, long productId, long quantity) {
 //        ShoppingCart cart = shoppingCartRepository.getByUserId(customerId);

@@ -1,0 +1,17 @@
+.pagination {
+  margin-top: 1rem;
+}
+
+.pagination .page-link.active {
+  border-color: #337ab7;
+}
+
+.pagination .page-link {
+  background-color: #ffffff;
+  border-color: #d5e5ea;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #337ab7;
+  border-color: #255b86;
+}

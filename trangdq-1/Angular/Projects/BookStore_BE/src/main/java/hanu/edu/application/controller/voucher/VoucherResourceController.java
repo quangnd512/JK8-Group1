@@ -3,14 +3,13 @@ package hanu.edu.application.controller.voucher;
 import hanu.edu.application.dto.VoucherDTO;
 import hanu.edu.application.service.user.UserResourceService;
 import hanu.edu.application.service.voucher.VoucherResourceService;
+import hanu.edu.application.share.Response;
+import hanu.edu.application.share.ResponseBuilder;
 import hanu.edu.domain.model.user.User;
 import hanu.edu.domain.model.voucher.Voucher;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -20,41 +19,30 @@ public class VoucherResourceController {
     private final UserResourceService userResourceService;
 
     @PostMapping("/admin/voucher")
-    public ResponseEntity<String> create(@RequestBody VoucherDTO voucherDTO) {
-        voucherResourceService.create(new Voucher(voucherDTO.getCustomerId(), voucherDTO.getTitle(), voucherDTO.getRate(), voucherDTO.getDueDate()));
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+    public ResponseEntity<Response> create(@RequestBody VoucherDTO voucherDTO) {
+        User user = userResourceService.getByEmail(voucherDTO.getUserEmail());
+        voucherResourceService.create(new Voucher(voucherDTO.getTitle(), voucherDTO.getRate(), voucherDTO.getDueDate(), voucherDTO.getUserEmail(), user.getId()));
+        return ResponseBuilder.get201ResponseWithoutData("Voucher created successfully!");
     }
 
     @GetMapping("/admin/vouchers")
-    public List<Voucher> getAll() {
-        List<Voucher> vouchers = voucherResourceService.getAllVouchers();
-        for (Voucher voucher : vouchers) {
-            long userId = voucher.getCustomerId();
-            User user = userResourceService.getById(userId);
-            String email;
-            if (user != null) {
-                email = user.getEmail();
-            } else {
-                email = "";
-            }
-            voucher.setCustomerEmail(email);
-        }
-        return vouchers;
+    public ResponseEntity<Response> getAll() {
+        return ResponseBuilder.get200ResponseWithData("Vouchers gotten successfully!", voucherResourceService.getAllVouchers());
     }
 
     @GetMapping("/admin/voucher/{id}")
-    public Voucher getById(@PathVariable long id) {
-        return voucherResourceService.getById(id);
+    public ResponseEntity<Response> getById(@PathVariable long id) {
+        return ResponseBuilder.get200ResponseWithData("Vouchers gotten successfully!", voucherResourceService.getById(id));
     }
 
     @DeleteMapping("/admin/voucher/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable long id) {
+    public ResponseEntity<Response> deleteById(@PathVariable long id) {
         voucherResourceService.deleteById(id);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+        return ResponseBuilder.get204Response("Voucher deleted!");
     }
 
-    @GetMapping("/vouchers/{customerId}")
-    public List<Voucher> getVouchersByUserId(@PathVariable long customerId) {
-        return voucherResourceService.getVouchersByUserId(customerId);
+    @GetMapping("/vouchers/{id}")
+    public ResponseEntity<Response> getVouchersByUserId(@PathVariable long id){
+        return ResponseBuilder.get200ResponseWithData("Voucher gotten successfully!", voucherResourceService.getVouchersByUserId(id));
     }
 }

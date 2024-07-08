@@ -11,7 +11,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 public class VoucherDTO {
-    private long customerId;
+    private String userEmail;
     private String title;
     @Min(value = 0, message = "Invalid value")
     private double rate;

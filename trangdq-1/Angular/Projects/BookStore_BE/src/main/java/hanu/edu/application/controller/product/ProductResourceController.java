@@ -71,12 +71,12 @@ public class ProductResourceController {
 
     @GetMapping("/product/category/{category}/{page}")
     public ResponseEntity<?> getByCategory(@PathVariable String category, @PathVariable int page) {
-        return new ResponseEntity<>(productResourceService.getAllByCategory(page, category), HttpStatus.OK);
+        return ResponseBuilder.get200ResponseWithData("Get all products by category " + category, productResourceService.getAllByCategory(page, category));
     }
 
     @GetMapping("/product/price/{from}-to-{to}/{page}")
     public ResponseEntity<?> getByPriceRange(@PathVariable int from, @PathVariable int to, @PathVariable int page) {
-        return new ResponseEntity<>(productResourceService.getAllByPriceRange(page,from,to), HttpStatus.OK);
+        return ResponseBuilder.get200ResponseWithData("Get all products from " + from + "$-" + to + "$", productResourceService.getAllByPriceRange(page,from,to));
     }
 
     @GetMapping("/product/{id}")

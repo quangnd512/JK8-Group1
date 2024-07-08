@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.List;
+
 import static jakarta.persistence.DiscriminatorType.STRING;
 
 @Entity(name = "user")

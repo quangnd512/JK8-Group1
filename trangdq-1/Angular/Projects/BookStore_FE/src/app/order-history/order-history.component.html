@@ -1,0 +1,67 @@
+<ng-template #display>
+  <div class="container">
+    <h1 class="text-center mb-5 pt-3 fw-bolder text-white">Orders History</h1>
+    <div class="row">
+      <div *ngFor="let order of orders$|async" class="col-md-6 mb-4">
+        <div class="card m-2">
+          <div class="card-header pt-4 px-4">
+            <h5 class="card-title fw-bold mb-3">Order #{{ order.id }}</h5>
+            <p class="card-text mb-1">Status: {{ status2Display(order.orderStatus) }}</p>
+            <p class="card-text mb-1">Date: {{ order.checkoutDate }}</p>
+            <p class="card-text mb-1">To: {{ order.userInfo }}</p>
+            <p class="card-text mb-1">Address: {{ order.addressToReceive }}</p>
+            <p *ngIf="order.message" class="card-text mb-1">Note: {{ order.message }}</p>
+            <p class="card-text">Total: {{ order.total | currency }}</p>
+            <button class="btn btn-link" data-toggle="collapse">
+              View Details ({{ order.items.length }})
+            </button>
+          </div>
+          <div class="collapse" id="order-items-{{ order.id }}">
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let item of order.items" class="list-group-item">
+                <div class="row">
+                  <div class="col-md-3">
+                    <img alt="{{ item.name }}" class="img-thumbnail" src="{{ item.images[0] }}">
+                  </div>
+                  <div class="col-md-9">
+                    <h6>{{ item.name }}</h6>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Price: {{ item.price | currency }}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <ng-container [ngSwitch]="status">
+              <button (click)="updateStatus(order,OrderStatus.CUSTOMER_REQUEST_CANCEL)"
+                      *ngSwitchCase="OrderStatus.CUSTOMER_CONFIRMED"
+                      class="btn btn-danger">Cancel
+              </button>
+              <button (click)="updateStatus(order,OrderStatus.CUSTOMER_REQUEST_CANCEL)"
+                      *ngSwitchCase="OrderStatus.SHIPPING"
+                      class="btn btn-danger">Cancel
+              </button>
+              <button (click)="updateStatus(order,OrderStatus.CUSTOMER_REQUEST_CANCEL)"
+                      *ngSwitchCase="OrderStatus.ADMIN_PREPARING"
+                      class="btn btn-danger">Cancel
+              </button>
+              <button *ngSwitchCase="OrderStatus.CUSTOMER_REQUEST_CANCEL" class="btn btn-danger" disabled>Canceling
+              </button>
+              <button *ngSwitchCase="OrderStatus.SUCCESS" class="btn btn-success" disabled>Succeeded</button>
+              <button *ngSwitchCase="OrderStatus.CANCELED" class="btn btn-secondary" disabled>Canceled</button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-pagination [position]="'my-orders'" [query_params]="'status='+status"></app-pagination>
+</ng-template>
+<ng-template #notfound>
+  <app-page404 [imageLink]="'assets/sad-meme.jpg'"
+               [message]="'You haven\'t made any orders yet.'"
+               [title]="'Nothing was found!'"></app-page404>
+</ng-template>
+<ng-container *ngIf="(orders$ | async)?.length, then display, else notfound">
+</ng-container>

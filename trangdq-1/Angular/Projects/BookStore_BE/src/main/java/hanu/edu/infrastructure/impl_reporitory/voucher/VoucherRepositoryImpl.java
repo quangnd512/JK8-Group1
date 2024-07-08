@@ -19,7 +19,7 @@ public class VoucherRepositoryImpl implements VoucherRepository {
     @Override
     public Voucher getById(long id) {
         Optional<VoucherEntity> voucher = voucherJPARepository.findById(id);
-        return voucher.isEmpty() ? null : voucher.get().toVoucher();
+        return voucher.map(VoucherEntity::toVoucher).orElse(null);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class VoucherRepositoryImpl implements VoucherRepository {
     @Override
     public List<Voucher> getVouchersByUserId(long id) {
         List<Voucher> list = new ArrayList<>();
-        List<VoucherEntity> entityList = voucherJPARepository.findByUserId(id);
+        List<VoucherEntity> entityList = voucherJPARepository.findByUserEntityId(id);
         for (VoucherEntity entity : entityList) {
             list.add(entity.toVoucher());
         }

@@ -18,26 +18,29 @@ public class VoucherEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name="user_id")
     private long userId;
+    private String userEmail;
     private String title;
     private double rate;
     private Date dueDate;
-    @ManyToOne
-    @JoinColumn(name = "user")
+    @ManyToOne(targetEntity = UserEntity.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", updatable=false, insertable=false)
     private UserEntity userEntity;
 
     public static VoucherEntity toEntity(Voucher voucher) {
         return VoucherEntity.builder()
                 .id(voucher.getId())
-                .userId(voucher.getCustomerId())
+                .userEmail(voucher.getUserEmail())
                 .title(voucher.getTitle())
                 .rate(voucher.getRate())
                 .dueDate(voucher.getDueDate())
+                .userId(voucher.getUserId())
                 .build();
     }
 
     public Voucher toVoucher() {
-        return new Voucher(id, userId, title, rate, dueDate);
+        return new Voucher(id, title, rate, dueDate, userEmail, userId);
     }
 
 }

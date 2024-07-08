@@ -1,0 +1,149 @@
+<ng-template #display>
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 checkout-form bg-white">
+      <h2 class="text-center">Checkout Information</h2>
+      <form>
+        <div class="form-group">
+          <label>Receiver:</label>
+          <input [(ngModel)]="data.userName" class="form-control" name="customerName"
+                 placeholder="Input receiver's name"
+                 type="text">
+          <p *ngIf="errors[0]" class="form-error">{{ errors[0].message }}</p>
+        </div>
+        <div class="form-group">
+          <label>Phone Number:</label>
+          <input [(ngModel)]="data.userPhone" class="form-control" name="customerPhone"
+                 placeholder="We'll use this number for delivering products" type="text">
+          <p *ngIf="errors[1]" class="form-error">{{ errors[1].message }}</p>
+        </div>
+
+        <div class="form-group">
+          <label>Address To Receive:</label>
+          <input [(ngModel)]="data.addressToReceive" class="form-control"
+                 name="customerAddress" placeholder="Input address to receive products" type="text">
+          <p *ngIf="errors[2]" class="form-error">{{ errors[2].message }}</p>
+        </div>
+
+        <div class="form-group">
+          <label>Payment Method:</label>
+          <select [(ngModel)]="data.paymentMethod" class="form-control" name="paymentMethod">
+            <option value="Cash">Pay by Cash</option>
+            <option value="Paypal">Pay by Paypal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Note:</label>
+          <textarea [(ngModel)]="data.message" class="form-control" name="message"
+                    placeholder="Somethings you want us to note when delivering..." rows="4"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1 separator"></div>
+
+    <div class="col-md-6 items-display bg-white">
+      <h2 class>Cart Items</h2>
+      <table class="table table-hover text-center">
+        <thead>
+        <tr>
+          <th>Preview</th>
+          <th>Book's name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of cartItems">
+          <td><img [src]="item.images[0]" alt="Item Image"></td>
+          <td class="text-start">{{ item.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td *ngIf="item.discount !== 0">
+            <span appDiscounted class="text-muted">{{ item.price| currency }}</span>
+            <br><span class="text-danger">{{ item.price - item.price * item.discount / 100| currency }}</span>
+          </td>
+          <td *ngIf="item.discount === 0">{{ item.price | currency }}</td>
+        </tr>
+        </tbody>
+
+        <tfoot>
+        <tr>
+          <td class="text-start fw-bold" colspan="3">Total price:</td>
+          <td><span class="text-sea">{{ totalPrice | currency }}</span></td>
+        </tr>
+        </tfoot>
+      </table>
+      <div class="text-end">
+        <button (click)="billPopUp()" class="btn btn-primary ">Checkout</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="displayBill" appDisplayed class="modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="billModalLabel">Confirm Your Bill</h5>
+        <button (click)="closeBill()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-5">
+              <h4 class="mb-4">Billing Information</h4>
+              <dl class="row">
+                <dt class="col-sm-4">Receiver:</dt>
+                <dd class="col-sm-8">{{ data.userName }}</dd>
+                <dt class="col-sm-4">Phone:</dt>
+                <dd class="col-sm-8">{{ data.userPhone }}</dd>
+                <dt class="col-sm-4">Address:</dt>
+                <dd class="col-sm-8">{{ data.addressToReceive }}</dd>
+                <dt class="col-sm-4">Pay by:</dt>
+                <dd class="col-sm-8">{{ data.paymentMethod }}</dd>
+                <dt class="col-sm-4">Note:</dt>
+                <dd class="col-sm-8">{{ data.message ? data.message : "..." }}</dd>
+              </dl>
+            </div>
+            <div class="col-md-7">
+              <h4 class="mb-3">Items to Checkout</h4>
+              <table class="table table-hover text-center">
+                <thead>
+                <tr>
+                  <th class="text-start" scope="col">Book's Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of cartItems">
+                  <td class="name text-start">{{ item.name }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.price - item.price * item.discount / 100 | currency }}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <td class="text-start fw-bold" colspan="2">Total Price:</td>
+                  <td><span class="text-sea">{{ totalPrice | currency }}</span></td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button (click)="closeBill()" class="btn btn-secondary">Close</button>
+        <button (click)="checkout()" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+</ng-template>
+<ng-template #notfound>
+  <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="cartItems.length !== 0, then display, else notfound">
+</ng-container>
+

@@ -2,20 +2,28 @@ package hanu.edu.application.service.user;
 
 import hanu.edu.domain.i_repository.customer.CustomerRepository;
 import hanu.edu.domain.model.user.Customer;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 //CRUD methods
 @Service
+@NoArgsConstructor
 public class CustomerResourceService {
     @Autowired
     private CustomerRepository customerRepository;
+
 //    @Value("${amazon.s3.default-bucket}")
 //    private String bucketName;
 //    @Autowired
 //    private AmazonS3 s3client;
 
-    public CustomerResourceService() {
+    public Customer getById(long customerId) {
+        return customerRepository.getById(customerId);
+    }
+
+    public Customer getByEmail(String email) {
+        return customerRepository.getByEmail(email);
     }
 
     public void create(Customer customer) {
@@ -24,10 +32,6 @@ public class CustomerResourceService {
 
     public void update(Customer customer) {
         customerRepository.save(customer);
-    }
-
-    public Customer getById(long customerId) {
-        return customerRepository.getById(customerId);
     }
 
 //    public void changeAvatar(long customerId, MultipartFile file) {
@@ -52,9 +56,5 @@ public class CustomerResourceService {
 
     public void deleteById(long customerId) {
         customerRepository.deleteById(customerId);
-    }
-
-    public Customer getByEmail(String email) {
-        return customerRepository.getByEmail(email);
     }
 }

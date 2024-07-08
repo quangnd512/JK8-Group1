@@ -1,0 +1,32 @@
+.sidebar {
+  background-color: #e5f5f9;
+  position: fixed;
+  top: 55px;
+  height: 100vh;
+}
+
+.main-body {
+  margin-left: 16.5vw;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-body {
+    margin-left: 0;
+  }
+}
+
+.sidebar .nav-link {
+  color: #333;
+}
+
+.sidebar .nav-link.active {
+  background-color: #d5e5ea;
+  color: #337ab7;
+}
+
+
+

@@ -16,9 +16,9 @@ public class GetOrderByStatusController {
     @Autowired
     private GetOrderByStatusService getOrderByStatusService;
 
-    @GetMapping("/order/{page}")
+    @GetMapping("/admin/order/{page}")
     public ResponseEntity<Response> getByOrderStatus(@RequestParam String status, @PathVariable int page) {
-        return ResponseBuilder.get200ResponseWithData("Order of " + status + " gotten successfully!", getOrderByStatusService.getByOrderStatus(status, page, 20));
+        return ResponseBuilder.get200ResponseWithData("Order of " + status + " gotten successfully!", getOrderByStatusService.getByOrderStatus(status, page, 50));
     }
 
     @GetMapping("/order/{page}/{id}")

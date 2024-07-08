@@ -25,5 +25,4 @@ public class CustomerDTO {
     @Min(value = 10, message = "Age should not be less than 10.")
     @Max(value = 80, message = "Age should not be greater than 80.")
     private int age;
-    private String avatar;
 }

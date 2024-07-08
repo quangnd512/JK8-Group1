@@ -63,6 +63,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User getByEmail(String email) {
+        UserEntity userEntity = userJPARepository.findByEmail(email);
+        if (userEntity == null) {
+            return null;
+        }
+        return userEntity.toUser();
+    }
+
+    @Override
     public User getById(long id) {
         return userJPARepository.findById(id).map(UserEntity::toUser).orElse(null);
     }

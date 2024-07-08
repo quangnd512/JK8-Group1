@@ -11,9 +11,12 @@ import hanu.edu.infrastructure.security.dto.NewUserDTO;
 import hanu.edu.infrastructure.security.service.SecurityService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -44,36 +47,38 @@ public class UserResourceController {
         return ResponseEntity.ok(securityService.registerAccount(newUserDTO));
     }
 
-    @PutMapping("/admin/user/{userId}")
-    public ResponseEntity<Response> updateUser(@PathVariable long userId, @Valid @RequestBody UserDTO user) {
-        User userFromDB = userResourceService.getById(userId);
-        if (user.getAvatar().trim().isEmpty() && userFromDB != null) {
-            user.setAvatar(userFromDB.getAvatar());
-        }
-
-        if (user.getPassword().trim().isEmpty() && userFromDB != null) {
-            user.setPassword(userFromDB.getPassword());
+    @PutMapping(value = "/admin/user/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Response> updateUser(@PathVariable long userId, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("info") UserDTO userDTO) {
+        User userFromDB = (file.isEmpty() || userDTO.getPassword().trim().isEmpty()) ? userResourceService.getById(userId) : null;
+        String avatar;
+        if (ObjectUtils.isEmpty(file) && userFromDB != null) {
+            avatar = userFromDB.getAvatar();
         } else {
-            user.setPassword(encoder.encode(user.getPassword()));
+            avatar = userResourceService.uploadImageToCloudinary(file);
+        }
+        if (userDTO.getPassword().trim().isEmpty() && userFromDB != null) {
+            userDTO.setPassword(userFromDB.getPassword());
+        } else {
+            userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         }
         userResourceService.update(new User(
                 userId,
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getName(),
-                user.getAddress(),
-                user.getPhone(),
-                user.getAge(),
-                user.getAvatar(),
+                userDTO.getUsername(),
+                userDTO.getEmail(),
+                userDTO.getPassword(),
+                userDTO.getName(),
+                userDTO.getAddress(),
+                userDTO.getPhone(),
+                userDTO.getAge(),
+                avatar,
                 true,
-                user.getRole()));
+                userDTO.getRole()));
         return ResponseBuilder.get200ResponseWithoutData("Change information successfully!");
     }
 
     @DeleteMapping("/admin/user/{userId}")
     public ResponseEntity<Response> deleteUser(@PathVariable long userId) {
-//        shoppingCartService.deleteShoppingCart(userId);
+        shoppingCartService.deleteShoppingCart(userId);
         userResourceService.deleteById(userId);
         return ResponseBuilder.get204Response("Delete user successfully!");
     }

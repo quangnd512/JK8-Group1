@@ -57,7 +57,7 @@ public class SecurityServiceImpl implements SecurityService {
         customer.setEmail(newUserDTO.getEmail());
         customer.setRole("ROLE_CUSTOMER");
         customer.setEnabled(true);
-        customer.setAvatar("/assets/account.jpg");
+        customer.setAvatar("/account.jpg");
         return customer;
     }
 
