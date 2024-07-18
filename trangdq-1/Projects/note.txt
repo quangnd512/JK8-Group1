@@ -1,0 +1,13 @@
+____________________________________To restore db in volume_______________________________________
+
+mysqldump -u root -p bookstore > bookstore.sql
+
+mysql -u root -p your_password -e "CREATE DATABASE bookstore;"
+mysql -u root -p bookstore < /var/lib/mysql/bookstore.sql
+CREATE USER 'root'@'%' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON bookstore.* TO 'root'@'%';
+
+________________________________________To push to hub___________________________________________
+
+docker tag image_name belemon81/internship:projects-app-be
+docker push belemon81/internship:projects-app-be
