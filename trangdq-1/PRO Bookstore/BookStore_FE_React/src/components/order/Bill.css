@@ -1,0 +1,60 @@
+.address {
+    display: flex;
+
+}
+
+.boxofbill {
+    border-radius: 5px;
+    border: 2px #33cc66 solid;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+
+.title {
+    text-align: center;
+    display: block;
+    padding: 10px 0;
+}
+
+.btnconfirm {
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+
+.voucher {
+    text-align: left;
+}
+
+.nameinbill {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.phoneinbill {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.boxinnotif {
+    border-radius: 5px;
+    border: 2px #33cc66 solid;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    width: 40%;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.mess {
+    display: flex;
+    justify-content: center;
+}
+
+.amount {
+    border-radius: 5px;
+}

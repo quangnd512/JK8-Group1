@@ -1,0 +1,136 @@
+<div class="container history">
+  <h1 class="text-center mb-5 pt-3 fw-bolder text-white">Orders History</h1>
+  <div class="d-flex justify-content-between">
+    <select (change)="onStatusChange()" [(ngModel)]="status" class="form-select custom-select" id="order-status">
+      <option [defaultSelected]="true" [value]="OrderStatus.CUSTOMER_CONFIRMED">Processing orders</option>
+      <option [value]="OrderStatus.ADMIN_PREPARING">Preparing orders</option>
+      <option [value]="OrderStatus.SHIPPING">Shipping orders</option>
+      <option [value]="OrderStatus.SUCCESS">Succeeded orders</option>
+      <option [value]="OrderStatus.CUSTOMER_REQUEST_CANCEL">Canceling orders</option>
+      <option [value]="OrderStatus.CANCELED">Canceled orders</option>
+    </select>
+    <p class="fw-bold text-white">{{ total_orders }} {{ status2Display(status).toLowerCase() }} orders
+      available</p>
+  </div>
+  <table class="table table-hover mt-4 text-center" id="orders">
+    <thead>
+    <tr>
+      <th class="col-1">Code</th>
+      <th class="col-3">Contact Information</th>
+      <th>Checkout Date</th>
+      <th>Total price</th>
+      <th>Note</th>
+      <th>Items</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td>PBS#{{ order.id }}</td>
+      <td class="text-start col-3">
+        <strong>To:</strong> {{ order.userInfo }}<br>
+        <strong>Addr:</strong> {{ order.addressToReceive }}
+      </td>
+      <td>{{ order.checkoutDate }}</td>
+      <td>{{ order.total | currency }}</td>
+      <td><a (click)="viewOrderNote(order)" *ngIf="order.message" class="text-sky">View Note</a></td>
+      <td><a (click)="viewOrderDetails(order)" class="text-sea">View Details ({{ order.items.length }})</a></td>
+      <td><span [status]="order.orderStatus" appStatusColored>⬤</span> {{ status2Display(order.orderStatus) }}</td>
+      <td>
+        <ng-container [ngSwitch]="status">
+          <ng-container *ngSwitchCase="OrderStatus.CUSTOMER_CONFIRMED">
+            <button (click)="updateStatus(order,OrderStatus.CANCELED)" class="btn btn-danger">Cancel</button>
+          </ng-container>
+          <ng-container *ngSwitchCase="OrderStatus.ADMIN_PREPARING">
+            <button (click)="updateStatus(order,OrderStatus.CUSTOMER_REQUEST_CANCEL)" class="btn btn-danger">Cancel
+            </button>
+          </ng-container>
+          <ng-container *ngSwitchCase="OrderStatus.SHIPPING">
+            <button (click)="updateStatus(order,OrderStatus.SUCCESS)" class="btn btn-success me-2">Received
+            </button>
+          </ng-container>
+          <button (click)="updateStatus(order,OrderStatus.CUSTOMER_CONFIRMED)"
+                  *ngSwitchCase="OrderStatus.CUSTOMER_REQUEST_CANCEL"
+                  class="btn btn-primary">Restore
+          </button>
+          <button *ngSwitchCase="OrderStatus.SUCCESS" class="btn btn-success" disabled>Succeeded</button>
+          <button *ngSwitchCase="OrderStatus.CANCELED" class="btn btn-secondary" disabled>Canceled</button>
+        </ng-container>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="display_details" appDisplayed class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Order #{{ current_order?.id }}</h5>
+          <button (click)="closeOrderDetails()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <table class="table table-hover text-center">
+                <thead>
+                <tr>
+                  <th class="text-start" scope="col">Book's Name</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of current_order?.items">
+                  <td class="name text-start">{{ item.name }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.price - item.price * item.discount / 100 | currency }}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <td class="text-start fw-bold" colspan="2">Total Price<span *ngIf="current_order?.voucherId !== -1"> (voucher applied)</span>:
+                  </td>
+                  <td><span
+                    [className]="current_order?.voucherId !== -1? 'text-green' : ''">{{ current_order?.total | currency }}</span>
+                  </td>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="closeOrderDetails()" class="btn btn-secondary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="display_note" appDisplayed class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Note Details</h5>
+          <button (click)="closeOrderNote()" aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <blockquote class="note">{{ current_order?.message }}</blockquote>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button (click)="closeOrderNote()" class="btn btn-secondary">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <p class="fw-bold text-white">{{ total_orders }} {{ status2Display(status).toLowerCase() }} orders
+      available</p>
+    <app-pagination [position]="'my-orders'" [query_params]="'?status='+status.toLowerCase()"
+                    [total_pages]="total_pages"></app-pagination>
+  </div>
+</div>

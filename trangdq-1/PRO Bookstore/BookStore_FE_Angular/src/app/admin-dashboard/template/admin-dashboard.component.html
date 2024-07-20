@@ -1,0 +1,72 @@
+<ng-template #display>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2 bg-light sidebar">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a (click)="onProductsManager()" [ngClass]="{'active': board==='products-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/products-manager/1">Products Manager</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="onUsersManager()" [ngClass]="{'active': board==='users-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/users-manager/1" routerLinkActive="active">Users Manager</a>
+          </li>
+          <li class="nav-item">
+            <a (click)="onVouchersManager()" [ngClass]="{'active': board==='vouchers-manager'}" class="nav-link"
+               routerLink="/admin-dashboard/vouchers-manager/1" routerLinkActive="active">Vouchers Manager</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a [ngClass]="{'active': board==='orders-manager'}" aria-expanded="false" class="nav-link dropdown-toggle"
+               data-bs-toggle="dropdown" id="navbarDropdown" role="button">
+              Orders Manager
+            </a>
+            <ul (click)="onOrdersManager()" aria-labelledby="navbarDropdown" class="dropdown-menu">
+              <li><a [ngClass]="{'active' : status?.toLowerCase() === OrderStatus.CUSTOMER_CONFIRMED.toLowerCase()}" [queryParams]="{status: OrderStatus.CUSTOMER_CONFIRMED.toLowerCase()}"
+                     class="dropdown-item"
+                     routerLink="/admin-dashboard/orders-manager/1">Checked
+                out orders</a></li>
+              <li><a [ngClass]="{'active' : status?.toLowerCase() === OrderStatus.ADMIN_PREPARING.toLowerCase()}" [queryParams]="{status: OrderStatus.ADMIN_PREPARING.toLowerCase()}"
+                     class="dropdown-item"
+                     routerLink="/admin-dashboard/orders-manager/1">Preparing
+                orders</a></li>
+              <li><a [ngClass]="{'active' : status?.toLowerCase() === OrderStatus.SHIPPING.toLowerCase()}" [queryParams]="{status: OrderStatus.SHIPPING.toLowerCase()}"
+                     class="dropdown-item"
+                     routerLink="/admin-dashboard/orders-manager/1">Shipping
+                orders</a></li>
+              <li><a [ngClass]="{'active' : status?.toLowerCase() === OrderStatus.SUCCESS.toLowerCase()}" [queryParams]="{status: OrderStatus.SUCCESS.toLowerCase()}"
+                     class="dropdown-item"
+                     routerLink="/admin-dashboard/orders-manager/1">Successful
+                orders</a></li>
+              <li><a [ngClass]="{'active' : status?.toLowerCase() === OrderStatus.CUSTOMER_REQUEST_CANCEL.toLowerCase()}" [queryParams]="{status: OrderStatus.CUSTOMER_REQUEST_CANCEL.toLowerCase()}"
+                     class="dropdown-item"
+                     routerLink="/admin-dashboard/orders-manager/1">Canceling
+                orders</a>
+              </li>
+              <li><a [ngClass]="{'active' : status?.toLowerCase() === OrderStatus.CANCELED.toLowerCase()}" [queryParams]="{status: OrderStatus.CANCELED.toLowerCase()}"
+                     class="dropdown-item"
+                     routerLink="/admin-dashboard/orders-manager/1">Canceled
+                orders</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="board==='products-manager'" class="col-10 p-4 main-body">
+        <app-product-manager></app-product-manager>
+      </div>
+      <div *ngIf="board==='users-manager'" class="col-10 p-4 main-body">
+        <app-user-manager></app-user-manager>
+      </div>
+      <div *ngIf="board==='orders-manager'" class="col-10 p-4 main-body">
+        <app-order-manager></app-order-manager>
+      </div>
+      <div *ngIf="board==='vouchers-manager'" class="col-10 p-4 main-body">
+        <app-voucher-manager></app-voucher-manager>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #notfound>
+  <app-page404></app-page404>
+</ng-template>
+<ng-container *ngIf="(isAdmin$ | async), then display, else notfound">
+</ng-container>

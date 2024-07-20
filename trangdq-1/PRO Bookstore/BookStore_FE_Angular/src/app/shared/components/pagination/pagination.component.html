@@ -1,0 +1,28 @@
+<nav>
+  <ul *ngIf="total_pages"
+      [ngClass]="{
+        'justify-content-center': position==='home' || position==='my-orders',
+        'justify-content-end': position==='admin-dashboard'}"
+      class="pagination">
+
+    <li [ngClass]="{'disabled': page === 1}" class="page-item">
+      <a [queryParams]="query_object" [routerLink]="getLink(page-1)" class="page-link">◄ Previous</a>
+    </li>
+    <li *ngIf="page > 1" class="page-item" routerLinkActive="active">
+      <a [queryParams]="query_object" [routerLink]="getLink(page-1)" class="page-link"
+         routerLinkActive="active">{{ page - 1 }}</a>
+    </li>
+    <li class="page-item" routerLinkActive="active">
+      <a [queryParams]="query_object" [routerLink]="getLink(page)" class="page-link"
+         routerLinkActive="active">{{ page }}</a>
+    </li>
+    <li *ngIf="page < total_pages" class="page-item" routerLinkActive="active">
+      <a [queryParams]="query_object" [routerLink]="getLink(page+1)" class="page-link"
+         routerLinkActive="active">{{ page + 1 }}</a>
+    </li>
+    <li [ngClass]="{'disabled': page === total_pages}" class="page-item">
+      <a [queryParams]="query_object" [routerLink]="getLink(page+1)" class="page-link">Next ►</a>
+    </li>
+  </ul>
+</nav>
+

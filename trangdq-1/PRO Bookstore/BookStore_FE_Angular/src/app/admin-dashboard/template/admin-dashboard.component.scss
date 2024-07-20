@@ -1,0 +1,36 @@
+.sidebar {
+  background-color: #e5f5f9;
+  position: fixed;
+  top: 0;
+  height: 100vh;
+}
+
+.nav-item:first-child {
+  padding-top: 10vh;
+}
+
+.main-body {
+  margin-left: 16.6%;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main-body {
+    margin-left: 0;
+  }
+}
+
+.sidebar .nav-link {
+  color: #333;
+}
+
+.sidebar .nav-link.active {
+  background-color: #d5e5ea;
+  color: #337ab7;
+}
+
+
+

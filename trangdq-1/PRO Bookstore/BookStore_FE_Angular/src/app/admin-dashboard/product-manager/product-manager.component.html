@@ -1,0 +1,130 @@
+<!--LOADER-->
+<div *ngIf="loading" class="loading-overlay">
+  <mat-progress-spinner color="#5dc4ff" mode="indeterminate"></mat-progress-spinner>
+</div>
+<!--HEADER-->
+<h1 class="text-center mb-4 fw-bolder text-white">Products Management System</h1>
+<!--TOP INFO-->
+<div class="d-flex justify-content-between">
+  <button (click)="addProductPopUp()" class="btn btn-primary">Add New Product</button>
+  <p class="fw-bold text-white">{{ total_products }} products available</p>
+</div>
+<!--BODY-->
+<table class="table table-hover mt-4 text-center">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th class="col-4">Name</th>
+    <th>Price</th>
+    <th>In-stock</th>
+
+    <th>Category</th>
+    <th>Discount</th>
+    <th>Image</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products">
+    <td>{{ product.id }}</td>
+    <td class="text-start fw-bold"><a href="/product/{{product.id}}">{{ product.name }}</a></td>
+    <td>{{ product.price | currency:'USD':'symbol':'1.2-2' }}</td>
+    <td>{{ product.inStock }}</td>
+
+    <td>{{ product.category }}</td>
+    <td>{{ product.discount }}%</td>
+    <td><img [src]="product.images[0]" alt="Product Image" width="50"></td>
+    <td>
+      <button (click)="updateProductPopUp(product.id)" class="btn btn-sm btn-success m-1">UPDATE</button>
+      <button (click)="deleteProduct(product.id)" class="btn btn-sm btn-danger m-1">DELETE</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<!--MODAL-->
+<div *ngIf="current === 'add' || current === 'update'" appDisplayed class="modal mb-5">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="current === 'add'" class="modal-title">Add New Product</h5>
+        <h5 *ngIf="current === 'update'" class="modal-title">Update Product</h5>
+        <button (click)="returnToDashboard()" class="btn-close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Product Name:</label>
+            <input [(ngModel)]="productInput.name" class="form-control" name="name"
+                   placeholder="Input product's name" type="text">
+            <p *ngIf="errors[0]" class="form-error">{{ errors[0].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Product Description:</label>
+            <textarea [(ngModel)]="productInput.description" class="form-control" name="description"
+                      placeholder="Input product's description"
+                      rows="4" type="text"></textarea>
+            <p *ngIf="errors[1]" class="form-error">{{ errors[1].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Price ($):</label>
+            <input [(ngModel)]="productInput.price" class="form-control" name="price" step="0.01" type="number">
+            <p *ngIf="errors[2]" class="form-error">{{ errors[2].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">In Stock:</label>
+            <input [(ngModel)]="productInput.inStock" class="form-control" name="inStock" step="1" type="number">
+            <p *ngIf="errors[3]" class="form-error">{{ errors[3].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Discount (%):</label>
+            <input [(ngModel)]="productInput.discount" class="form-control" name="discount" step="1" type="number">
+            <p *ngIf="errors[4]" class="form-error">{{ errors[4].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Category:</label>
+            <select [(ngModel)]="productInput.category" class="form-select" name="category">
+              <option value="Comic">Comic</option>
+              <option value="Detective">Detective</option>
+              <option value="Literature">Literature</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Horror">Horror</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Images:</label>
+            <div class="image-container">
+              <div *ngFor="let image of this.productInput.images; let i = index" class="image-row">
+                <img [src]="image" alt="Original">
+                <mat-icon (click)="deleteImageFromModal(i)" class="delete-button">delete_forever</mat-icon>
+              </div>
+              <div *ngFor="let image of this.imagesPreview; let i = index" class="image-row">
+                <img [src]="image" alt="Selected">
+                <mat-icon (click)="deleteImageFromInput(i)" class="delete-button">delete_forever</mat-icon>
+              </div>
+            </div>
+            <input #imageInput (change)="onBrowseImages()" class="form-control" multiple name="productImages"
+                   type="file">
+            <p *ngIf="errors[5]" class="form-error">{{ errors[5].message }}</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button (click)="returnToDashboard()" class="btn btn-secondary">Close</button>
+        <button (click)="addProduct()" *ngIf="current === 'add'" class="btn btn-primary" type="submit">Add Product
+        </button>
+        <button (click)="updateProduct()" *ngIf="current === 'update'" class="btn btn-primary" type="submit">Update
+          Product
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--PAGINATION-->
+<div class="d-flex justify-content-between">
+  <p class="fw-bold text-white">{{ total_products }} products available</p>
+  <app-pagination [board]="'products-manager'" [position]="'admin-dashboard'"
+                  [total_pages]="total_pages"></app-pagination>
+</div>
+

@@ -1,0 +1,287 @@
+.wrapper {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    color: #000000;
+    font-weight: 300;
+    line-height: normal;
+    box-sizing: border-box;
+    padding: 0 30px;
+    height: max-content;
+}
+
+.inner {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    color: #000000;
+    font-weight: 300;
+    line-height: normal;
+    box-sizing: border-box;
+}
+
+.products {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    color: #000000;
+    font-weight: 300;
+    line-height: normal;
+    list-style: none;
+    box-sizing: border-box;
+    float: left;
+    min-height: 1px;
+    vertical-align: top;
+    width: 100%;
+    padding: 20px;
+    margin: 50px 0;
+
+}
+
+.box {
+    background: linear-gradient(0deg, rgba(0, 202, 255, 1) 0%, #33cc66);
+    border-radius: 20px;
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    color: #000000;
+    font-weight: 300;
+    line-height: normal;
+    box-sizing: border-box;
+    list-style: none;
+    padding: 10px 10px 0 0;
+    margin: 0 0 10px -10px;
+}
+
+.product {
+    width: 20%;
+    padding-left: 10px;
+    clear: both;
+    display: inline-block;
+}
+
+.product-item {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: 300;
+    line-height: normal;
+    list-style: none;
+    box-sizing: border-box;
+    color: #33cc66;
+    text-decoration: none;
+    display: block;
+    background: #fff;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+.product-img {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: 300;
+    line-height: normal;
+    list-style: none;
+    color: #33cc66;
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+}
+
+.lazy-load {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: 300;
+    line-height: normal;
+    list-style: none;
+    color: #33cc66;
+    box-sizing: border-box;
+    border: 0 none;
+    vertical-align: middle;
+    transition: all 0.6s ease;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+}
+
+.sale-off {
+    list-style: none;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(0, 209, 255, 1);
+    text-align: center;
+}
+
+.product-title {
+    font-family: 'Fira Sans', 'sans-serif';
+    overflow: hidden;
+    line-height: 1.3em;
+    height: 2.6em;
+    list-style: none;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 14px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 0 15px 3px;
+    display: inline-block;
+    color: #333333;
+    font-weight: 600;
+}
+
+.product-price {
+    font-size: 14px;
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: 300;
+    line-height: normal;
+    list-style: none;
+    color: #ff0000;
+    box-sizing: border-box;
+    padding: 0 15px 15px;
+}
+
+.core-price {
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: 600;
+    line-height: normal;
+    display: inline-block;
+    font-size: 16px;
+    float: right;
+    color: #ff0000;
+}
+
+.current-price {
+    font-size: 14px;
+    line-height: normal;
+    list-style: none;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: bold;
+    float: left;
+    color: #00ad33;
+}
+
+.name_page {
+    font-family: 'Cedarville Cursive', serif;
+    color: #ffffff;
+    position: absolute;
+    font-weight: bold;
+    font-size: 50px;
+    top: 17vh;
+    left: 3vw;
+    z-index: 2;
+}
+
+.subtitle {
+    font-family: 'Cedarville Cursive', serif;
+    color: #ffffff;
+    position: absolute;
+    font-weight: normal;
+    font-size: 30px;
+    top: 28vh;
+    left: 3vw;
+    z-index: 2;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    list-style: none;
+
+}
+
+.right {
+    justify-content: right;
+    padding: 1rem 0 0 0;
+    margin-right: 1rem;
+}
+
+.center {
+    justify-content: center;
+    padding: 1rem;
+}
+
+.page {
+    border: 2px solid #00ad33;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    color: #000000;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.page:hover {
+    background-color: #00ad33;
+}
+
+.page-clicked {
+    background-color: #00ad33;
+    cursor: default;
+}
+
+.page:disabled {
+    opacity: 0.5;
+    cursor: default;
+    background-color: #00ad33;
+}
+
+.green-btn {
+    background-color: #33cc33;
+}
+
+
+.original-price {
+    font-family: 'Fira Sans', 'sans-serif';
+    font-weight: 300;
+    line-height: normal;
+    list-style: none;
+    display: inline-block;
+    font-size: 16px;
+    float: right;
+    color: #999999;
+}
+
+.carousel {
+    width: 100%;
+    height: 65vh;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.carousel img {
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel img:first-child {
+    opacity: 1;
+}
