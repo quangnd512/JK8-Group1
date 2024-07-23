@@ -1,0 +1,65 @@
+// TABLE
+td,
+th {
+  padding: 0.5rem;
+  border: solid lightgray 1px;
+}
+
+th {
+  background-color: #dff0ff;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-footer {
+  text-align: right;
+}
+
+label {
+  padding-bottom: 5px;
+  font-weight: 600
+}
+
+.form-label {
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-check-input {
+  margin-right: 5px;
+}
+
+
+.form-error {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 15px;
+}
+
+.btn {
+  margin-left: 5px;
+}
+
+
+textarea {
+  white-space: pre-wrap;
+  overflow: auto;
+}

@@ -1,0 +1,185 @@
+.top {
+    background-color: #ddd;
+}
+
+.logout {
+    font-weight: normal;
+}
+
+.logout:hover, .active {
+    color: #33cc66;
+}
+
+.menu {
+    display: flex;
+    align-content: center;
+}
+
+.org-current-price {
+    color: #33cc33;
+}
+
+.btn {
+    color: black;
+    height: 40px;
+}
+
+.green-btn:hover {
+    background-color: rgba(70, 255, 100, 1);
+    color: white;
+}
+
+button i:hover, .drop-btn i:hover {
+    color: white
+}
+
+.logo {
+    width: 60px;
+}
+
+.cats {
+    margin: auto 20px;
+}
+
+a {
+    padding: 8px;
+    color: black;
+}
+
+.cats a {
+    padding: 8px;
+}
+
+a:hover {
+    color: #33cc66;
+    text-decoration: none;
+}
+
+hr {
+    border-top: 2px solid #33cc33;
+    margin-top: 0;
+}
+
+form {
+    margin: auto;
+}
+
+form input {
+    border-radius: 5px;
+    height: 40px;
+}
+
+.cart {
+    width: 30px;
+    margin-right: 30px;
+}
+
+.account {
+    width: 50px;
+    height: 50px;
+    margin: 5px 10px 0 0;
+    position: relative;
+    list-style: none;
+    border-radius: 100%;
+    border: solid #33cc66;
+}
+
+.sub-account {
+    position: absolute;
+    background-color: #33cc66;
+    width: 80px;
+    margin-left: -30px;
+    display: none;
+}
+
+.account:hover .sub-account {
+    display: block;
+}
+
+.sub-account div {
+    padding: 8px 0;
+    margin-left: -5px;
+    border-bottom: 1px solid #33cc66;
+    z-index: 2;
+}
+
+.sub-account div:last-child {
+    border: none;
+}
+
+.sub-account div:hover {
+    background-color: #33cc66;
+}
+
+.sub-account div:hover a {
+    color: white;
+}
+
+.search {
+    padding-left: 10px;
+    width: 300px;
+}
+
+.drop-btn {
+    background-color: #33cc33;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.drop-btn:hover {
+    background-color: black;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 180px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    border-radius: 10px;
+    border: 0.1px #33cc33;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #33cc33;
+    border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .drop-btn {
+    background-color: rgba(70, 255, 100, 1);
+    color: black;
+}
+
+.customCart {
+    position: relative;
+    padding-bottom: 0;
+    height: 40px;
+}
+
+.linkToCart {
+    padding-bottom: 0;
+    padding-top: 15px;
+}
+
+.linkToCart i {
+    stroke-width: 5px;
+}

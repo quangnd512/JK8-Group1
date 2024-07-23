@@ -1,0 +1,100 @@
+.containerProductDetails {
+    display: flex;
+    padding: 40px;
+    margin: 0 auto;
+    width: 80%;
+}
+
+.pictures {
+    padding-right: 50px;
+}
+
+.big img {
+    width: 400px;
+    height: 500px;
+}
+
+.numberBar {
+    padding-top: 50px;
+}
+
+.number {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.price {
+    color: #33cc66;
+    padding: 15px;
+    background-color: #f1f1f1;
+    margin-top: 10px;
+}
+
+.titleNumber {
+    color: #33cc66;
+}
+
+.addCartOrBuy {
+    padding-top: 20px;
+    margin: 0;
+}
+
+.addToCart {
+    background-color: #33cc66;
+    margin: 10px 10px 0 0;
+    padding: 0 15px 10px 0;
+    border-radius: 10px;
+    border: none;
+}
+
+i {
+    bottom: 5px;
+}
+
+.buyNow {
+    background-color: #33cc66;
+    margin: 10px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+}
+
+.buyNow:hover {
+    background-color: rgba(70, 255, 100, 1);
+}
+
+.nBtn {
+    width: 30px;
+    background-color: #00ad33;
+    border: 0;
+    padding: 2px;
+}
+
+.nBtn:hover {
+    background-color: rgba(70, 255, 100, 1);
+    color: black;
+}
+
+.addToCart:hover {
+    background-color: rgba(70, 255, 100, 1);
+}
+
+.small img {
+    width: 60px;
+    height: 60px;
+    margin: 3px;
+    object-fit: cover;
+}
+
+/*
+.small img:hover {
+    width: 400px;
+    height: 400px;
+} */
+
+.smallContainer {
+    display: flex;
+    width: 400px;
+    flex-wrap: wrap;
+}
+

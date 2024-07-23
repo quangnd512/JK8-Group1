@@ -1,0 +1,73 @@
+<div *ngIf="loading" class="loading-overlay">
+  <mat-progress-spinner color="#5dc4ff" mode="indeterminate"></mat-progress-spinner>
+</div>
+<h1 class="mb-5 pt-3 fw-bolder text-center text-white">My Profile</h1>
+
+<div class="container profile-update">
+  <div class="row">
+    <!--<h1 class="header text-center">My Profile</h1>-->
+    <div class="profile-info">
+      <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+        <div class="row">
+          <div class="col-8">
+            <div class="form-group">
+              <label for="name">Fullname</label>
+              <input class="form-control" formControlName="name" id="name" placeholder="Enter your name" type="text">
+              <p *ngIf="profileForm.get('name')?.hasError('minlength') || profileForm.get('name')?.hasError('required')"
+                 class="error">
+                * Name should be at least 8 characters.</p>
+            </div>
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input [readOnly]="true" class="form-control" formControlName="username" id="username"
+                     placeholder="Enter your username" type="text">
+            </div>
+          </div>
+          <div (click)="onAvatarChange($event)" class="avatar-container col-4">
+            <img (click)="onAvatarClick()" *ngIf="avatarUrl"
+                 [src]="avatarUrl === '/account.jpg'? '/assets/account.jpg' : avatarUrl" alt="Profile Avatar" class="avatar rounded-circle">
+            <img (click)="onAvatarClick()" *ngIf="!avatarUrl" [src]="imagePreview" alt="Profile Avatar"
+                 class="avatar rounded-circle">
+            <div (click)="onAvatarClick()" class="avatar-hint">Upload ▲</div>
+            <input (change)="onAvatarChange($event)" accept="image/*" class="d-none" id="avatar" type="file">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input class="form-control" formControlName="email" id="email" placeholder="Enter your email" type="email">
+          <p *ngIf="profileForm.get('username')?.hasError('email') || profileForm.get('username')?.hasError('required')"
+             class="error">
+            * Invalid email.</p>
+        </div>
+        <div class="form-group">
+          <label for="password">New Password</label>
+          <input class="form-control" formControlName="password" id="password" placeholder="Enter new password (optional)"
+                 type="password">
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input [defaultValue]="0" class="form-control" formControlName="age" id="age" placeholder="Enter your age"
+                 type="number">
+          <p *ngIf="profileForm.get('age')?.hasError('required')" class="error">* Age is not available</p>
+          <p *ngIf="profileForm.get('age')?.hasError('min')" class="error">* Age must be 13 or older</p>
+          <p *ngIf="profileForm.get('age')?.hasError('max')" class="error">* Age must be 100 or younger</p>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea class="form-control" formControlName="address" id="address"
+                    placeholder="Enter your address"></textarea>
+          <p *ngIf="profileForm.get('address')?.hasError('required')" class="error">* Address is required</p>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input class="form-control" formControlName="phone" id="phone" placeholder="Enter your phone number"
+                 type="tel">
+          <p *ngIf="profileForm.get('phone')?.hasError('pattern') || profileForm.get('phone')?.hasError('required')"
+             class="error">*
+            Invalid phone number</p>
+        </div>
+        <button [disabled]="profileForm.invalid" type="submit">Update Profile</button>
+      </form>
+    </div>
+  </div>
+</div>

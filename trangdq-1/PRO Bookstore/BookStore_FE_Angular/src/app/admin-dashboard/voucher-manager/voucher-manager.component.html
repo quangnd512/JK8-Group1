@@ -1,0 +1,79 @@
+<h1 class="text-center mb-4 fw-bolder text-white">Vouchers Management System</h1>
+<div class="d-flex justify-content-between">
+  <button (click)="addVoucherPopUp()" class="btn btn-primary">Add New Voucher</button>
+  <p class="fw-bold text-white">{{ total_vouchers }} vouchers available</p>
+</div>
+<table class="table table-hover mt-4 text-center">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Owner</th>
+    <th>Rate</th>
+    <th>Due Date</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let voucher of vouchers">
+    <td>{{ voucher.id }}</td>
+    <td class="text-start fw-bold">{{ voucher.title }}</td>
+    <td>{{ voucher.userEmail }}</td>
+    <td>{{ voucher.rate }}%</td>
+    <td>{{ voucher.dueDate }}</td>
+    <td>
+      <button (click)="deleteVoucher(voucher.id)" class="btn btn-sm btn-danger m-1">DELETE</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div *ngIf="current === 'add'" appDisplayed class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 *ngIf="current === 'add'" class="modal-title">Add New Voucher</h5>
+        <button (click)="returnToDashboard()" class="btn-close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Title:</label>
+            <input [(ngModel)]="voucherInput.title" class="form-control" name="title"
+                   placeholder="Input title" required type="text">
+            <p *ngIf="errors[0]" class="form-error">{{ errors[0].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email:</label>
+            <input [(ngModel)]="voucherInput.userEmail" class="form-control" name="userEmail"
+                   placeholder="Input user's email" required type="text">
+            <p *ngIf="errors[1]" class="form-error">{{ errors[1].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Rate</label>
+            <input [(ngModel)]="voucherInput.rate" class="form-control" min="0" name="rate"
+                   required step="1" type="number">
+            <p *ngIf="errors[2]" class="form-error">{{ errors[2].message }}</p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Due Date:</label>
+            <input [(ngModel)]="voucherInput.dueDate" class="form-control" name="dueDate"
+                   placeholder="Input due date" required type="date">
+            <p *ngIf="errors[3]" class="form-error">{{ errors[3].message }}</p>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button (click)="returnToDashboard()" class="btn btn-secondary">Close</button>
+        <button (click)="addVoucher()" *ngIf="current === 'add'" class="btn btn-primary" type="submit">Add Voucher
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-between">
+  <p class="fw-bold text-white">{{ total_vouchers }} vouchers available</p>
+  <app-pagination [board]="'vouchers-manager'" [position]="'admin-dashboard'"
+                  [total_pages]="total_pages"></app-pagination>
+</div>
+

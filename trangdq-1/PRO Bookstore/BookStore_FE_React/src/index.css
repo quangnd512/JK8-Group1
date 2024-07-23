@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    font-weight: 400;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, label, span {
+    font-weight: 500;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+body, html, #root {
+    width: 100%;
+}
+
+.navbar-light {
+    background-color: #ffffff;
+    box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);
+}
+
+.custom-control-label {
+    font-weight: 400;
+}
+
+
